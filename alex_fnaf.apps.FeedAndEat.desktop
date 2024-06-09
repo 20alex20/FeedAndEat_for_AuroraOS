@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+X-Nemo-Application-Type=silica-qt5
+Icon=alex_fnaf.apps.FeedAndEat
+Exec=/usr/bin/alex_fnaf.apps.FeedAndEat
+Name=Fead & Eat
+Name[ru]=Fead & Eat
+
+[X-Application]
+Permissions=Internet
+OrganizationName=alex_fnaf.apps
+ApplicationName=FeedAndEat
+ExecDBus=/usr/bin/alex_fnaf.apps.FeedAndEat
