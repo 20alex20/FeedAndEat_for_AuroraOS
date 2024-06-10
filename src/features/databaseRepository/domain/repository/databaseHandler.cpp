@@ -25,3 +25,13 @@ RecipesOfHomepageCollectionReplay* DatabaseHandler::getRecipesOfHomepageCollecti
     auto recipesReplay = _networkManager->get(QNetworkRequest(QUrl(url)));
     return new RecipesOfHomepageCollectionReplay(collectionName, recipesReplay, _networkManager);
 }
+
+RecipeIdsReplay* DatabaseHandler::getRecipeIds(QString searchString, QString category) {
+    QString url = "https://feedandeat-2024-default-rtdb.firebaseio.com/recipeIdAndName";
+    if (category != "")
+        url += "ByCategories/" + category;
+    QString lowerSearchString = searchString.toLower();
+    url += ".json?orderBy=\"name\"&startAt=\"" + lowerSearchString + "\"&endAt=\"" + lowerSearchString + "~\"";
+    auto recipeIdsReplay = _networkManager->get(QNetworkRequest(QUrl(url)));
+    return new RecipeIdsReplay(recipeIdsReplay, _networkManager);
+}

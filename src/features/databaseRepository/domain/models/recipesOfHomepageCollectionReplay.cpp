@@ -13,12 +13,13 @@ RecipesOfHomepageCollectionReplay::RecipesOfHomepageCollectionReplay(QString &co
 }
 
 void RecipesOfHomepageCollectionReplay::getRecipes() {
+    auto url = _recipesReplay->url();
     QJsonParseError jsonRarseError;
     auto recipes = QJsonDocument::fromJson(_recipesReplay->readAll(), &jsonRarseError);
     _recipesReplay->deleteLater();
 
     if (jsonRarseError.error != QJsonParseError::NoError || recipes.object().contains("error")) {
-        auto recipesReplay = _networkManager->get(QNetworkRequest(_recipesReplay->url()));
+        auto recipesReplay = _networkManager->get(QNetworkRequest(url));
         auto newRecipesReplay = new RecipesOfHomepageCollectionReplay(_collectionName, recipesReplay, _networkManager);
         connect(newRecipesReplay, &RecipesOfHomepageCollectionReplay::receive, this, &RecipesOfHomepageCollectionReplay::receive);
     }

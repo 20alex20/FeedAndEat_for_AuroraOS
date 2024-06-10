@@ -4,6 +4,7 @@
 #include "../models/recipeReplay.h"
 #include "../models/recipeIdOfDayOfYearReplay.h"
 #include "../models/recipesOfHomepageCollectionReplay.h"
+#include "../models/recipeIdsReplay.h"
 
 class DatabaseHandler : public QObject
 {
@@ -14,6 +15,7 @@ public:
     RecipeReplay* getRecipe(const int recipeId);
     RecipeIdOfDayOfYearReplay* getRecipeIdOfDayOfYear();
     RecipesOfHomepageCollectionReplay* getRecipesOfHomepageCollection(QString collectionName);
+    RecipeIdsReplay* getRecipeIds(QString searchString, QString category = "");
 
 private:
     QNetworkAccessManager *_networkManager;

@@ -12,17 +12,18 @@ RecipeReplay::RecipeReplay(const int recipeId, QNetworkReply* recipeReplay, QNet
 }
 
 void RecipeReplay::getRecipe() {
+    auto url = _recipeReplay->url();
     QJsonParseError jsonRarseError;
     auto recipe = QJsonDocument::fromJson(_recipeReplay->readAll(), &jsonRarseError).object();
     _recipeReplay->deleteLater();
 
     if (jsonRarseError.error != QJsonParseError::NoError || recipe.contains("error")) {
-        auto recipeReplay = _networkManager->get(QNetworkRequest(_recipeReplay->url()));
+        auto recipeReplay = _networkManager->get(QNetworkRequest(url));
         auto newRecipeReplay = new RecipeReplay(_recipeId, recipeReplay, _networkManager);
         connect(newRecipeReplay, &RecipeReplay::receive, this, &RecipeReplay::receive);
     }
     else {
-        emit receive(_recipeId, recipe.value(QString::number(_recipeId)).toObject());
+        emit receive(_recipeId, recipe.value(recipe.keys()[0]).toObject());
         this->deleteLater();
     }
 }

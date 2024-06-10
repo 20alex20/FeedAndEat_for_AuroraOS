@@ -5,6 +5,7 @@ QT += network
 CONFIG += auroraapp
 
 SOURCES += \
+    src/features/databaseRepository/domain/models/recipeIdsReplay.cpp \
     src/features/databaseRepository/domain/models/recipesOfHomepageCollectionReplay.cpp \
     src/features/databaseRepository/domain/repository/databaseHandler.cpp \
     src/features/databaseRepository/domain/models/recipeIdOfDayOfYearReplay.cpp \
@@ -14,6 +15,7 @@ SOURCES += \
     src/main.cpp
 
 HEADERS += \
+    src/features/databaseRepository/domain/models/recipeIdsReplay.h \
     src/features/databaseRepository/domain/models/recipesOfHomepageCollectionReplay.h \
     src/features/databaseRepository/domain/repository/databaseHandler.h \
     src/features/databaseRepository/domain/models/recipeIdOfDayOfYearReplay.h \

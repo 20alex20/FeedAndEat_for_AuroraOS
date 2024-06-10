@@ -24,11 +24,19 @@ Page {
         onRecipesOfLowCalorieChanged: {
             result5.text = viewModel.recipesOfLowCalorie
         }
+
+
+        onRecipeIdsChanged: {
+            result6.text = viewModel.recipeIds
+        }
+        onRecipeChanged: {
+            result7.text = viewModel.recipe
+        }
     }
 
     Flickable {
         anchors.fill: parent
-        contentHeight: result1.height + result2.height + result3.height + result4.height + result5.height + 160
+        contentHeight: result1.height + result2.height + result3.height + result4.height + result5.height + result6.height + result7.height + 240
 
         Column {
             id: column
@@ -57,6 +65,16 @@ Page {
             }
             Text {
                 id: result5
+                width: parent.width
+                wrapMode: Text.WrapAnywhere
+            }
+            Text {
+                id: result6
+                width: parent.width
+                wrapMode: Text.WrapAnywhere
+            }
+            Text {
+                id: result7
                 width: parent.width
                 wrapMode: Text.WrapAnywhere
             }

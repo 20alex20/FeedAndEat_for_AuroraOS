@@ -2,6 +2,7 @@
 #include <QJsonDocument>
 #include <QJsonParseError>
 #include <QJsonObject>
+#include <QJsonArray>
 #include <QDate>
 
 RecipeIdOfDayOfYearReplay::RecipeIdOfDayOfYearReplay(QNetworkReply* recipeIdReplay, QNetworkAccessManager *networkManager, QObject* parent):
@@ -13,18 +14,19 @@ RecipeIdOfDayOfYearReplay::RecipeIdOfDayOfYearReplay(QNetworkReply* recipeIdRepl
 }
 
 void RecipeIdOfDayOfYearReplay::getRecipeId() {
+    auto url = _recipeIdReplay->url();
     QJsonParseError jsonRarseError;
     auto recipeId = QJsonDocument::fromJson(_recipeIdReplay->readAll(), &jsonRarseError).object();
     _recipeIdReplay->deleteLater();
 
     if (jsonRarseError.error != QJsonParseError::NoError || recipeId.contains("error")) {
-        auto recipeIdReplay = _networkManager->get(QNetworkRequest(_recipeIdReplay->url()));
+        auto recipeIdReplay = _networkManager->get(QNetworkRequest(url));
         auto newRecipeIdReplay = new RecipeIdOfDayOfYearReplay(recipeIdReplay, _networkManager);
         connect(newRecipeIdReplay, &RecipeIdOfDayOfYearReplay::receive, this, &RecipeIdOfDayOfYearReplay::receive);
     }
     else {
-        auto recipeIdsObject = recipeId.value(QString::number(QDate::currentDate().dayOfYear() - 1)).toObject();
-        auto recipeIds = recipeIdsObject.toVariantMap()["recipesId"].toList();
+        auto recipeIdsObject = recipeId.value(recipeId.keys()[0]).toObject();
+        auto recipeIds = recipeIdsObject.value("recipesId").toArray();
         int index = QDate::currentDate().year() % recipeIds.size();
         emit receive(recipeIds[index].toInt());
         this->deleteLater();
