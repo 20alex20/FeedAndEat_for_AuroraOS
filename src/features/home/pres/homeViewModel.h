@@ -1,7 +1,7 @@
 #ifndef HOMEPAGEVIEWMODEL_H
 #define HOMEPAGEVIEWMODEL_H
 
-#include "src/features/databaseRepository/domain/repository/databaseHandler.h"
+#include "src/features/databaseRepository/domain/repository/DatabaseHandler.h"
 
 class HomePageViewModel : public QObject
 {

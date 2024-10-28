@@ -1,6 +1,6 @@
 #include <auroraapp.h>
 #include <QtQuick>
-#include "features/databaseRepository/domain/repository/databaseHandler.h"
+#include "features/databaseRepository/domain/repository/DatabaseHandler.h"
 #include "features/homePage/homePageFeature.h"
 
 int main(int argc, char *argv[])
