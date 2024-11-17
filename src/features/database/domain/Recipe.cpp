@@ -31,14 +31,22 @@ Recipe::Recipe(int id, const QString &name, const QString &image, const QList<QS
       _instructions(instructions)
 { }
 
-Recipe& Recipe::operator=(Recipe& recipe) {
+Recipe::Recipe(const Recipe &recipe) {
     _id = recipe._id;
     _name = recipe._name;
     _image = recipe._image;
     _categories = recipe._categories;
     _servingsNumber = recipe._servingsNumber;
     _instructions = recipe._instructions;
-    recipe.deleteLater();
+}
+
+Recipe& Recipe::operator=(const Recipe& recipe) {
+    _id = recipe._id;
+    _name = recipe._name;
+    _image = recipe._image;
+    _categories = recipe._categories;
+    _servingsNumber = recipe._servingsNumber;
+    _instructions = recipe._instructions;
     return *this;
 }
 

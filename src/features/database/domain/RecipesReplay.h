@@ -11,6 +11,7 @@ class RecipesReplay : public QObject
 {
     Q_OBJECT
 public:
+    explicit RecipesReplay(QObject *parent = nullptr);
     explicit RecipesReplay(const QUrl &url, QNetworkAccessManager * const networkManager, const int loudsNumber, QObject *parent = nullptr);
 
 signals:

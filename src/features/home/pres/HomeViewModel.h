@@ -10,34 +10,37 @@ class HomeViewModel : public QObject
     Q_PROPERTY(HomeViewModelState *state READ getState NOTIFY stateChanged)
 public:
     explicit HomeViewModel(QObject *parent = nullptr);
-    explicit HomeViewModel(DatabaseHandler *databaseHandler, QObject *parent = nullptr);
+    explicit HomeViewModel(DatabaseHandler * const databaseHandler, QObject *parent = nullptr);
+    ~HomeViewModel();
 
     Q_INVOKABLE void bind();
+    Q_INVOKABLE void reloadDailyRecipe();
+    Q_INVOKABLE void reloadBreakfastRecipes();
+    Q_INVOKABLE void reloadDrinkRecipes();
+    Q_INVOKABLE void reloadRecipesForBigGroup();
+    Q_INVOKABLE void reloadLowCalorieRecipes();
 
-    void receiveDailyRecipe(QList<QJsonObject> recipe);
-    void receiveRecipesOfBreakfast(QList<QJsonObject> recipe);
-    void receiveRecipesOfDrink(QList<QJsonObject> recipe);
-    void receiveRecipesOfForBigGroup(QList<QJsonObject> recipe);
-    void receiveRecipesOfLowCalorie(QList<QJsonObject> recipe);
+    void receiveDailyRecipe(QList<Recipe> recipe);
+    void receiveHomepageCollection(QString collectionName, QList<Recipe> &recipes);
+    void receiveBreakfastRecipes(QList<Recipe> recipes);
+    void receiveDrinkRecipes(QList<Recipe> recipes);
+    void receiveRecipesForBigGroup(QList<Recipe> recipes);
+    void receiveLowCalorieRecipes(QList<Recipe> recipes);
 
+    void setState(HomeViewModelState* newState);
+    HomeViewModelState *getState() const;
 signals:
-    void dailyRecipeChanged();
-    void recipesOfBreakfastChanged();
-    void recipesOfDrinkChanged();
-    void recipesOfForBigGroupChanged();
-    void recipesOfLowCalorieChanged();
+    void stateChanged();
 
 private:
-    QVariantMap _dailyRecipe;
-    QString _recipesOfBreakfast;
-    QString _recipesOfDrink;
-    QString _recipesOfForBigGroup;
-    QString _recipesOfLowCalorie;
+    DatabaseHandler * const _databaseHandler;
+    HomeViewModelState *_state;
 
-    QString _recipeIds;
-    QList<QString> _recipe;
-
-    DatabaseHandler *_databaseHandler;
+    RecipesReplay *_dailyRecipeReplay;
+    RecipesReplay *_breakfastRecipesReplay;
+    RecipesReplay *_drinkRecipesReplay;
+    RecipesReplay *_recipesForBigGroupReplay;
+    RecipesReplay *_lowCalorieRecipesReplay;
 };
 
 #endif // HOMEPAGEVIEWMODEL_H

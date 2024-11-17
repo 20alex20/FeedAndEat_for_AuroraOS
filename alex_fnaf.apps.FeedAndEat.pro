@@ -13,7 +13,7 @@ SOURCES += \
     src/features/database/domain/RecipesReplay.cpp \
     src/features/database/domain/SearchRecipesReplay.cpp \
     src/features/database/data/DatabaseHandler.cpp \
-    src/features/home/homeFeature.cpp \
+    src/features/home/HomeFeature.cpp \
     src/features/home/pres/HomeViewModel.cpp \
     src/features/home/pres/HomeViewModelState.cpp \
     src/main.cpp
@@ -28,7 +28,7 @@ HEADERS += \
     src/features/database/domain/RecipesReplay.h \
     src/features/database/domain/SearchRecipesReplay.h \
     src/features/database/data/DatabaseHandler.h \
-    src/features/home/homeFeature.h \
+    src/features/home/HomeFeature.h \
     src/features/home/pres/HomeViewModel.h \
     src/features/home/pres/HomeViewModelState.h
 

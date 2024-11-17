@@ -12,7 +12,7 @@ public:
     DatabaseHandler *getDatabaseHandler();
 
 private:
-    DatabaseHandler *_databaseHandler;
+    DatabaseHandler * const _databaseHandler;
 };
 
 #endif // DATABASEFEATURE_H

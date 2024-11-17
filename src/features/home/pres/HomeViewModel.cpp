@@ -2,86 +2,110 @@
 
 HomeViewModel::HomeViewModel(QObject *parent)
     : QObject(parent),
-      _databaseHandler(nullptr)
+      _databaseHandler(nullptr),
+      _state(new HomeViewModelState()),
+      _dailyRecipeReplay(nullptr),
+      _breakfastRecipesReplay(nullptr),
+      _drinkRecipesReplay(nullptr),
+      _recipesForBigGroupReplay(nullptr),
+      _lowCalorieRecipesReplay(nullptr)
 { }
 
-HomeViewModel::HomeViewModel(DatabaseHandler *databaseHandler, QObject *parent)
+HomeViewModel::HomeViewModel(DatabaseHandler * const databaseHandler, QObject *parent)
     : QObject(parent),
-      _databaseHandler(databaseHandler)
+      _databaseHandler(databaseHandler),
+      _state(new HomeViewModelState()),
+      _dailyRecipeReplay(nullptr),
+      _breakfastRecipesReplay(nullptr),
+      _drinkRecipesReplay(nullptr),
+      _recipesForBigGroupReplay(nullptr),
+      _lowCalorieRecipesReplay(nullptr)
 { }
+
+HomeViewModel::~HomeViewModel() {
+    _state->deleteLater();
+}
 
 void HomeViewModel::bind() {
-    connect(_databaseHandler->getRecipeIdOfDayOfYear(), &RecipeIdOfDayOfYearReplay::receive,
-            this, &HomeViewModel::receiveRecipeIdOfDayOfYear);
-    connect(_databaseHandler->getRecipesOfHomepageCollection("breakfast"), &RecipesOfHomepageCollectionReplay::receive,
-            this, &HomeViewModel::receiveRecipesOfHomepageCollection);
-    connect(_databaseHandler->getRecipesOfHomepageCollection("drink"), &RecipesOfHomepageCollectionReplay::receive,
-            this, &HomeViewModel::receiveRecipesOfHomepageCollection);
-    connect(_databaseHandler->getRecipesOfHomepageCollection("forBigGroup"), &RecipesOfHomepageCollectionReplay::receive,
-            this, &HomeViewModel::receiveRecipesOfHomepageCollection);
-    connect(_databaseHandler->getRecipesOfHomepageCollection("lowCalorie"), &RecipesOfHomepageCollectionReplay::receive,
-            this, &HomeViewModel::receiveRecipesOfHomepageCollection);
+    connect(_dailyRecipeReplay = _databaseHandler->getDailyRecipe(), &RecipesReplay::receive, this, &HomeViewModel::receiveDailyRecipe);
 
+    connect(_breakfastRecipesReplay = _databaseHandler->getHomepageCollection("breakfast"),
+            &RecipesReplay::receive, this, &HomeViewModel::receiveBreakfastRecipes);
+    connect(_drinkRecipesReplay = _databaseHandler->getHomepageCollection("drink"),
+            &RecipesReplay::receive, this, &HomeViewModel::receiveDrinkRecipes);
+    connect(_recipesForBigGroupReplay = _databaseHandler->getHomepageCollection("forBigGroup"),
+            &RecipesReplay::receive, this, &HomeViewModel::receiveRecipesForBigGroup);
+    connect(_lowCalorieRecipesReplay = _databaseHandler->getHomepageCollection("lowCalorie"),
+            &RecipesReplay::receive, this, &HomeViewModel::receiveLowCalorieRecipes);
 }
 
-void HomeViewModel::receiveDailyRecipe(QList<QJsonObject> recipe) {
-    _recipeOfDayOfYear = recipe.toVariantMap()["id"].toString();
-    emit dailyRecipeChanged();
+void HomeViewModel::reloadDailyRecipe() {
+    Recipe loading;
+    setState(new HomeViewModelState(_state, loading));
+    _dailyRecipeReplay = _databaseHandler->getDailyRecipe();
+    connect(_dailyRecipeReplay, &RecipesReplay::receive, this, &HomeViewModel::receiveDailyRecipe);
 }
 
-void HomeViewModel::receiveHomepageCollection(QList<QJsonObject> recipes) {
-    if (collectionName == QString("breakfast")) {
-        _recipesOfBreakfast = collectionName + ": " + recipes[0].toVariantMap()["id"].toString();
-        emit recipesOfBreakfastChanged();
-    }
-    else if (collectionName == QString("drink")) {
-        _recipesOfDrink = collectionName + ": " + recipes[0].toVariantMap()["id"].toString();
-        emit recipesOfDrinkChanged();
-    }
-    else if (collectionName == QString("forBigGroup")) {
-        _recipesOfForBigGroup = collectionName + ": " + recipes[0].toVariantMap()["id"].toString();
-        emit recipesOfForBigGroupChanged();
-    }
-    else {
-        _recipesOfLowCalorie = collectionName + ": " + recipes[0].toVariantMap()["id"].toString();
-        emit recipesOfLowCalorieChanged();
-    }
+void HomeViewModel::reloadBreakfastRecipes() {
+    QList<Recipe> loading;
+    setState(new HomeViewModelState(_state, "breakfast", loading));
+    auto _breakfastRecipesReplay = _databaseHandler->getHomepageCollection("breakfast");
+    connect(_breakfastRecipesReplay, &RecipesReplay::receive, this, &HomeViewModel::receiveBreakfastRecipes);
 }
 
-QString HomeViewModel::getRecipesOfBreakfast() {
-    return _recipesOfBreakfast;
+void HomeViewModel::reloadDrinkRecipes() {
+    QList<Recipe> loading;
+    setState(new HomeViewModelState(_state, "drink", loading));
+    auto _dailyRecipeReplay = _databaseHandler->getHomepageCollection("drink");
+    connect(_dailyRecipeReplay, &RecipesReplay::receive, this, &HomeViewModel::receiveBreakfastRecipes);
 }
 
-QString HomeViewModel::getRecipesOfDrink() {
-    return _recipesOfDrink;
+void HomeViewModel::reloadRecipesForBigGroup() {
+    QList<Recipe> loading;
+    setState(new HomeViewModelState(_state, "forBigGroup", loading));
+    auto _recipesForBigGroupReplay = _databaseHandler->getHomepageCollection("forBigGroup");
+    connect(_recipesForBigGroupReplay, &RecipesReplay::receive, this, &HomeViewModel::receiveBreakfastRecipes);
 }
 
-QString HomeViewModel::getRecipesOfForBigGroup() {
-    return _recipesOfForBigGroup;
+void HomeViewModel::reloadLowCalorieRecipes() {
+    QList<Recipe> loading;
+    setState(new HomeViewModelState(_state, "lowCalorie", loading));
+    auto _lowCalorieRecipesReplay = _databaseHandler->getHomepageCollection("lowCalorie");
+    connect(_lowCalorieRecipesReplay, &RecipesReplay::receive, this, &HomeViewModel::receiveBreakfastRecipes);
 }
 
-QString HomeViewModel::getRecipesOfLowCalorie() {
-    return _recipesOfLowCalorie;
+void HomeViewModel::receiveDailyRecipe(QList<Recipe> recipe) {
+    setState(new HomeViewModelState(_state, recipe[0]));
+    _dailyRecipeReplay->deleteLater();
 }
 
-void HomeViewModel::receiveRecipeIds(QList<int> recipeIds) {
-    _recipeIds = "";
-    for (int i = 0; i < recipeIds.size(); i++)
-        _recipeIds += QString::number(recipeIds[i]) + ",";
-    emit recipeIdsChanged();
+void HomeViewModel::receiveBreakfastRecipes(QList<Recipe> recipes) {
+    setState(new HomeViewModelState(_state, "breakfest", recipes));
+    _breakfastRecipesReplay->deleteLater();
 }
 
-QString HomeViewModel::getRecipeIds() {
-    return _recipeIds;
+void HomeViewModel::receiveDrinkRecipes(QList<Recipe> recipes) {
+    setState(new HomeViewModelState(_state, "drink", recipes));
+    _breakfastRecipesReplay->deleteLater();
 }
 
-void HomeViewModel::receiveRecipe(const int recipeId, QJsonObject recipe) {
-    _recipe.append(QString::number(recipeId) + ": " + recipe.toVariantMap()["id"].toString());
-    emit recipeChanged();
+void HomeViewModel::receiveRecipesForBigGroup(QList<Recipe> recipes) {
+    setState(new HomeViewModelState(_state, "forBigGroup", recipes));
+    _breakfastRecipesReplay->deleteLater();
 }
 
-QString HomeViewModel::getRecipe() {
-    auto recipe = _recipe.first();
-    _recipe.removeFirst();
-    return recipe;
+void HomeViewModel::receiveLowCalorieRecipes(QList<Recipe> recipes) {
+    setState(new HomeViewModelState(_state, "lowCalorie", recipes));
+    _breakfastRecipesReplay->deleteLater();
+}
+
+void HomeViewModel::setState(HomeViewModelState *newState) {
+    auto oldState = _state;
+    _state = newState;
+    emit stateChanged();
+    oldState->deleteLater();
+}
+
+HomeViewModelState *HomeViewModel::getState() const {
+    return _state;
 }
