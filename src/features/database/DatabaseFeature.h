@@ -1,7 +1,7 @@
 #ifndef DATABASEFEATURE_H
 #define DATABASEFEATURE_H
 
-#include "domain/repository/DatabaseHandler.h"
+#include "data/DatabaseHandler.h"
 
 class DatabaseFeature
 {

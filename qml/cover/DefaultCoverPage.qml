@@ -7,7 +7,7 @@ CoverBackground {
     CoverTemplate {
         objectName: "applicationCover"
         primaryText: "App"
-        secondaryText: qsTr("Fead & Eat")
+        secondaryText: qsTr("Кулинарные рецепты")
         icon {
             source: Qt.resolvedUrl("../icons/FeedAndEat.svg")
             sourceSize { width: icon.width; height: icon.height }

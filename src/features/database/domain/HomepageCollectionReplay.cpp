@@ -7,7 +7,7 @@ HomepageCollectionReplay::HomepageCollectionReplay(const QUrl &url, QNetworkAcce
     : RecipesReplay(url, networkManager, loudsNumber, parent)
 { }
 
-void HomepageCollectionReplay::receiveRecipes() {
+void HomepageCollectionReplay::processResponse() {
     _loudsNumber--;
     QJsonParseError jsonParseError;
     auto sth = QJsonDocument::fromJson(_recipesReplay->readAll(), &jsonParseError);
@@ -19,10 +19,10 @@ void HomepageCollectionReplay::receiveRecipes() {
         recipes.reserve(arr.size());
         for (auto recipe: arr)
             recipes.append(recipe.toObject());
-        emit receive(recipes);
+        sendResponse(recipes);
     }
     else if (_loudsNumber <= 0) {
-        emit receive({ });
+        sendResponse({ });
     }
     else {
         reload();

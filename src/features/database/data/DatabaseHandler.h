@@ -1,11 +1,8 @@
 #ifndef DATABASEHANDLER_H
 #define DATABASEHANDLER_H
 
-#include "../models/RecipeReplay.h"
-#include "../models/DailyRecipeReplay.h"
-#include "../models/HomepageCollectionReplay.h"
-#include "../models/SearchRecipesReplay.h"
 #include <memory>
+#include "../domain/RecipesReplay.h"
 
 class DatabaseHandler : public QObject
 {

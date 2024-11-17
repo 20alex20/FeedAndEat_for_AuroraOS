@@ -1,5 +1,9 @@
 #include "DatabaseHandler.h"
 #include <QDate>
+#include "../domain/RecipeReplay.h"
+#include "../domain/DailyRecipeReplay.h"
+#include "../domain/HomepageCollectionReplay.h"
+#include "../domain/SearchRecipesReplay.h"
 
 DatabaseHandler::DatabaseHandler(QObject *parent)
     : QObject(parent),

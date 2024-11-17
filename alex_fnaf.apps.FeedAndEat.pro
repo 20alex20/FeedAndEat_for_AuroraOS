@@ -6,26 +6,31 @@ CONFIG += auroraapp
 
 SOURCES += \
     src/features/database/DatabaseFeature.cpp \
-    src/features/database/domain/models/DailyRecipeReplay.cpp \
-    src/features/database/domain/models/HomepageCollectionReplay.cpp \
-    src/features/database/domain/models/RecipeReplay.cpp \
-    src/features/database/domain/models/SearchRecipesReplay.cpp \
-    src/features/database/domain/repository/DatabaseHandler.cpp \
+    src/features/database/domain/DailyRecipeReplay.cpp \
+    src/features/database/domain/HomepageCollectionReplay.cpp \
+    src/features/database/domain/Recipe.cpp \
+    src/features/database/domain/RecipeReplay.cpp \
+    src/features/database/domain/RecipesReplay.cpp \
+    src/features/database/domain/SearchRecipesReplay.cpp \
+    src/features/database/data/DatabaseHandler.cpp \
     src/features/home/homeFeature.cpp \
-    src/features/home/pres/homeViewModel.cpp \
+    src/features/home/pres/HomeViewModel.cpp \
+    src/features/home/pres/HomeViewModelState.cpp \
     src/main.cpp
 
 HEADERS += \
-    src/features/Default.h \
+    src/Default.h \
     src/features/database/DatabaseFeature.h \
-    src/features/database/domain/models/DailyRecipeReplay.h \
-    src/features/database/domain/models/HomepageCollectionReplay.h \
-    src/features/database/domain/models/RecipeReplay.h \
-    src/features/database/domain/models/RecipesReplay.h \
-    src/features/database/domain/models/SearchRecipesReplay.h \
-    src/features/database/domain/repository/DatabaseHandler.h \
+    src/features/database/domain/DailyRecipeReplay.h \
+    src/features/database/domain/HomepageCollectionReplay.h \
+    src/features/database/domain/Recipe.h \
+    src/features/database/domain/RecipeReplay.h \
+    src/features/database/domain/RecipesReplay.h \
+    src/features/database/domain/SearchRecipesReplay.h \
+    src/features/database/data/DatabaseHandler.h \
     src/features/home/homeFeature.h \
-    src/features/home/pres/homeViewModel.h
+    src/features/home/pres/HomeViewModel.h \
+    src/features/home/pres/HomeViewModelState.h
 
 DISTFILES += rpm/alex_fnaf.apps.FeedAndEat.spec
 

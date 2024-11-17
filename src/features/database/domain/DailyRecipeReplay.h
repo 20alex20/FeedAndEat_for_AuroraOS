@@ -2,7 +2,7 @@
 #define DAILYRECIPEREPLAY_H
 
 #include "RecipesReplay.h"
-#include "src/features/Default.h"
+#include "src/Default.h"
 
 class DailyRecipeReplay : public RecipesReplay
 {
@@ -11,7 +11,7 @@ public:
     explicit DailyRecipeReplay(const QUrl &url, QNetworkAccessManager * const networkManager, const int loudsNumber = Default::AttemptsNumber, QObject *parent = nullptr);
 
 private:
-    void receiveRecipes() override;
+    void processResponse() override;
 };
 
 #endif // DAILYRECIPEREPLAY_H

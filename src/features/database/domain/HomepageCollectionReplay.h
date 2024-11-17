@@ -2,7 +2,7 @@
 #define HOMEPAGECOLLECTIONREPLAY_H
 
 #include "RecipesReplay.h"
-#include "src/features/Default.h"
+#include "src/Default.h"
 
 class HomepageCollectionReplay : public RecipesReplay
 {
@@ -11,7 +11,7 @@ public:
     explicit HomepageCollectionReplay(const QUrl &url, QNetworkAccessManager * const networkManager, const int loudsNumber = Default::AttemptsNumber, QObject *parent = nullptr);
 
 private:
-    void receiveRecipes() override;
+    void processResponse() override;
 };
 
 #endif // RECIPESOFHOMEPAGECOLLECTIONREPLAY_H

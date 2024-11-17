@@ -2,7 +2,7 @@
 #define SEARCHRECIPESREPLAY_H
 
 #include "RecipesReplay.h"
-#include "src/features/Default.h"
+#include "src/Default.h"
 
 class SearchRecipesReplay : public RecipesReplay
 {
@@ -11,10 +11,10 @@ public:
     explicit SearchRecipesReplay(const QUrl &url, QNetworkAccessManager * const networkManager, const int loudsNumber = Default::AttemptsNumber, QObject *parent = nullptr);
 
 private:
-    void receiveRecipes() override;
-    void receiveRecipe(QList<QJsonObject> recipe);
+    void processResponse() override;
+    void collectResponses(QList<Recipe> recipe);
 
-    QList<QJsonObject> _recipes;
+    QList<Recipe> _recipes;
     int _recipesCnt;
 };
 
