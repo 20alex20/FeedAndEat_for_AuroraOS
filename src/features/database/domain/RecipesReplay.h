@@ -15,13 +15,13 @@ public:
     explicit RecipesReplay(const QUrl &url, QNetworkAccessManager * const networkManager, const int loudsNumber, QObject *parent = nullptr);
 
 signals:
-    void receive(QList<Recipe> recipes);
+    void receive(QList<Recipe*> recipes);
 
 private:
     virtual void processResponse() = 0;
 
 protected:
-    void sendResponse(QList<QJsonObject> recipes);
+    void sendResponse(QList<QJsonObject> &recipes);
     void reload();
 
     const QUrl _url;

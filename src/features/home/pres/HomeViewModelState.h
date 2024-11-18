@@ -7,28 +7,55 @@
 class HomeViewModelState : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(Recipe dailyRecipe READ getDailyRecipe CONSTANT)
-    Q_PROPERTY(QList<Recipe> dailyRecipe READ getBreakfastRecipes CONSTANT)
-    Q_PROPERTY(QList<Recipe> dailyRecipe READ getDrinkRecipes CONSTANT)
-    Q_PROPERTY(QList<Recipe> dailyRecipe READ getRecipesForBigGroup CONSTANT)
-    Q_PROPERTY(QList<Recipe> dailyRecipe READ getLowCalorieRecipes CONSTANT)
+    Q_PROPERTY(Recipe *dailyRecipe READ getDailyRecipe CONSTANT)
+    Q_PROPERTY(Status dailyRecipeStatus READ getDailyRecipeStatus CONSTANT)
+    Q_PROPERTY(QList<Recipe*> breakfastRecipes READ getBreakfastRecipes CONSTANT)
+    Q_PROPERTY(Status breakfastRecipesStatus READ getBreakfastRecipesStatus CONSTANT)
+    Q_PROPERTY(QList<Recipe*> drinkRecipes READ getDrinkRecipes CONSTANT)
+    Q_PROPERTY(Status drinkRecipesStatus READ getDrinkRecipesStatus CONSTANT)
+    Q_PROPERTY(QList<Recipe*> recipesForBigGroup READ getRecipesForBigGroup CONSTANT)
+    Q_PROPERTY(Status recipesForBigGroupStatus READ getRecipesForBigGroupStatus CONSTANT)
+    Q_PROPERTY(QList<Recipe*> lowCalorieRecipes READ getLowCalorieRecipes CONSTANT)
+    Q_PROPERTY(Status lowCalorieRecipeStatus READ getLowCalorieRecipesStatus CONSTANT)
 public:
-    explicit HomeViewModelState(QObject *parent = nullptr);
-    explicit HomeViewModelState(HomeViewModelState *oldState, Recipe &dailyRecipe, QObject *parent = nullptr);
-    explicit HomeViewModelState(HomeViewModelState *oldState, QString collectionName, QList<Recipe> &recipes, QObject *parent = nullptr);
+    enum Collection {
+        Breakfast = Qt::UserRole + 1,
+        Drink,
+        ForBigGroup,
+        LowCalorie
+    };
+    Q_ENUM(Collection)
+    enum Status {
+        Loading,
+        Success,
+        Error
+    };
+    Q_ENUM(Status)
 
-    Recipe getDailyRecipe();
-    QList<Recipe> getBreakfastRecipes();
-    QList<Recipe> getDrinkRecipes();
-    QList<Recipe> getRecipesForBigGroup();
-    QList<Recipe> getLowCalorieRecipes();
+    explicit HomeViewModelState(QObject *parent = nullptr);
+    explicit HomeViewModelState(HomeViewModelState *oldState, QObject *parent = nullptr);
+    explicit HomeViewModelState(HomeViewModelState *oldState, Recipe *dailyRecipe, QObject *parent = nullptr);
+    explicit HomeViewModelState(HomeViewModelState *oldState, Collection collection, QObject *parent = nullptr);
+    explicit HomeViewModelState(HomeViewModelState *oldState, Collection collection, QList<Recipe*> &recipes, QObject *parent = nullptr);
+
+    Recipe *getDailyRecipe();
+    Status getDailyRecipeStatus();
+    QList<Recipe*> getBreakfastRecipes();
+    Status getBreakfastRecipesStatus();
+    QList<Recipe*> getDrinkRecipes();
+    Status getDrinkRecipesStatus();
+    QList<Recipe*> getRecipesForBigGroup();
+    Status getRecipesForBigGroupStatus();
+    QList<Recipe*> getLowCalorieRecipes();
+    Status getLowCalorieRecipesStatus();
+    QList<Recipe*> getCollectionRecipes(int index);
+    Status getCollectionRecipesStatus(int index);
 
 private:
-    Recipe _dailyRecipe;
-    QList<Recipe> _breakfastRecipes;
-    QList<Recipe> _drinkRecipes;
-    QList<Recipe> _recipesForBigGroup;
-    QList<Recipe> _lowCalorieRecipes;
+    Recipe *_dailyRecipe;
+    Status _dailyRecipeStatus;
+    QList<Recipe*> _collectionsRecipes[4];
+    Status _collectionsRecipesStatuses[4];
 };
 
 #endif // HOMEVIEWMODELSTATE_H

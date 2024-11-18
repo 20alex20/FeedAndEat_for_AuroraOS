@@ -24,7 +24,7 @@ void DailyRecipeReplay::processResponse() {
         connect(newRecipesReplay, &RecipeReplay::receive, this, &DailyRecipeReplay::receive);
     }
     else if (_loudsNumber <= 0) {
-        sendResponse({ QJsonObject() });
+        emit receive({ new Recipe() });
     }
     else {
         reload();

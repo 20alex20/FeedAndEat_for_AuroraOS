@@ -12,7 +12,7 @@ public:
     RecipesReplay *getRecipe(const int recipeId);
     RecipesReplay *getDailyRecipe();
     RecipesReplay *getHomepageCollection(QString collectionName);
-    RecipesReplay *getSearchRecipes(QString searchString, QString category, const int continuation = -1);
+    RecipesReplay *getSearchRecipes(QString searchQuery, QString category, const int continuation = -1);
 
 private:
     QNetworkAccessManager * const _networkManager;

@@ -9,10 +9,11 @@ RecipesReplay::RecipesReplay(const QUrl &url, QNetworkAccessManager * const netw
       _recipesReplay(_networkManager->get(QNetworkRequest(url)))
 {
     connect(_recipesReplay, &QNetworkReply::readyRead, this, &RecipesReplay::processResponse);
+    _recipesReplay->setParent(this);
 }
 
-void RecipesReplay::sendResponse(QList<QJsonObject> recipes) {
-    QList<Recipe> processedRecipes;
+void RecipesReplay::sendResponse(QList<QJsonObject> &recipes) {
+    QList<Recipe*> processedRecipes;
     processedRecipes.reserve(recipes.size());
     for (auto &recipe: recipes) {
         if (recipe.size() >= 6) {
@@ -33,13 +34,13 @@ void RecipesReplay::sendResponse(QList<QJsonObject> recipes) {
                 }
                 instructions.append({ instructionObject.value("instruction").toString(), timers });
             }
-            processedRecipes.append(Recipe(id, name, image, categories, servingsNumber, instructions));
+            processedRecipes.append(new Recipe(id, name, image, categories, servingsNumber, instructions));
         }
         else if (recipe.contains("id")) {
-            processedRecipes.append(Recipe(recipe.value("id").toInt()));
+            processedRecipes.append(new Recipe(recipe.value("id").toInt()));
         }
         else {
-            processedRecipes.append(Recipe());
+            processedRecipes.append(new Recipe());
         }
     }
     emit receive(processedRecipes);

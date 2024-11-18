@@ -16,6 +16,8 @@ SOURCES += \
     src/features/home/HomeFeature.cpp \
     src/features/home/pres/HomeViewModel.cpp \
     src/features/home/pres/HomeViewModelState.cpp \
+    src/features/search/pres/SearchViewModel.cpp \
+    src/features/search/pres/SearchViewModelState.cpp \
     src/main.cpp
 
 HEADERS += \
@@ -30,7 +32,9 @@ HEADERS += \
     src/features/database/data/DatabaseHandler.h \
     src/features/home/HomeFeature.h \
     src/features/home/pres/HomeViewModel.h \
-    src/features/home/pres/HomeViewModelState.h
+    src/features/home/pres/HomeViewModelState.h \
+    src/features/search/pres/SearchViewModel.h \
+    src/features/search/pres/SearchViewModelState.h
 
 DISTFILES += rpm/alex_fnaf.apps.FeedAndEat.spec
 

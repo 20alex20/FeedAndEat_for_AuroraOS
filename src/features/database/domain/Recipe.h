@@ -18,9 +18,6 @@ public:
     explicit Recipe(int id, const QString &name, const QString &image, const QList<QString> &categories,
                     int servingsNumber, const QList<InstructionRecord> &instructions, QObject *parent = nullptr);
 
-    Recipe(const Recipe &recipe);
-    Recipe& operator=(const Recipe& recipe);
-
     int getId() const;
     const QString &getName() const;
     const QString &getImage() const;

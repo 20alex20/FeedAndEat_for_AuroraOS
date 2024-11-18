@@ -22,7 +22,7 @@ void HomepageCollectionReplay::processResponse() {
         sendResponse(recipes);
     }
     else if (_loudsNumber <= 0) {
-        sendResponse({ });
+        emit receive({ });
     }
     else {
         reload();

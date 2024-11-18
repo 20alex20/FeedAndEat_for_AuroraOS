@@ -21,7 +21,7 @@ void SearchRecipesReplay::processResponse() {
         _recipes.reserve(keys.size());
         for (int i = 0; i < keys.size(); i++) {
             int recipeId = obj.value(keys[i]).toObject().value("recipeId").toInt();
-            _recipes.append(Recipe(recipeId));
+            _recipes.append(new Recipe(recipeId));
             if (i >= Default::PageLength)
                 break;
             auto url = "https://feedandeat-2024-default-rtdb.firebaseio.com/recipe.json?orderBy=\"id\"&equalTo=" +
@@ -31,17 +31,18 @@ void SearchRecipesReplay::processResponse() {
         }
     }
     else if (_loudsNumber <= 0) {
-        sendResponse({ });
+        emit receive({ });
     }
     else {
         reload();
     }
 }
 
-void SearchRecipesReplay::collectResponses(QList<Recipe> recipe) {
-    auto recipeId = recipe[0].getId();
+void SearchRecipesReplay::collectResponses(QList<Recipe*> recipe) {
+    auto recipeId = recipe[0]->getId();
     for (int i = 0; i < _recipes.size(); i++)
-        if (_recipes[i].getId() == recipeId) {
+        if (_recipes[i]->getId() == recipeId) {
+            _recipes[i]->deleteLater();
             _recipes[i] = recipe[0];
             _recipesCnt++;
             break;

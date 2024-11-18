@@ -17,10 +17,11 @@ void RecipeReplay::processResponse() {
     _recipesReplay->deleteLater();
 
     if (jsonParseError.error == QJsonParseError::NoError && !obj.contains("error")) {
-        sendResponse({ obj.value(obj.keys().at(0)).toObject() });
+        QList<QJsonObject> recipe = { obj.value(obj.keys().at(0)).toObject() };
+        sendResponse(recipe);
     }
     else if (_loudsNumber <= 0) {
-        sendResponse({ QJsonObject() });
+        emit receive({ new Recipe() });
     }
     else {
         reload();

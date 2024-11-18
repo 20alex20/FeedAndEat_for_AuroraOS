@@ -12,9 +12,9 @@ public:
 
 private:
     void processResponse() override;
-    void collectResponses(QList<Recipe> recipe);
+    void collectResponses(QList<Recipe*> recipe);
 
-    QList<Recipe> _recipes;
+    QList<Recipe*> _recipes;
     int _recipesCnt;
 };
 
