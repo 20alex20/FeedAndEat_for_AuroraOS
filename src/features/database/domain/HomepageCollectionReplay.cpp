@@ -10,8 +10,8 @@ HomepageCollectionReplay::HomepageCollectionReplay(const QUrl &url, QNetworkAcce
 void HomepageCollectionReplay::processResponse() {
     _loudsNumber--;
     QJsonParseError jsonParseError;
-    auto sth = QJsonDocument::fromJson(_recipesReplay->readAll(), &jsonParseError);
-    _recipesReplay->deleteLater();
+    auto sth = QJsonDocument::fromJson(_networkReplay->readAll(), &jsonParseError);
+    _networkReplay->deleteLater();
 
     if (jsonParseError.error == QJsonParseError::NoError && !sth.object().contains("error")) {
         auto arr = sth.array();
@@ -22,7 +22,7 @@ void HomepageCollectionReplay::processResponse() {
         sendResponse(recipes);
     }
     else if (_loudsNumber <= 0) {
-        emit receive({ });
+        emit receive(this, { });
     }
     else {
         reload();

@@ -6,10 +6,10 @@ RecipesReplay::RecipesReplay(const QUrl &url, QNetworkAccessManager * const netw
       _url(url),
       _networkManager(networkManager),
       _loudsNumber(loudsNumber),
-      _recipesReplay(_networkManager->get(QNetworkRequest(url)))
+      _networkReplay(_networkManager->get(QNetworkRequest(url)))
 {
-    connect(_recipesReplay, &QNetworkReply::readyRead, this, &RecipesReplay::processResponse);
-    _recipesReplay->setParent(this);
+    connect(_networkReplay, &QNetworkReply::readyRead, this, &RecipesReplay::processResponse);
+    _networkReplay->setParent(this);
 }
 
 void RecipesReplay::sendResponse(QList<QJsonObject> &recipes) {
@@ -43,10 +43,10 @@ void RecipesReplay::sendResponse(QList<QJsonObject> &recipes) {
             processedRecipes.append(new Recipe());
         }
     }
-    emit receive(processedRecipes);
+    emit receive(this, processedRecipes);
 }
 
 void RecipesReplay::reload() {
-    _recipesReplay = _networkManager->get(QNetworkRequest(_url));
-    connect(_recipesReplay, &QNetworkReply::readyRead, this, &RecipesReplay::processResponse);
+    _networkReplay = _networkManager->get(QNetworkRequest(_url));
+    connect(_networkReplay, &QNetworkReply::readyRead, this, &RecipesReplay::processResponse);
 }

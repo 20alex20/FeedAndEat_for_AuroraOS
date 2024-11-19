@@ -2,9 +2,10 @@
 
 namespace {
 
-void setRecipesParent(QList<Recipe*> &recipes, QObject *parent) {
-    for (auto recipe: recipes)
-        recipe->setParent(parent);
+void setRecipesParent(QList<Recipe*> recipes[], QObject *parent) {
+    for (int i = 0; i < 4; i++)
+        for (auto recipe: recipes[i])
+            recipe->setParent(parent);
 }
 
 }
@@ -12,7 +13,6 @@ void setRecipesParent(QList<Recipe*> &recipes, QObject *parent) {
 HomeViewModelState::HomeViewModelState(QObject *parent)
     : QObject(parent),
       _dailyRecipe(nullptr),
-      _dailyRecipeStatus(Loading),
       _collectionsRecipes()
 {
     for (int i = 0; i < 4; i++)
@@ -21,33 +21,30 @@ HomeViewModelState::HomeViewModelState(QObject *parent)
 
 HomeViewModelState::HomeViewModelState(HomeViewModelState *oldState, QObject *parent)
     : QObject(parent),
-      _dailyRecipe(nullptr),
-      _dailyRecipeStatus(Loading)
+      _dailyRecipe(nullptr)
 {
     for (int i = 0; i < 4; i++) {
         _collectionsRecipes[i] = oldState->getCollectionRecipes(i);
-        setRecipesParent(_collectionsRecipes[i], this);
         _collectionsRecipesStatuses[i] = oldState->getCollectionRecipesStatus(i);
     }
+    setRecipesParent(_collectionsRecipes, this);
 }
 
 HomeViewModelState::HomeViewModelState(HomeViewModelState *oldState, Recipe *dailyRecipe, QObject *parent)
     : QObject(parent),
-      _dailyRecipe(dailyRecipe),
-      _dailyRecipeStatus(_dailyRecipe->getId() == -1 ? Error : Success)
+      _dailyRecipe(dailyRecipe)
 {
     _dailyRecipe->setParent(this);
     for (int i = 0; i < 4; i++) {
         _collectionsRecipes[i] = oldState->getCollectionRecipes(i);
-        setRecipesParent(_collectionsRecipes[i], this);
         _collectionsRecipesStatuses[i] = oldState->getCollectionRecipesStatus(i);
     }
+    setRecipesParent(_collectionsRecipes, this);
 }
 
 HomeViewModelState::HomeViewModelState(HomeViewModelState *oldState, Collection collection, QObject *parent)
     : QObject(parent),
-      _dailyRecipe(oldState->getDailyRecipe()),
-      _dailyRecipeStatus(oldState->getDailyRecipeStatus())
+      _dailyRecipe(oldState->getDailyRecipe())
 {
     _dailyRecipe->setParent(this);
     for (int i = 0; i < 4; i++)
@@ -56,15 +53,14 @@ HomeViewModelState::HomeViewModelState(HomeViewModelState *oldState, Collection 
         }
         else {
             _collectionsRecipes[i] = oldState->getCollectionRecipes(i);
-            setRecipesParent(_collectionsRecipes[i], this);
             _collectionsRecipesStatuses[i] = oldState->getCollectionRecipesStatus(i);
         }
+    setRecipesParent(_collectionsRecipes, this);
 }
 
 HomeViewModelState::HomeViewModelState(HomeViewModelState *oldState, Collection collection, QList<Recipe*> &recipes, QObject *parent)
     : QObject(parent),
-      _dailyRecipe(oldState->getDailyRecipe()),
-      _dailyRecipeStatus(oldState->getDailyRecipeStatus())
+      _dailyRecipe(oldState->getDailyRecipe())
 {
     _dailyRecipe->setParent(this);
     for (int i = 0; i < 4; i++)
@@ -74,17 +70,13 @@ HomeViewModelState::HomeViewModelState(HomeViewModelState *oldState, Collection 
         }
         else {
             _collectionsRecipes[i] = oldState->getCollectionRecipes(i);
-            setRecipesParent(_collectionsRecipes[i], this);
             _collectionsRecipesStatuses[i] = oldState->getCollectionRecipesStatus(i);
         }
+    setRecipesParent(_collectionsRecipes, this);
 }
 
 Recipe *HomeViewModelState::getDailyRecipe() {
     return _dailyRecipe;
-}
-
-HomeViewModelState::Status HomeViewModelState::getDailyRecipeStatus() {
-    return _dailyRecipeStatus;
 }
 
 QList<Recipe*> HomeViewModelState::getBreakfastRecipes() {

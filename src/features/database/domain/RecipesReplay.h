@@ -15,7 +15,7 @@ public:
     explicit RecipesReplay(const QUrl &url, QNetworkAccessManager * const networkManager, const int loudsNumber, QObject *parent = nullptr);
 
 signals:
-    void receive(QList<Recipe*> recipes);
+    void receive(RecipesReplay *recipesReplay, QList<Recipe*> recipes);
 
 private:
     virtual void processResponse() = 0;
@@ -27,7 +27,7 @@ protected:
     const QUrl _url;
     QNetworkAccessManager * const _networkManager;
     int _loudsNumber;
-    QNetworkReply *_recipesReplay;
+    QNetworkReply *_networkReplay;
 };
 
 #endif // RECIPESREPLAY_H

@@ -20,11 +20,11 @@ public:
     Q_INVOKABLE void reloadRecipesForBigGroup();
     Q_INVOKABLE void reloadLowCalorieRecipes();
 
-    void receiveDailyRecipe(QList<Recipe*> recipe);
-    void receiveBreakfastRecipes(QList<Recipe*> recipes);
-    void receiveDrinkRecipes(QList<Recipe*> recipes);
-    void receiveRecipesForBigGroup(QList<Recipe*> recipes);
-    void receiveLowCalorieRecipes(QList<Recipe*> recipes);
+    void receiveDailyRecipe(RecipesReplay *recipeReplay, QList<Recipe*> recipe);
+    void receiveBreakfastRecipes(RecipesReplay *recipesReplay, QList<Recipe*> recipes);
+    void receiveDrinkRecipes(RecipesReplay *recipesReplay, QList<Recipe*> recipes);
+    void receiveRecipesForBigGroup(RecipesReplay *recipesReplay, QList<Recipe*> recipes);
+    void receiveLowCalorieRecipes(RecipesReplay *recipesReplay, QList<Recipe*> recipes);
 
     void setState(HomeViewModelState* newState);
     HomeViewModelState *getState() const;
@@ -34,12 +34,6 @@ signals:
 private:
     DatabaseHandler * const _databaseHandler;
     HomeViewModelState *_state;
-
-    RecipesReplay *_dailyRecipeReplay;
-    RecipesReplay *_breakfastRecipesReplay;
-    RecipesReplay *_drinkRecipesReplay;
-    RecipesReplay *_recipesForBigGroupReplay;
-    RecipesReplay *_lowCalorieRecipesReplay;
 };
 
 #endif // HOMEPAGEVIEWMODEL_H

@@ -8,7 +8,6 @@ class HomeViewModelState : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(Recipe *dailyRecipe READ getDailyRecipe CONSTANT)
-    Q_PROPERTY(Status dailyRecipeStatus READ getDailyRecipeStatus CONSTANT)
     Q_PROPERTY(QList<Recipe*> breakfastRecipes READ getBreakfastRecipes CONSTANT)
     Q_PROPERTY(Status breakfastRecipesStatus READ getBreakfastRecipesStatus CONSTANT)
     Q_PROPERTY(QList<Recipe*> drinkRecipes READ getDrinkRecipes CONSTANT)
@@ -39,7 +38,6 @@ public:
     explicit HomeViewModelState(HomeViewModelState *oldState, Collection collection, QList<Recipe*> &recipes, QObject *parent = nullptr);
 
     Recipe *getDailyRecipe();
-    Status getDailyRecipeStatus();
     QList<Recipe*> getBreakfastRecipes();
     Status getBreakfastRecipesStatus();
     QList<Recipe*> getDrinkRecipes();
@@ -53,7 +51,6 @@ public:
 
 private:
     Recipe *_dailyRecipe;
-    Status _dailyRecipeStatus;
     QList<Recipe*> _collectionsRecipes[4];
     Status _collectionsRecipesStatuses[4];
 };

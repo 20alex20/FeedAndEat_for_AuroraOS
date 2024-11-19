@@ -20,9 +20,9 @@ public:
     Q_INVOKABLE void loadAdditionalRecipes();
     Q_INVOKABLE void loadRecipe(int id);
 
-    void receiveNewRecipes(QList<Recipe*> recipe);
-    void receiveAdditionalRecipes(QList<Recipe*> recipes);
-    void receiveRecipe(QList<Recipe*> recipes);
+    void receiveNewRecipes(RecipesReplay *recipesReplay, QList<Recipe*> recipe);
+    void receiveAdditionalRecipes(RecipesReplay *recipesReplay, QList<Recipe*> recipes);
+    void receiveRecipe(RecipesReplay *recipeReplay, QList<Recipe*> recipes);
 
     void setState(SearchViewModelState* newState);
     SearchViewModelState *getState() const;
@@ -33,9 +33,9 @@ private:
     DatabaseHandler * const _databaseHandler;
     SearchViewModelState *_state;
 
-    QPair<RecipesReplay*, QPair<QString, QString>> _newRecipesReplay;
-    QPair<RecipesReplay*, QPair<QString, QString>> _additionalRecipesReplay;
-    QList<QPair<RecipesReplay*, int>> _recipesReplays;
+    RecipesReplay *_currentNewRecipesReplay;
+    RecipesReplay *_lastNewRecipesReplay;
+    QList<QPair<RecipesReplay*, int>> _newRecipesReplays;
 };
 
 #endif // SEARCHVIEWMODEL_H

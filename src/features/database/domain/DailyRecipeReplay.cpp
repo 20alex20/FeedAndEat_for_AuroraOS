@@ -12,19 +12,18 @@ DailyRecipeReplay::DailyRecipeReplay(const QUrl &url, QNetworkAccessManager * co
 void DailyRecipeReplay::processResponse() {
     _loudsNumber--;
     QJsonParseError jsonParseError;
-    auto obj = QJsonDocument::fromJson(_recipesReplay->readAll(), &jsonParseError).object();
-    _recipesReplay->deleteLater();
+    auto obj = QJsonDocument::fromJson(_networkReplay->readAll(), &jsonParseError).object();
+    _networkReplay->deleteLater();
 
     if (jsonParseError.error == QJsonParseError::NoError && !obj.contains("error")) {
         auto recipeIds = obj.value(obj.keys().at(0)).toObject().value("recipesId").toArray();
-        int index = QDate::currentDate().year() % recipeIds.size();
-        auto url = "https://feedandeat-2024-default-rtdb.firebaseio.com/recipe.json?orderBy=\"id\"&equalTo=" +
-                QString::number(recipeIds[index].toInt());
-        auto newRecipesReplay = new RecipeReplay(QUrl(url), _networkManager, this);
+        int recipeId = recipeIds[QDate::currentDate().year() % recipeIds.size()].toInt();
+        auto url = "https://feedandeat-2024-default-rtdb.firebaseio.com/recipe.json?orderBy=\"id\"&equalTo=" + QString::number(recipeId);
+        auto newRecipesReplay = new RecipeReplay(QUrl(url), _networkManager, recipeId, this);
         connect(newRecipesReplay, &RecipeReplay::receive, this, &DailyRecipeReplay::receive);
     }
     else if (_loudsNumber <= 0) {
-        emit receive({ new Recipe() });
+        emit receive(this, { new Recipe() });
     }
     else {
         reload();

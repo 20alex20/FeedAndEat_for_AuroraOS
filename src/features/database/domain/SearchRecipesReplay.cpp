@@ -13,8 +13,8 @@ SearchRecipesReplay::SearchRecipesReplay(const QUrl &url, QNetworkAccessManager 
 void SearchRecipesReplay::processResponse() {
     _loudsNumber--;
     QJsonParseError jsonRarseError;
-    auto obj = QJsonDocument::fromJson(_recipesReplay->readAll(), &jsonRarseError).object();
-    _recipesReplay->deleteLater();
+    auto obj = QJsonDocument::fromJson(_networkReplay->readAll(), &jsonRarseError).object();
+    _networkReplay->deleteLater();
 
     if (jsonRarseError.error == QJsonParseError::NoError && !obj.contains("error")) {
         auto keys = obj.keys();
@@ -24,14 +24,13 @@ void SearchRecipesReplay::processResponse() {
             _recipes.append(new Recipe(recipeId));
             if (i >= Default::PageLength)
                 break;
-            auto url = "https://feedandeat-2024-default-rtdb.firebaseio.com/recipe.json?orderBy=\"id\"&equalTo=" +
-                    QString::number(recipeId);
-            auto newRecipesReplay = new RecipeReplay(QUrl(url), _networkManager, this);
+            auto url = "https://feedandeat-2024-default-rtdb.firebaseio.com/recipe.json?orderBy=\"id\"&equalTo=" + QString::number(recipeId);
+            auto newRecipesReplay = new RecipeReplay(QUrl(url), _networkManager, recipeId, this);
             connect(newRecipesReplay, &RecipeReplay::receive, this, &SearchRecipesReplay::collectResponses);
         }
     }
     else if (_loudsNumber <= 0) {
-        emit receive({ });
+        emit receive(this, { });
     }
     else {
         reload();
@@ -48,5 +47,5 @@ void SearchRecipesReplay::collectResponses(QList<Recipe*> recipe) {
             break;
         }
     if (_recipesCnt == _recipes.size() || _recipesCnt == Default::PageLength)
-        emit receive(_recipes);
+        emit receive(this, _recipes);
 }

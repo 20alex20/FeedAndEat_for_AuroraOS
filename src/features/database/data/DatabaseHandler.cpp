@@ -12,7 +12,7 @@ DatabaseHandler::DatabaseHandler(QObject *parent)
 
 RecipesReplay *DatabaseHandler::getRecipe(const int recipeId) {
     auto url = "https://feedandeat-2024-default-rtdb.firebaseio.com/recipe.json?orderBy=\"id\"&equalTo=" + QString::number(recipeId);
-    return new RecipeReplay(QUrl(url), _networkManager);
+    return new RecipeReplay(QUrl(url), _networkManager, recipeId);
 }
 
 RecipesReplay *DatabaseHandler::getDailyRecipe() {
