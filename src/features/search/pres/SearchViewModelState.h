@@ -7,9 +7,14 @@
 class SearchViewModelState : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(QString searchQuery READ getSearchQuery CONSTANT)
+    Q_PROPERTY(QString category READ getCategory CONSTANT)
+    Q_PROPERTY(QList<Recipe*> recipes READ getRecipes CONSTANT)
+    Q_PROPERTY(bool isEnd READ isEnd CONSTANT)
+    Q_PROPERTY(Status status READ getStatus CONSTANT)
 public:
     explicit SearchViewModelState(QObject *parent = nullptr);
-    explicit SearchViewModelState(QString searchQuery, QString category, QObject *parent = nullptr);
+    explicit SearchViewModelState(QString searchQuery, QString category = "", QObject *parent = nullptr);
     explicit SearchViewModelState(SearchViewModelState *oldState, QObject *parent = nullptr);
     explicit SearchViewModelState(SearchViewModelState *oldState, QList<Recipe*> recipes, int continuation = -1, QObject *parent = nullptr);
     explicit SearchViewModelState(SearchViewModelState *oldState, int index, QObject *parent = nullptr);
@@ -25,8 +30,10 @@ public:
     QString getSearchQuery();
     QString getCategory();
     QList<Recipe*> getRecipes();
+    Recipe* getRecipe(int index);
     int getRecipesNumber();
     int getContinuation();
+    bool isEnd();
     Status getStatus();
 
 private:

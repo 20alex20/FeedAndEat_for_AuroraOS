@@ -16,6 +16,7 @@ SOURCES += \
     src/features/home/HomeFeature.cpp \
     src/features/home/pres/HomeViewModel.cpp \
     src/features/home/pres/HomeViewModelState.cpp \
+    src/features/search/SearchFeature.cpp \
     src/features/search/pres/SearchViewModel.cpp \
     src/features/search/pres/SearchViewModelState.cpp \
     src/main.cpp
@@ -33,6 +34,7 @@ HEADERS += \
     src/features/home/HomeFeature.h \
     src/features/home/pres/HomeViewModel.h \
     src/features/home/pres/HomeViewModelState.h \
+    src/features/search/SearchFeature.h \
     src/features/search/pres/SearchViewModel.h \
     src/features/search/pres/SearchViewModelState.h
 

@@ -88,12 +88,20 @@ QList<Recipe*> SearchViewModelState::getRecipes() {
     return _recipes;
 }
 
+Recipe* SearchViewModelState::getRecipe(int index) {
+    return _recipes[index];
+}
+
 int SearchViewModelState::getRecipesNumber() {
     return _recipes.size();
 }
 
 int SearchViewModelState::getContinuation() {
     return _continuation;
+}
+
+bool SearchViewModelState::isEnd() {
+    return _continuation == -1;
 }
 
 SearchViewModelState::Status SearchViewModelState::getStatus() {

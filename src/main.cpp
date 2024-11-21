@@ -2,6 +2,7 @@
 #include <QtQuick>
 #include "features/database/DatabaseFeature.h"
 #include "features/home/HomeFeature.h"
+#include "features/search/SearchFeature.h"
 
 int main(int argc, char *argv[]) {
     QScopedPointer<QGuiApplication> application(Aurora::Application::application(argc, argv));
@@ -10,9 +11,11 @@ int main(int argc, char *argv[]) {
 
     DatabaseFeature databaseFeature;
     HomeFeature homeFeature(databaseFeature.getDatabaseHandler());
+    SearchFeature searchFeature(databaseFeature.getDatabaseHandler());
 
     QScopedPointer<QQuickView> view(Aurora::Application::createView());
     view->rootContext()->setContextProperty("HomeFeature", &homeFeature);
+    view->rootContext()->setContextProperty("SearchFeature", &searchFeature);
     view->setSource(Aurora::Application::pathTo(QStringLiteral("qml/Main.qml")));
     view->show();
 
