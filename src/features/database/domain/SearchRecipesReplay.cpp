@@ -37,7 +37,8 @@ void SearchRecipesReplay::processResponse() {
     }
 }
 
-void SearchRecipesReplay::collectResponses(QList<Recipe*> recipe) {
+void SearchRecipesReplay::collectResponses(RecipesReplay *recipesReplay, QList<Recipe*> recipe) {
+    Q_UNUSED(recipesReplay)
     auto recipeId = recipe[0]->getId();
     for (int i = 0; i < _recipes.size(); i++)
         if (_recipes[i]->getId() == recipeId) {

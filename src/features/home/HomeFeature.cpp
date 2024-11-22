@@ -10,7 +10,10 @@ HomeFeature::HomeFeature(DatabaseHandler * const databaseHandler, QObject *paren
     QObject(parent),
     _databaseHandler(databaseHandler)
 {
-    qmlRegisterType<HomeViewModel>("FeadAndEat.Feature.Home", 1, 0, "HomePageViewModel");
+    qmlRegisterType<HomeViewModel>("FeadAndEat.Feature.Home", 1, 0, "HomeViewModel");
+    qmlRegisterType<HomeViewModelState>("FeadAndEat.Feature.Home", 1, 0, "HomeViewModelState");
+    qRegisterMetaType<Recipe*>("Recipe*");
+    qRegisterMetaType<HomeViewModelState::Status>("HomeViewModelState::Status");
 }
 
 HomeViewModel *HomeFeature::getHomeViewModel(QObject *parent) {

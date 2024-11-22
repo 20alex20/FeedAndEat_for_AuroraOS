@@ -20,7 +20,7 @@ public:
     Q_INVOKABLE void loadAdditionalRecipes();
     Q_INVOKABLE void loadRecipe(int recipeIndex);
 
-    void receiveRecipes(RecipesReplay *recipesReplay, QList<Recipe*> &recipes);
+    void receiveRecipes(RecipesReplay *recipesReplay, QList<Recipe*> recipes);
     void receiveRecipe(RecipesReplay *recipeReplay, QList<Recipe*> recipes);
 
     void setState(SearchViewModelState* newState);

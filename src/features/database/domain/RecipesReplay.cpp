@@ -1,5 +1,6 @@
 #include "RecipesReplay.h"
 #include <QJsonArray>
+#include <QDebug>
 
 RecipesReplay::RecipesReplay(const QUrl &url, QNetworkAccessManager * const networkManager, const int loudsNumber, QObject *parent)
     : QObject(parent),
@@ -8,11 +9,13 @@ RecipesReplay::RecipesReplay(const QUrl &url, QNetworkAccessManager * const netw
       _loudsNumber(loudsNumber),
       _networkReplay(_networkManager->get(QNetworkRequest(url)))
 {
+    qDebug() << 4;
     connect(_networkReplay, &QNetworkReply::readyRead, this, &RecipesReplay::processResponse);
     _networkReplay->setParent(this);
 }
 
 void RecipesReplay::sendResponse(QList<QJsonObject> &recipes) {
+    qDebug() << 6;
     QList<Recipe*> processedRecipes;
     processedRecipes.reserve(recipes.size());
     for (auto &recipe: recipes) {
@@ -47,6 +50,7 @@ void RecipesReplay::sendResponse(QList<QJsonObject> &recipes) {
 }
 
 void RecipesReplay::reload() {
+    qDebug() << 6.5;
     _networkReplay = _networkManager->get(QNetworkRequest(_url));
     connect(_networkReplay, &QNetworkReply::readyRead, this, &RecipesReplay::processResponse);
 }

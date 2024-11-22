@@ -4,6 +4,7 @@
 #include "../domain/DailyRecipeReplay.h"
 #include "../domain/HomepageCollectionReplay.h"
 #include "../domain/SearchRecipesReplay.h"
+#include <QDebug>
 
 DatabaseHandler::DatabaseHandler(QObject *parent)
     : QObject(parent),
@@ -16,11 +17,13 @@ RecipesReplay *DatabaseHandler::getRecipe(const int recipeId) {
 }
 
 RecipesReplay *DatabaseHandler::getDailyRecipe() {
+    qDebug() << 3;
     auto url = "https://feedandeat-2024-default-rtdb.firebaseio.com/dayOfYearAndRecipeId.json?orderBy=\"dayOfYear\"&equalTo=" + QString::number(QDate::currentDate().dayOfYear() - 1);
     return new DailyRecipeReplay(QUrl(url), _networkManager);
 }
 
 RecipesReplay *DatabaseHandler::getHomepageCollection(QString collectionName) {
+    qDebug() << "a3";
     auto url = "https://feedandeat-2024-default-rtdb.firebaseio.com/homepageCollections/" + collectionName + ".json";
     return new HomepageCollectionReplay(QUrl(url), _networkManager);
 }

@@ -57,7 +57,7 @@ void SearchViewModel::loadRecipe(int recipeIndex) {
     connect(_recipesReplays.last().first, &RecipesReplay::receive, this, &SearchViewModel::receiveRecipes);
 }
 
-void SearchViewModel::receiveRecipes(RecipesReplay *recipesReplay, QList<Recipe*> &recipes) {
+void SearchViewModel::receiveRecipes(RecipesReplay *recipesReplay, QList<Recipe*> recipes) {
     if (_currentRecipesReplay == recipesReplay) {
         if (recipes.size() == Default::PageLength + 1) {
             setState(new SearchViewModelState(_state, recipes.mid(0, Default::PageLength), recipes[Default::PageLength]->getId()));

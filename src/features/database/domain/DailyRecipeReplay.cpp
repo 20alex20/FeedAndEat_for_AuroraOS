@@ -3,6 +3,7 @@
 #include <QJsonParseError>
 #include <QJsonArray>
 #include <QDate>
+#include <QDebug>
 #include "RecipeReplay.h"
 
 DailyRecipeReplay::DailyRecipeReplay(const QUrl &url, QNetworkAccessManager * const networkManager, const int loudsNumber, QObject *parent)
@@ -10,6 +11,7 @@ DailyRecipeReplay::DailyRecipeReplay(const QUrl &url, QNetworkAccessManager * co
 { }
 
 void DailyRecipeReplay::processResponse() {
+    qDebug() << 5;
     _loudsNumber--;
     QJsonParseError jsonParseError;
     auto obj = QJsonDocument::fromJson(_networkReplay->readAll(), &jsonParseError).object();

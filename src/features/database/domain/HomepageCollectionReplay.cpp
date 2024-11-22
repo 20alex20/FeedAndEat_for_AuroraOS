@@ -8,6 +8,7 @@ HomepageCollectionReplay::HomepageCollectionReplay(const QUrl &url, QNetworkAcce
 { }
 
 void HomepageCollectionReplay::processResponse() {
+    qDebug() << "a5";
     _loudsNumber--;
     QJsonParseError jsonParseError;
     auto sth = QJsonDocument::fromJson(_networkReplay->readAll(), &jsonParseError);

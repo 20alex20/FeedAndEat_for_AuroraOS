@@ -1,4 +1,5 @@
 #include "HomeViewModel.h"
+#include <QDebug>
 
 HomeViewModel::HomeViewModel(QObject *parent)
     : QObject(parent),
@@ -17,15 +18,16 @@ HomeViewModel::~HomeViewModel() {
 }
 
 void HomeViewModel::bind() {
+    qDebug() << "2";
     connect(_databaseHandler->getDailyRecipe(), &RecipesReplay::receive, this, &HomeViewModel::receiveDailyRecipe);
     connect(_databaseHandler->getHomepageCollection("breakfast"), &RecipesReplay::receive,
             this, &HomeViewModel::receiveBreakfastRecipes);
-    connect(_databaseHandler->getHomepageCollection("drink"), &RecipesReplay::receive,
+    /*connect(_databaseHandler->getHomepageCollection("drink"), &RecipesReplay::receive,
             this, &HomeViewModel::receiveDrinkRecipes);
     connect(_databaseHandler->getHomepageCollection("forBigGroup"), &RecipesReplay::receive,
             this, &HomeViewModel::receiveRecipesForBigGroup);
     connect(_databaseHandler->getHomepageCollection("lowCalorie"), &RecipesReplay::receive,
-            this, &HomeViewModel::receiveLowCalorieRecipes);
+            this, &HomeViewModel::receiveLowCalorieRecipes);*/
 }
 
 void HomeViewModel::reloadDailyRecipe() {
@@ -58,11 +60,17 @@ void HomeViewModel::reloadLowCalorieRecipes() {
 }
 
 void HomeViewModel::receiveDailyRecipe(RecipesReplay *recipeReplay, QList<Recipe*> recipe) {
+    qDebug() << 7;
+    qDebug() << recipe[0]->getId() << recipe[0]->getName();
     setState(new HomeViewModelState(_state, recipe[0]));
     recipeReplay->deleteLater();
 }
 
 void HomeViewModel::receiveBreakfastRecipes(RecipesReplay *recipesReplay, QList<Recipe*> recipes) {
+    qDebug() << "a7";
+    qDebug() << recipes.size();
+    if (recipes.size() > 0)
+        qDebug() << recipes[0]->getId() << recipes[0]->getName();
     setState(new HomeViewModelState(_state, HomeViewModelState::Breakfast, recipes));
     recipesReplay->deleteLater();
 }
@@ -90,5 +98,6 @@ void HomeViewModel::setState(HomeViewModelState *newState) {
 }
 
 HomeViewModelState *HomeViewModel::getState() const {
+    qDebug() << "length" << _state->getCollectionRecipes(0).size();
     return _state;
 }

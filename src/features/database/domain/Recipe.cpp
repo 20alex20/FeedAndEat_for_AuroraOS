@@ -35,15 +35,15 @@ int Recipe::getId() const {
     return _id;
 }
 
-const QString &Recipe::getName() const {
+QString Recipe::getName() const {
     return _name;
 }
 
-const QString &Recipe::getImage() const {
+QString Recipe::getImage() const {
     return _image;
 }
 
-const QList<QString> &Recipe::getCategories() const {
+QList<QString> Recipe::getCategories() const {
     return _categories;
 }
 
@@ -51,11 +51,11 @@ int Recipe::getServingsNumber() const {
     return _servingsNumber;
 }
 
-const QString &Recipe::getInstructionTextAt(int index) const {
+QString Recipe::getInstructionTextAt(int index) const {
     return _instructions[index].text;
 }
 
-const QList<QPair<int, int>> &Recipe::getInstructionTimersAt(int index) const {
+QList<QPair<int, int>> Recipe::getInstructionTimersAt(int index) const {
     return _instructions[index].timers;
 }
 

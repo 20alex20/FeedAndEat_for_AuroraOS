@@ -1,10 +1,11 @@
 #include "HomeViewModelState.h"
+#include <QDebug>
 
 namespace {
 
 void setRecipesParent(QList<Recipe*> recipes[], QObject *parent) {
     for (int i = 0; i < 4; i++)
-        for (auto recipe: recipes[i])
+        for (auto &recipe: recipes[i])
             recipe->setParent(parent);
 }
 
@@ -46,7 +47,8 @@ HomeViewModelState::HomeViewModelState(HomeViewModelState *oldState, Collection 
     : QObject(parent),
       _dailyRecipe(oldState->getDailyRecipe())
 {
-    _dailyRecipe->setParent(this);
+    if (_dailyRecipe != nullptr)
+        _dailyRecipe->setParent(this);
     for (int i = 0; i < 4; i++)
         if (i + Qt::UserRole + 1 == collection) {
             _collectionsRecipesStatuses[i] = Loading;
@@ -62,7 +64,9 @@ HomeViewModelState::HomeViewModelState(HomeViewModelState *oldState, Collection 
     : QObject(parent),
       _dailyRecipe(oldState->getDailyRecipe())
 {
-    _dailyRecipe->setParent(this);
+    qDebug() << "a8";
+    if (_dailyRecipe != nullptr)
+        _dailyRecipe->setParent(this);
     for (int i = 0; i < 4; i++)
         if (i + Qt::UserRole + 1 == collection) {
             _collectionsRecipes[i] = recipes;
@@ -73,38 +77,46 @@ HomeViewModelState::HomeViewModelState(HomeViewModelState *oldState, Collection 
             _collectionsRecipesStatuses[i] = oldState->getCollectionRecipesStatus(i);
         }
     setRecipesParent(_collectionsRecipes, this);
+    qDebug() << "a8.1";
 }
 
 Recipe *HomeViewModelState::getDailyRecipe() {
     return _dailyRecipe;
 }
 
-QList<Recipe*> HomeViewModelState::getBreakfastRecipes() {
-    return _collectionsRecipes[Breakfast - Qt::UserRole - 1];
+QVariantList HomeViewModelState::getVariantList(HomeViewModelState::Collection collection) {
+    QVariantList recipes;
+    for (auto &recipe: _collectionsRecipes[collection - Qt::UserRole - 1])
+        recipes.append(QVariant::fromValue<Recipe*>(recipe));
+    return recipes;
+}
+
+QVariantList HomeViewModelState::getBreakfastRecipes() {
+    return getVariantList(Breakfast);
 }
 
 HomeViewModelState::Status HomeViewModelState::getBreakfastRecipesStatus() {
     return _collectionsRecipesStatuses[Breakfast - Qt::UserRole - 1];
 }
 
-QList<Recipe*> HomeViewModelState::getDrinkRecipes() {
-    return _collectionsRecipes[Drink - Qt::UserRole - 1];
+QVariantList HomeViewModelState::getDrinkRecipes() {
+    return getVariantList(Drink);
 }
 
 HomeViewModelState::Status HomeViewModelState::getDrinkRecipesStatus() {
     return _collectionsRecipesStatuses[Drink - Qt::UserRole - 1];
 }
 
-QList<Recipe*> HomeViewModelState::getRecipesForBigGroup() {
-    return _collectionsRecipes[ForBigGroup - Qt::UserRole - 1];
+QVariantList HomeViewModelState::getRecipesForBigGroup() {
+    return getVariantList(ForBigGroup);
 }
 
 HomeViewModelState::Status HomeViewModelState::getRecipesForBigGroupStatus() {
     return _collectionsRecipesStatuses[ForBigGroup - Qt::UserRole - 1];
 }
 
-QList<Recipe*> HomeViewModelState::getLowCalorieRecipes() {
-    return _collectionsRecipes[LowCalorie - Qt::UserRole - 1];
+QVariantList HomeViewModelState::getLowCalorieRecipes() {
+    return getVariantList(LowCalorie);
 }
 
 HomeViewModelState::Status HomeViewModelState::getLowCalorieRecipesStatus() {

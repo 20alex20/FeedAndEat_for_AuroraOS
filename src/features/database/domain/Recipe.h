@@ -18,14 +18,14 @@ public:
     explicit Recipe(int id, const QString &name, const QString &image, const QList<QString> &categories,
                     int servingsNumber, const QList<InstructionRecord> &instructions, QObject *parent = nullptr);
 
-    int getId() const;
-    const QString &getName() const;
-    const QString &getImage() const;
-    const QList<QString> &getCategories() const;
-    int getServingsNumber() const;
-    const QString &getInstructionTextAt(int index) const;
-    const QList<QPair<int, int>> &getInstructionTimersAt(int index) const;
-    int getInstructionsNumber() const;
+    Q_INVOKABLE int getId() const;
+    Q_INVOKABLE QString getName() const;
+    Q_INVOKABLE QString getImage() const;
+    Q_INVOKABLE QList<QString> getCategories() const;
+    Q_INVOKABLE int getServingsNumber() const;
+    Q_INVOKABLE QString getInstructionTextAt(int index) const;
+    Q_INVOKABLE QList<QPair<int, int>> getInstructionTimersAt(int index) const;
+    Q_INVOKABLE int getInstructionsNumber() const;
 
 private:
     int _id;

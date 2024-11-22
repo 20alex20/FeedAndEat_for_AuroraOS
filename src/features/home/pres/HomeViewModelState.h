@@ -2,19 +2,20 @@
 #define HOMEVIEWMODELSTATE_H
 
 #include <QObject>
+#include <QVariantList>
 #include "src/features/database/domain/Recipe.h"
 
 class HomeViewModelState : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(Recipe *dailyRecipe READ getDailyRecipe CONSTANT)
-    Q_PROPERTY(QList<Recipe*> breakfastRecipes READ getBreakfastRecipes CONSTANT)
+    Q_PROPERTY(QVariantList breakfastRecipes READ getBreakfastRecipes CONSTANT)
     Q_PROPERTY(Status breakfastRecipesStatus READ getBreakfastRecipesStatus CONSTANT)
-    Q_PROPERTY(QList<Recipe*> drinkRecipes READ getDrinkRecipes CONSTANT)
+    Q_PROPERTY(QVariantList drinkRecipes READ getDrinkRecipes CONSTANT)
     Q_PROPERTY(Status drinkRecipesStatus READ getDrinkRecipesStatus CONSTANT)
-    Q_PROPERTY(QList<Recipe*> recipesForBigGroup READ getRecipesForBigGroup CONSTANT)
+    Q_PROPERTY(QVariantList recipesForBigGroup READ getRecipesForBigGroup CONSTANT)
     Q_PROPERTY(Status recipesForBigGroupStatus READ getRecipesForBigGroupStatus CONSTANT)
-    Q_PROPERTY(QList<Recipe*> lowCalorieRecipes READ getLowCalorieRecipes CONSTANT)
+    Q_PROPERTY(QVariantList lowCalorieRecipes READ getLowCalorieRecipes CONSTANT)
     Q_PROPERTY(Status lowCalorieRecipeStatus READ getLowCalorieRecipesStatus CONSTANT)
 public:
     enum Collection {
@@ -38,13 +39,14 @@ public:
     explicit HomeViewModelState(HomeViewModelState *oldState, Collection collection, QList<Recipe*> &recipes, QObject *parent = nullptr);
 
     Recipe *getDailyRecipe();
-    QList<Recipe*> getBreakfastRecipes();
+    QVariantList getVariantList(HomeViewModelState::Collection collection);
+    QVariantList getBreakfastRecipes();
     Status getBreakfastRecipesStatus();
-    QList<Recipe*> getDrinkRecipes();
+    QVariantList getDrinkRecipes();
     Status getDrinkRecipesStatus();
-    QList<Recipe*> getRecipesForBigGroup();
+    QVariantList getRecipesForBigGroup();
     Status getRecipesForBigGroupStatus();
-    QList<Recipe*> getLowCalorieRecipes();
+    QVariantList getLowCalorieRecipes();
     Status getLowCalorieRecipesStatus();
     QList<Recipe*> getCollectionRecipes(int index);
     Status getCollectionRecipesStatus(int index);
