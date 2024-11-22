@@ -40,6 +40,7 @@ Item {
 
             Label {
                 width: parent.width
+                bottomPadding: (2 - lineCount) * Theme.fontSizeLarge
                 font.family: Theme.fontFamilyHeading
                 font.pixelSize: Theme.fontSizeLarge
                 font.bold: true

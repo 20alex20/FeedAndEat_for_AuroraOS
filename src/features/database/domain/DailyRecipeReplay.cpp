@@ -12,7 +12,6 @@ DailyRecipeReplay::DailyRecipeReplay(const QUrl &url, QNetworkAccessManager * co
 
 void DailyRecipeReplay::processResponse() {
     qDebug() << 5;
-    _loudsNumber--;
     QJsonParseError jsonParseError;
     auto obj = QJsonDocument::fromJson(_networkReplay->readAll(), &jsonParseError).object();
     _networkReplay->deleteLater();
@@ -24,10 +23,17 @@ void DailyRecipeReplay::processResponse() {
         auto newRecipesReplay = new RecipeReplay(QUrl(url), _networkManager, recipeId, this);
         connect(newRecipesReplay, &RecipeReplay::receive, this, &DailyRecipeReplay::receive);
     }
-    else if (_loudsNumber <= 0) {
-        emit receive(this, { new Recipe() });
-    }
     else {
-        reload();
+        processError(QNetworkReply::ContentNotFoundError);
     }
+}
+
+void DailyRecipeReplay::processError(QNetworkReply::NetworkError code) {
+    Q_UNUSED(code)
+    qDebug() << "a5.1";
+    _loudsNumber--;
+    if (_loudsNumber <= 0)
+        emit receive(this, { new Recipe() });
+    else
+        reload();
 }

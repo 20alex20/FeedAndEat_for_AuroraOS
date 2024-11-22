@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
+#include <QTimer>
 #include <QJsonObject>
 #include "Recipe.h"
 
@@ -19,6 +20,7 @@ signals:
 
 private:
     virtual void processResponse() = 0;
+    virtual void processError(QNetworkReply::NetworkError code) = 0;
 
 protected:
     void sendResponse(QList<QJsonObject> &recipes);
@@ -26,8 +28,9 @@ protected:
 
     const QUrl _url;
     QNetworkAccessManager * const _networkManager;
-    int _loudsNumber;
     QNetworkReply *_networkReplay;
+    // QTimer timer;
+    int _loudsNumber;
 };
 
 #endif // RECIPESREPLAY_H

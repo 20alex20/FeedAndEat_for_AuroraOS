@@ -11,7 +11,6 @@ SearchRecipesReplay::SearchRecipesReplay(const QUrl &url, QNetworkAccessManager 
 { }
 
 void SearchRecipesReplay::processResponse() {
-    _loudsNumber--;
     QJsonParseError jsonRarseError;
     auto obj = QJsonDocument::fromJson(_networkReplay->readAll(), &jsonRarseError).object();
     _networkReplay->deleteLater();
@@ -29,12 +28,18 @@ void SearchRecipesReplay::processResponse() {
             connect(newRecipesReplay, &RecipeReplay::receive, this, &SearchRecipesReplay::collectResponses);
         }
     }
-    else if (_loudsNumber <= 0) {
-        emit receive(this, { });
-    }
     else {
-        reload();
+        processError(QNetworkReply::ContentNotFoundError);
     }
+}
+
+void SearchRecipesReplay::processError(QNetworkReply::NetworkError code) {
+    Q_UNUSED(code)
+    _loudsNumber--;
+    if (_loudsNumber <= 0)
+        emit receive(this, { });
+    else
+        reload();
 }
 
 void SearchRecipesReplay::collectResponses(RecipesReplay *recipesReplay, QList<Recipe*> recipe) {

@@ -24,9 +24,16 @@ Page {
         if (state.breakfastRecipesStatus === HomeViewModelState.Loading) {
             row1.model.clear()
             row1Loading.visible = true
+            row1Error.visible = false
             row1.visible = false
         }
-        else if (!row1.visible) {
+        else if (state.breakfastRecipesStatus === HomeViewModelState.Error) {
+            row1.model.clear()
+            row1Loading.visible = false
+            row1Error.visible = true
+            row1.visible = false
+        }
+        else if (row1.model.count === 0) {
             var recipes = state.breakfastRecipes
             console.log(recipes.length)
             for (var i = 0; i < recipes.length; i++)
@@ -35,6 +42,7 @@ Page {
                                     "sr": recipes[i].getServingsNumber(),
                                     "ir": recipes[i].getInstructionsNumber() })
             row1Loading.visible = false
+            row1Error.visible = false
             row1.visible = true
         }
     }
@@ -95,6 +103,27 @@ Page {
                     height: (parent.width - 3 * Theme.paddingLarge) / 2 + page.notCompleteRecipeCardHeight
                     size: Theme.itemSizeHuge
                     running: visible
+                }
+                Item {
+                    id: row1Error
+                    width: parent.width
+                    height: (parent.width - 3 * Theme.paddingLarge) / 2 + page.notCompleteRecipeCardHeight
+
+                    Label {
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.bottom: button.top
+                        anchors.bottomMargin: Theme.paddingLarge
+                        font.family: Theme.fontFamilyHeading
+                        font.pixelSize: Theme.fontSizeLarge
+                        color: Theme.primaryColor
+                        text: "Loading error"
+                    }
+                    Button {
+                        id: button
+                        anchors.centerIn: parent
+                        text: "Retry"
+                        onClicked: viewModel.reloadBreakfastRecipes()
+                    }
                 }
                 ListView {
                     id: row1

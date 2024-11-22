@@ -9,7 +9,6 @@ HomepageCollectionReplay::HomepageCollectionReplay(const QUrl &url, QNetworkAcce
 
 void HomepageCollectionReplay::processResponse() {
     qDebug() << "a5";
-    _loudsNumber--;
     QJsonParseError jsonParseError;
     auto sth = QJsonDocument::fromJson(_networkReplay->readAll(), &jsonParseError);
     _networkReplay->deleteLater();
@@ -22,10 +21,17 @@ void HomepageCollectionReplay::processResponse() {
             recipes.append(recipe.toObject());
         sendResponse(recipes);
     }
-    else if (_loudsNumber <= 0) {
-        emit receive(this, { });
-    }
     else {
-        reload();
+        processError(QNetworkReply::ContentNotFoundError);
     }
+}
+
+void HomepageCollectionReplay::processError(QNetworkReply::NetworkError code) {
+    Q_UNUSED(code)
+    qDebug() << "a5.1";
+    _loudsNumber--;
+    if (_loudsNumber <= 0)
+        emit receive(this, { });
+    else
+        reload();
 }

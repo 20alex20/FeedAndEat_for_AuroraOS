@@ -4,7 +4,7 @@ Recipe::Recipe(QObject *parent)
     : QObject(parent),
       _id(-1),
       _name("Loading error"),
-      _image("https://dummyimage.com/400x300/99cccc.jpg&text=Click+to+reload"),
+      _image("../images/clickToReload.png"),
       _categories(),
       _servingsNumber(0),
       _instructions()
@@ -14,7 +14,7 @@ Recipe::Recipe(int id, QObject *parent)
     : QObject(parent),
       _id(id),
       _name("Loading error"),
-      _image("https://dummyimage.com/400x300/99cccc.jpg&text=Click+to+reload"),
+      _image("../images/clickToReload.png"),
       _categories(),
       _servingsNumber(0),
       _instructions()

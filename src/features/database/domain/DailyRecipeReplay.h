@@ -12,6 +12,7 @@ public:
 
 private:
     void processResponse() override;
+    void processError(QNetworkReply::NetworkError code) override;
 };
 
 #endif // DAILYRECIPEREPLAY_H
