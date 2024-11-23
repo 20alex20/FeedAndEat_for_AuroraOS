@@ -39,8 +39,14 @@ HEADERS += \
     src/features/search/pres/SearchViewModelState.h
 
 DISTFILES += rpm/alex_fnaf.apps.FeedAndEat.spec \
+    qml/items/CategoriesList.qml \
+    qml/items/RecipeCard.qml \
     qml/items/DailyRecipe.qml \
-    qml/items/RecipesCollection.qml
+    qml/items/RecipesCollection.qml \
+    qml/pages/HomePage.qml \
+    qml/pages/SearchPage.qml \
+    qml/cover/DefaultCoverPage.qml \
+    qml/Main.qml
 
 AURORAAPP_ICONS = 86x86 108x108 128x128 172x172
 

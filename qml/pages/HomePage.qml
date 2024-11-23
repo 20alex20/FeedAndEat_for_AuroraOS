@@ -46,7 +46,7 @@ Page {
     Flickable {
         id: flickable
         anchors.fill: parent
-        anchors.margins: Theme.paddingMedium
+        anchors.margins: Theme.horizontalPageMargin
         flickableDirection: Flickable.VerticalFlick
         contentWidth: column.width
         contentHeight: column.height
@@ -84,6 +84,13 @@ Page {
                 width: parent.width
                 title: "Low calorie"
                 onReloadCollection: viewModel.reloadLowCalorieRecipes()
+            }
+
+            Button {
+                text: "search"
+                onClicked: {
+                    pageStack.push("SearchPage.qml")
+                }
             }
         }
     }
