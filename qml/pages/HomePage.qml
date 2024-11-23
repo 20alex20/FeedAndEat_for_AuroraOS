@@ -9,231 +9,82 @@ Page {
 
     property HomeViewModelState state: viewModel.state
     onStateChanged: {
-        if (state.dailyRecipe === null) {
-            dailyRecipeLoading.visible = true
-            dailyRecipe.visible = false
-        }
-        else {
-            dailyRecipe.name = state.dailyRecipe.getName()
-            dailyRecipe.image = state.dailyRecipe.getImage()
-            dailyRecipe.servingsNumber = state.dailyRecipe.getServingsNumber()
-            dailyRecipe.instructionsNumber = state.dailyRecipe.getInstructionsNumber()
-            dailyRecipeLoading.visible = false
-            dailyRecipe.visible = true
-        }
-        if (state.breakfastRecipesStatus === HomeViewModelState.Loading) {
-            row1.model.clear()
-            row1Loading.visible = true
-            row1Error.visible = false
-            row1.visible = false
-        }
-        else if (state.breakfastRecipesStatus === HomeViewModelState.Error) {
-            row1.model.clear()
-            row1Loading.visible = false
-            row1Error.visible = true
-            row1.visible = false
-        }
-        else if (row1.model.count === 0) {
-            var recipes = state.breakfastRecipes
-            console.log(recipes.length)
-            for (var i = 0; i < recipes.length; i++)
-                row1.model.append({ "ne": recipes[i].getName(),
-                                    "ie": recipes[i].getImage(),
-                                    "sr": recipes[i].getServingsNumber(),
-                                    "ir": recipes[i].getInstructionsNumber() })
-            row1Loading.visible = false
-            row1Error.visible = false
-            row1.visible = true
-        }
+        if (state.dailyRecipe === null)
+            dailyRecipe.setLoading()
+        else
+            dailyRecipe.setRecipe(state.dailyRecipe)
+
+        if (state.breakfastRecipesStatus === HomeViewModelState.Loading)
+            row1.setLoading()
+        else if (state.breakfastRecipesStatus === HomeViewModelState.Error)
+            row1.setError()
+        else if (row1.isEmpty)
+            row1.setSuccess(state.breakfastRecipes)
+
+        if (state.drinkRecipesStatus === HomeViewModelState.Loading)
+            row2.setLoading()
+        else if (state.drinkRecipesStatus === HomeViewModelState.Error)
+            row2.setError()
+        else if (row2.isEmpty)
+            row2.setSuccess(state.drinkRecipes)
+
+        if (state.recipesForBigGroupStatus === HomeViewModelState.Loading)
+            row3.setLoading()
+        else if (state.recipesForBigGroupStatus === HomeViewModelState.Error)
+            row3.setError()
+        else if (row3.isEmpty)
+            row3.setSuccess(state.recipesForBigGroup)
+
+        if (state.lowCalorieRecipeStatus === HomeViewModelState.Loading)
+            row4.setLoading()
+        else if (state.lowCalorieRecipeStatus === HomeViewModelState.Error)
+            row4.setError()
+        else if (row4.isEmpty)
+            row4.setSuccess(state.lowCalorieRecipes)
     }
 
     Flickable {
+        id: flickable
         anchors.fill: parent
         anchors.margins: Theme.paddingMedium
         flickableDirection: Flickable.VerticalFlick
+        contentWidth: column.width
+        contentHeight: column.height
 
         Column {
-            property real notCompleteRecipeCardHeight: Theme.paddingSmall + 2*Theme.fontSizeLarge + 2*Theme.paddingMedium +
-                                                       (Theme.iconSizeSmall + Theme.iconSizeSmallPlus)/2
-            id: page
-            anchors.fill: parent
+            id: column
+            width: flickable.width
             spacing: Theme.paddingLarge * 2
 
-            Column {
+            DailyRecipe {
+                id: dailyRecipe
                 width: parent.width
-                spacing: Theme.paddingLarge
-
-                Label {
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    font.family: Theme.fontFamilyHeading
-                    font.pixelSize: Theme.fontSizeHuge
-                    font.bold: true
-                    color: Theme.highlightColor
-                    text: "Daily recipe"
-                }
-                BusyIndicator {
-                    id: dailyRecipeLoading
-                    width: parent.width
-                    height: parent.width/2 + page.notCompleteRecipeCardHeight
-                    size: Theme.itemSizeHuge
-                    running: visible
-                }
-                RecipeCard {
-                    id: dailyRecipe
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    width: parent.width * 2 / 3
-                }
+                onReloadRecipe: viewModel.reloadDailyRecipe()
             }
-
-            Column {
+            RecipesCollection {
+                id: row1
                 width: parent.width
-                spacing: Theme.paddingLarge
-
-                Label {
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    font.family: Theme.fontFamilyHeading
-                    font.pixelSize: Theme.fontSizeHuge
-                    font.bold: true
-                    color: Theme.highlightColor
-                    text: "For breakfast"
-                }
-                BusyIndicator {
-                    id: row1Loading
-                    width: parent.width
-                    height: (parent.width - 3 * Theme.paddingLarge) / 2 + page.notCompleteRecipeCardHeight
-                    size: Theme.itemSizeHuge
-                    running: visible
-                }
-                Item {
-                    id: row1Error
-                    width: parent.width
-                    height: (parent.width - 3 * Theme.paddingLarge) / 2 + page.notCompleteRecipeCardHeight
-
-                    Label {
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.bottom: button.top
-                        anchors.bottomMargin: Theme.paddingLarge
-                        font.family: Theme.fontFamilyHeading
-                        font.pixelSize: Theme.fontSizeLarge
-                        color: Theme.primaryColor
-                        text: "Loading error"
-                    }
-                    Button {
-                        id: button
-                        anchors.centerIn: parent
-                        text: "Retry"
-                        onClicked: viewModel.reloadBreakfastRecipes()
-                    }
-                }
-                ListView {
-                    id: row1
-                    width: parent.width
-                    height: (parent.width - 3 * Theme.paddingLarge) / 2 + page.notCompleteRecipeCardHeight
-                    model: ListModel { }
-                    orientation: ListView.Horizontal
-                    spacing: Theme.paddingLarge
-                    delegate: RecipeCard {
-                        width: (page.width - 3 * Theme.paddingLarge) / 2
-                        name: ne
-                        image: ie
-                        servingsNumber: sr
-                        instructionsNumber: ir
-                    }
-                }
+                title: "For your breakfast"
+                onReloadCollection: viewModel.reloadBreakfastRecipes()
             }
-
-            /*Column {
+            RecipesCollection {
+                id: row2
                 width: parent.width
-                spacing: 32
-
-                Label {
-                    text: "For breakfast"
-                    color: Theme.highlightColor
-                    font.family: Theme.fontFamilyHeading
-                    font.pixelSize: 40
-                    font.bold: true
-                }
-                Row {
-                    spacing: 8
-
-                    ListModel {
-                        id: row2Model
-                    }
-                    Repeater {
-                        model: row2Model
-
-                        RecipeCard {
-                            width: page.width
-                            name: na
-                            image: im
-                            amountOfServings: as
-                            amountOfInstructions: ai
-                        }
-                    }
-                }
+                title: "Let's have a drink"
+                onReloadCollection: viewModel.reloadDrinkRecipes()
             }
-
-            Column {
+            RecipesCollection {
+                id: row3
                 width: parent.width
-                spacing: 32
-
-                Label {
-                    text: "For breakfast"
-                    color: Theme.highlightColor
-                    font.family: Theme.fontFamilyHeading
-                    font.pixelSize: 40
-                    font.bold: true
-                }
-                Row {
-                    spacing: 8
-
-                    ListModel {
-                        id: row3Model
-                    }
-                    Repeater {
-                        model: row3Model
-
-                        RecipeCard {
-                            width: page.width
-                            name: na
-                            image: im
-                            amountOfServings: as
-                            amountOfInstructions: ai
-                        }
-                    }
-                }
+                title: "For you and your friends"
+                onReloadCollection: viewModel.reloadRecipesForBigGroup()
             }
-
-            Column {
+            RecipesCollection {
+                id: row4
                 width: parent.width
-                spacing: 32
-
-                Label {
-                    text: "For breakfast"
-                    color: Theme.highlightColor
-                    font.family: Theme.fontFamilyHeading
-                    font.pixelSize: 40
-                    font.bold: true
-                }
-                Row {
-                    spacing: 8
-
-                    ListModel {
-                        id: row4Model
-                    }
-                    Repeater {
-                        model: row4Model
-
-                        RecipeCard {
-                            width: page.width
-                            name: na
-                            image: im
-                            amountOfServings: as
-                            amountOfInstructions: ai
-                        }
-                    }
-                }
-            }*/
+                title: "Low calorie"
+                onReloadCollection: viewModel.reloadLowCalorieRecipes()
+            }
         }
     }
 }

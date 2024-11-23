@@ -22,12 +22,12 @@ void HomeViewModel::bind() {
     connect(_databaseHandler->getDailyRecipe(), &RecipesReplay::receive, this, &HomeViewModel::receiveDailyRecipe);
     connect(_databaseHandler->getHomepageCollection("breakfast"), &RecipesReplay::receive,
             this, &HomeViewModel::receiveBreakfastRecipes);
-    /*connect(_databaseHandler->getHomepageCollection("drink"), &RecipesReplay::receive,
+    connect(_databaseHandler->getHomepageCollection("drink"), &RecipesReplay::receive,
             this, &HomeViewModel::receiveDrinkRecipes);
     connect(_databaseHandler->getHomepageCollection("forBigGroup"), &RecipesReplay::receive,
             this, &HomeViewModel::receiveRecipesForBigGroup);
     connect(_databaseHandler->getHomepageCollection("lowCalorie"), &RecipesReplay::receive,
-            this, &HomeViewModel::receiveLowCalorieRecipes);*/
+            this, &HomeViewModel::receiveLowCalorieRecipes);
 }
 
 void HomeViewModel::reloadDailyRecipe() {

@@ -1,13 +1,12 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-import FeadAndEat.Feature.Home 1.0
 
 Item {
-    signal recipeClicked
     property string name: ""
     property string image: ""
     property int servingsNumber: 0
     property int instructionsNumber: 0
+    signal clicked()
 
     height: column.height
 
@@ -17,8 +16,9 @@ Item {
     }
 
     MouseArea {
+        id: mouseArea
         anchors.fill: parent
-        onClicked: recipeClicked()
+        onClicked: parent.clicked()
     }
 
     Column {
@@ -40,7 +40,6 @@ Item {
 
             Label {
                 width: parent.width
-                bottomPadding: (2 - lineCount) * Theme.fontSizeLarge
                 font.family: Theme.fontFamilyHeading
                 font.pixelSize: Theme.fontSizeLarge
                 font.bold: true
@@ -49,6 +48,7 @@ Item {
                 wrapMode: Text.Wrap
                 maximumLineCount: 2
                 truncationMode: TruncationMode.Elide
+                lineHeight: 3 - lineCount
             }
 
             Item {
@@ -94,5 +94,11 @@ Item {
                 }
             }
         }
+    }
+
+    Rectangle {
+        visible: mouseArea.pressed
+        anchors.fill: parent
+        color: "#40000000"
     }
 }
