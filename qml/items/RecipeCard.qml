@@ -97,8 +97,8 @@ Item {
     }
 
     Rectangle {
-        visible: mouseArea.pressed
         anchors.fill: parent
+        visible: mouseArea.pressed
         color: "#40000000"
     }
 }

@@ -11,46 +11,106 @@ Page {
 
     Column {
         anchors.fill: parent
+        anchors.margins: Theme.horizontalPageMargin
+        spacing: 2*Theme.paddingLarge
 
-        TextField {
-            id: searchQuery
+        Rectangle {
+            id: searchQueryCard
             width: parent.width
-            color: Theme.primaryColor
-            placeholderText: "Search"
-            validator: RegExpValidator { regExp: /^[A-Za-z0-9 ]*$/ }
-            strictValidation: true
-            //onTextChanged: viewModel.loadBySearchQuery(text)
+            height: (Theme.iconSizeSmall + Theme.iconSizeSmallPlus)/2 + 2*Theme.paddingLarge
+            color: Theme.highlightBackgroundColor
+
+            TextField {
+                id: searchQuery
+                anchors.left: parent.left
+                anchors.right: searchIcon.left
+                anchors.top: parent.top
+                anchors.leftMargin: Theme.paddingLarge
+                anchors.rightMargin: Theme.paddingLarge
+                anchors.topMargin: Theme.paddingMedium + Theme.paddingSmall
+
+                textMargin: 0
+                font.pixelSize: Theme.fontSizeLarge
+                color: Theme.primaryColor
+                placeholderText: "Search"
+                backgroundStyle: TextEditor.NoBackground
+                validator: RegExpValidator { regExp: /^[A-Za-z0-9 ]*$/ }
+                strictValidation: true
+                //onTextChanged: viewModel.loadBySearchQuery(text)
+            }
+            Icon {
+                id: searchIcon
+                anchors.right: parent.right
+                anchors.rightMargin: Theme.paddingLarge
+                anchors.verticalCenter: parent.verticalCenter
+
+                width: (Theme.iconSizeSmall + Theme.iconSizeSmallPlus)/2
+                height: (Theme.iconSizeSmall + Theme.iconSizeSmallPlus)/2
+                color: Theme.primaryColor
+                source: "../icons/search.svg"
+            }
         }
 
-        ComboBox {
-            id: connection
-            width: pageContainer.width
-            label: "Category:"
-            //minimumContentHeight: 200
-            //labelMargin: 0
-            //leftMargin: 0
-            //rightMargin: 0
-            _descriptionLabel: null
-            menu: ContextMenu {
-                Repeater {
-                    model: categoriesList.categories
+        Item {
+            width: parent.width
+            height: categoryCard.height
 
-                    MenuItem {
-                        font.pixelSize: Theme.fontSizeLarge
-                        text: modelData
+            ComboBox {
+                id: categories
+                width: parent.width
+                height: parent.height
+                menu: ContextMenu {
+                    Repeater {
+                        model: categoriesList.categories
+
+                        MenuItem {
+                            font.pixelSize: Theme.fontSizeLarge
+                            text: modelData
+                        }
                     }
                 }
-            }
-            CategoriesList {
-                id: categoriesList
+                CategoriesList { id: categoriesList }
+
+                /*onCurrentIndexChanged: {
+                    if (curruntIndex === 0)
+                        viewModel.loadFromAllCategories()
+                    else
+                        viewModel.loadFromCategory(currentItem.text)
+                }*/
             }
 
-            /*onCurrentIndexChanged: {
-                if (curruntIndex === 0)
-                    viewModel.loadFromAllCategories()
-                else
-                    viewModel.loadFromCategory(currentItem.text)
-            }*/
+            Rectangle {
+                id: categoryCard
+                width: parent.width
+                height: categoryTitle.height + 2*Theme.paddingLarge
+                color: Theme.highlightBackgroundColor
+
+                Label {
+                    id: categoryTitle
+                    anchors.left: parent.left
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.leftMargin: Theme.paddingLarge
+
+                    font.pixelSize: Theme.fontSizeLarge
+                    color: Theme.primaryColor
+                    text: "Category: "
+                }
+                Label {
+                    anchors.left: categoryTitle.right
+                    anchors.verticalCenter: parent.verticalCenter
+
+                    font.pixelSize: Theme.fontSizeLarge
+                    font.bold: true
+                    color: Theme.primaryColor
+                    text: categories.value
+                }
+
+                Rectangle {
+                    anchors.fill: parent
+                    visible: categories.pressed
+                    color: "#40000000"
+                }
+            }
         }
     }
 }

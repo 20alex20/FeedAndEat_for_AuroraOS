@@ -43,6 +43,8 @@ Page {
             row4.setSuccess(state.lowCalorieRecipes)
     }
 
+    clip: true
+
     Flickable {
         id: flickable
         anchors.fill: parent
