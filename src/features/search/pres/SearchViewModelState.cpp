@@ -32,7 +32,7 @@ SearchViewModelState::SearchViewModelState(SearchViewModelState *oldState, QObje
     : QObject(parent),
       _searchQuery(oldState->getSearchQuery()),
       _category(oldState->getCategory()),
-      _recipes(oldState->getRecipes()),
+      _recipes(oldState->getRecipesList()),
       _continuation(oldState->getContinuation()),
       _status(Loading)
 {
@@ -43,7 +43,7 @@ SearchViewModelState::SearchViewModelState(SearchViewModelState *oldState, QList
     : QObject(parent),
       _searchQuery(oldState->getSearchQuery()),
       _category(oldState->getCategory()),
-      _recipes(oldState->getRecipes() + recipes),
+      _recipes(oldState->getRecipesList() + recipes),
       _continuation(recipes.isEmpty() ? oldState->getContinuation() : continuation),
       _status(recipes.isEmpty() ? Error : Success)
 {
@@ -54,7 +54,7 @@ SearchViewModelState::SearchViewModelState(SearchViewModelState *oldState, int i
     : QObject(parent),
       _searchQuery(oldState->getSearchQuery()),
       _category(oldState->getCategory()),
-      _recipes(oldState->getRecipes()),
+      _recipes(oldState->getRecipesList()),
       _continuation(oldState->getContinuation()),
       _status(oldState->getStatus())
 {
@@ -67,7 +67,7 @@ SearchViewModelState::SearchViewModelState(SearchViewModelState *oldState, int i
     : QObject(parent),
       _searchQuery(oldState->getSearchQuery()),
       _category(oldState->getCategory()),
-      _recipes(oldState->getRecipes()),
+      _recipes(oldState->getRecipesList()),
       _continuation(oldState->getContinuation()),
       _status(oldState->getStatus())
 {
@@ -84,7 +84,7 @@ QString SearchViewModelState::getCategory() {
     return _category;
 }
 
-QList<Recipe*> SearchViewModelState::getRecipes() {
+QList<Recipe*> SearchViewModelState::getRecipesList() {
     return _recipes;
 }
 
@@ -92,12 +92,19 @@ Recipe* SearchViewModelState::getRecipe(int index) {
     return _recipes[index];
 }
 
-int SearchViewModelState::getRecipesNumber() {
-    return _recipes.size();
-}
-
 int SearchViewModelState::getContinuation() {
     return _continuation;
+}
+
+QVariantList SearchViewModelState::getRecipes() {
+    QVariantList recipes;
+    for (auto &recipe: _recipes)
+        recipes.append(QVariant::fromValue<Recipe*>(recipe));
+    return recipes;
+}
+
+int SearchViewModelState::getRecipesNumber() {
+    return _recipes.size();
 }
 
 bool SearchViewModelState::isEnd() {

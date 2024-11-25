@@ -32,6 +32,7 @@ Column {
         width: parent.width
         height: parent.width/2 + Theme.paddingSmall + 2*textMetrics.contentHeight +
                 2*Theme.paddingMedium + (Theme.iconSizeSmall + Theme.iconSizeSmallPlus)/2
+
         size: Theme.itemSizeHuge
         running: visible
 
@@ -43,7 +44,8 @@ Column {
     RecipeCard {
         id: dailyRecipe
         anchors.horizontalCenter: parent.horizontalCenter
-        width: parent.width * 2 / 3
+        width: parent.width*2/3
+
         onClicked: {
             if (name == "Loading error")
                 reloadRecipe()

@@ -2,14 +2,14 @@
 #define SEARCHVIEWMODELSTATE_H
 
 #include <QObject>
+#include <QVariantList>
 #include "src/features/database/domain/Recipe.h"
 
 class SearchViewModelState : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString searchQuery READ getSearchQuery CONSTANT)
-    Q_PROPERTY(QString category READ getCategory CONSTANT)
-    Q_PROPERTY(QList<Recipe*> recipes READ getRecipes CONSTANT)
+    Q_PROPERTY(QVariantList recipes READ getRecipes CONSTANT)
+    Q_PROPERTY(int recipesNumber READ getRecipesNumber CONSTANT)
     Q_PROPERTY(bool isEnd READ isEnd CONSTANT)
     Q_PROPERTY(Status status READ getStatus CONSTANT)
 public:
@@ -29,10 +29,12 @@ public:
 
     QString getSearchQuery();
     QString getCategory();
-    QList<Recipe*> getRecipes();
+    QList<Recipe*> getRecipesList();
     Recipe* getRecipe(int index);
-    int getRecipesNumber();
     int getContinuation();
+
+    QVariantList getRecipes();
+    int getRecipesNumber();
     bool isEnd();
     Status getStatus();
 

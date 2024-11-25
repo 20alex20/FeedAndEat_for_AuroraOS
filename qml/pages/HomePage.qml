@@ -49,6 +49,7 @@ Page {
         id: flickable
         anchors.fill: parent
         anchors.margins: Theme.horizontalPageMargin
+
         flickableDirection: Flickable.VerticalFlick
         contentWidth: column.width
         contentHeight: column.height
@@ -56,7 +57,7 @@ Page {
         Column {
             id: column
             width: flickable.width
-            spacing: Theme.paddingLarge * 2
+            spacing: 2*Theme.paddingLarge
 
             DailyRecipe {
                 id: dailyRecipe
@@ -90,9 +91,7 @@ Page {
 
             Button {
                 text: "search"
-                onClicked: {
-                    pageStack.push("SearchPage.qml")
-                }
+                onClicked: pageStack.push("SearchPage.qml")
             }
         }
     }

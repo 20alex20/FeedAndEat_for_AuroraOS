@@ -28,14 +28,15 @@ Item {
 
         Image {
             width: parent.width
-            height: parent.width * 3 / 4
+            height: parent.width*3/4
+
             fillMode: Image.PreserveAspectCrop
             source: image
         }
 
         Column {
             anchors.horizontalCenter: parent.horizontalCenter
-            width: parent.width - 2 * Theme.paddingMedium
+            width: parent.width - 2*Theme.paddingMedium
             spacing: Theme.paddingMedium
 
             Label {
@@ -61,6 +62,7 @@ Item {
                     Icon {
                         width: (Theme.iconSizeSmall + Theme.iconSizeSmallPlus)/2
                         height: (Theme.iconSizeSmall + Theme.iconSizeSmallPlus)/2
+
                         color: Theme.primaryColor
                         opacity: 0.8
                         source: "../icons/servings.svg"
@@ -87,6 +89,7 @@ Item {
                     Icon {
                         width: (Theme.iconSizeSmall + Theme.iconSizeSmallPlus)/2
                         height: (Theme.iconSizeSmall + Theme.iconSizeSmallPlus)/2
+
                         color: Theme.primaryColor
                         opacity: 0.8
                         source: "../icons/steps.svg"

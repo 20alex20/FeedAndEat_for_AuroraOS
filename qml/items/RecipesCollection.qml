@@ -33,10 +33,7 @@ Column {
     spacing: Theme.paddingLarge
     property real recipeHeight: 3*(parent.width - 3*Theme.paddingLarge)/8 + Theme.paddingSmall + 2*textMetrics.contentHeight +
                                 2*Theme.paddingMedium + (Theme.iconSizeSmall + Theme.iconSizeSmallPlus)/2
-    Label {
-        id: textMetrics
-        font.pixelSize: Theme.fontSizeLarge
-    }
+    Label { id: textMetrics; font.pixelSize: Theme.fontSizeLarge }
 
     Label {
         anchors.horizontalCenter: parent.horizontalCenter
@@ -50,6 +47,7 @@ Column {
         id: rowLoading
         width: parent.width
         height: recipeHeight
+
         size: Theme.itemSizeHuge
         running: visible
     }
@@ -62,6 +60,7 @@ Column {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.bottom: button.top
             anchors.bottomMargin: Theme.paddingLarge
+
             font.family: Theme.fontFamilyHeading
             font.pixelSize: Theme.fontSizeLarge
             color: Theme.primaryColor
@@ -78,11 +77,12 @@ Column {
         id: row
         width: parent.width
         height: recipeHeight
+
         model: ListModel { }
         orientation: ListView.Horizontal
         spacing: Theme.paddingLarge
         delegate: RecipeCard {
-            width: (row.width - 3 * Theme.paddingLarge) / 2
+            width: (row.width - 3*Theme.paddingLarge)/2
             name: ne
             image: ie
             servingsNumber: sr
