@@ -117,7 +117,10 @@ Page {
                 validator: RegExpValidator { regExp: /^[A-Za-z0-9 ]*$/ }
                 strictValidation: true
                 onTextChanged: {
-                    viewModel.loadBySearchQuery(text)
+                    if (text.length >= 2)
+                        viewModel.loadBySearchQuery(text)
+                    else if (viewModel.state.searchQuery !== "" && text.length < 2)
+                        viewModel.loadBySearchQuery("")
                 }
             }
             Icon {
@@ -234,9 +237,6 @@ Page {
                     if (!isSuccess)
                         viewModel.loadRecipe(2*index)
                 }
-                onPressed: {
-                    searchQuery.focus = false
-                }
             }
             BusyIndicator {
                 anchors.top: parent.top
@@ -264,9 +264,6 @@ Page {
                     console.log(isSuccess, is1, index)
                     if (!isSuccess)
                         viewModel.loadRecipe(2*index + 1)
-                }
-                onPressed: {
-                    searchQuery.focus = false
                 }
             }
             BusyIndicator {
@@ -311,15 +308,15 @@ Page {
                     onClicked: {
                         viewModel.loadAdditionalRecipes()
                     }
-                    onPressed: {
-                        searchQuery.focus = false
-                    }
                 }
             }
         }
         onAtYEndChanged: {
             if (atYEnd && !listView.loading && !parent.viewModel.state.isEnd)
                 viewModel.loadAdditionalRecipes()
+        }
+        onMovementStarted: {
+            searchQuery.focus = false
         }
     }
 }

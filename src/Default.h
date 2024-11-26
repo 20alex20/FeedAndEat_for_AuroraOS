@@ -3,8 +3,7 @@
 
 namespace Default {
     const int PageLength = 40;
-    // const int responseTimeout = 5000;
-    const int AttemptsNumber = 3;
+    const int AttemptsNumber = 1;
 }
 
 #endif // DEFAULT_H

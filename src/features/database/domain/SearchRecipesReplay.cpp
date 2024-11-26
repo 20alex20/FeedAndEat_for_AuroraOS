@@ -16,6 +16,7 @@ void SearchRecipesReplay::processResponse() {
     QJsonParseError jsonRarseError;
     auto sth = QJsonDocument::fromJson(_networkReplay->readAll(), &jsonRarseError);
 
+    qDebug() << _url;
     QJsonObject obj;
     if (jsonRarseError.error == QJsonParseError::NoError && sth.isObject() && !(obj = sth.object()).contains("error")) {
         if (obj.isEmpty()) {
@@ -33,19 +34,20 @@ void SearchRecipesReplay::processResponse() {
     }
     else if (jsonRarseError.error == QJsonParseError::NoError && sth.isArray()) {
         auto arr = sth.array();
-        if (arr.isEmpty()) {
-            emit receive(this, { });
-            return;
-        }
         int firstNotNull = 0;
         while (firstNotNull < arr.size()) {
             if (!arr[firstNotNull].isNull())
                 break;
             firstNotNull++;
         }
+        if (firstNotNull == arr.size()) {
+            emit receive(this, { });
+            return;
+        }
         _recipes.reserve(arr.size() - firstNotNull);
         for (int i = firstNotNull; i < arr.size(); i++) {
             int recipeId = arr[i].toObject().value("recipeId").toInt();
+            qDebug() << recipeId;
             _recipes.append(new Recipe(recipeId));
             if (i < Default::PageLength + firstNotNull)
                 loadRecipe(recipeId);

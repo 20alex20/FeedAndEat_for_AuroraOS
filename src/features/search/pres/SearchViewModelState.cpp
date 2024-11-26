@@ -76,10 +76,6 @@ SearchViewModelState::SearchViewModelState(SearchViewModelState *oldState, int i
     setRecipesParent(_recipes, this);
 }
 
-QString SearchViewModelState::getSearchQuery() {
-    return _searchQuery;
-}
-
 QString SearchViewModelState::getCategory() {
     return _category;
 }
@@ -94,6 +90,10 @@ Recipe* SearchViewModelState::getRecipe(int index) {
 
 int SearchViewModelState::getContinuation() {
     return _continuation;
+}
+
+QString SearchViewModelState::getSearchQuery() {
+    return _searchQuery;
 }
 
 QVariantList SearchViewModelState::getRecipes() {

@@ -8,6 +8,7 @@
 class SearchViewModelState : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(QString searchQuery READ getSearchQuery CONSTANT)
     Q_PROPERTY(QVariantList recipes READ getRecipes CONSTANT)
     Q_PROPERTY(int recipesNumber READ getRecipesNumber CONSTANT)
     Q_PROPERTY(bool isEnd READ isEnd CONSTANT)
@@ -27,12 +28,12 @@ public:
     };
     Q_ENUM(Status)
 
-    QString getSearchQuery();
     QString getCategory();
     QList<Recipe*> getRecipesList();
     Recipe* getRecipe(int index);
     int getContinuation();
 
+    QString getSearchQuery();
     QVariantList getRecipes();
     int getRecipesNumber();
     bool isEnd();
