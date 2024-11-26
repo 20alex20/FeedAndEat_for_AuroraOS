@@ -14,7 +14,6 @@ void DailyRecipeReplay::processResponse() {
     qDebug() << 5;
     QJsonParseError jsonParseError;
     auto obj = QJsonDocument::fromJson(_networkReplay->readAll(), &jsonParseError).object();
-    _networkReplay->deleteLater();
 
     if (jsonParseError.error == QJsonParseError::NoError && !obj.contains("error")) {
         auto recipeIds = obj.value(obj.keys().at(0)).toObject().value("recipesId").toArray();

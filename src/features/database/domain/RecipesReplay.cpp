@@ -17,15 +17,14 @@ RecipesReplay::RecipesReplay(const QUrl &url, QNetworkAccessManager * const netw
       _networkReplay(_networkManager->get(QNetworkRequest(url))),
       _loudsNumber(loudsNumber)
 {
-    qDebug() << 4;
-    //connect(&timer, &QTimer::timeout, this, &RecipesReplay::reload);
+    qDebug() << "b3";
     connect(_networkReplay, &QNetworkReply::readyRead, this, &RecipesReplay::processResponse);
     connect(_networkReplay, static_cast<void(QNetworkReply::*)(QNetworkReply::NetworkError)>(&QNetworkReply::error), this, &RecipesReplay::processError);
     _networkReplay->setParent(this);
 }
 
 void RecipesReplay::sendResponse(QList<QJsonObject> &recipes) {
-    qDebug() << 6;
+    qDebug() << "b7";
     QList<Recipe*> processedRecipes;
     processedRecipes.reserve(recipes.size());
     for (auto &recipe: recipes) {
@@ -60,7 +59,7 @@ void RecipesReplay::sendResponse(QList<QJsonObject> &recipes) {
 }
 
 void RecipesReplay::reload() {
-    qDebug() << 6.5;
+    qDebug() << "b6";
     _networkReplay = _networkManager->get(QNetworkRequest(_url));
     connect(_networkReplay, &QNetworkReply::readyRead, this, &RecipesReplay::processResponse);
     connect(_networkReplay, static_cast<void(QNetworkReply::*)(QNetworkReply::NetworkError)>(&QNetworkReply::error), this, &RecipesReplay::processError);

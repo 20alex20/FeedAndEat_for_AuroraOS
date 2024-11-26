@@ -35,6 +35,10 @@ int Recipe::getId() const {
     return _id;
 }
 
+bool Recipe::isSuccess() const {
+    return _id == -1;
+}
+
 QString Recipe::getName() const {
     return _name;
 }

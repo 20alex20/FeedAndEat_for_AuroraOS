@@ -11,7 +11,6 @@ void HomepageCollectionReplay::processResponse() {
     qDebug() << "a5";
     QJsonParseError jsonParseError;
     auto sth = QJsonDocument::fromJson(_networkReplay->readAll(), &jsonParseError);
-    _networkReplay->deleteLater();
 
     if (jsonParseError.error == QJsonParseError::NoError && !sth.object().contains("error")) {
         auto arr = sth.array();

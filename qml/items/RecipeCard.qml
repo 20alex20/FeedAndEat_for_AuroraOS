@@ -2,11 +2,13 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 Item {
+    property bool isSuccess: true
     property string name: ""
     property string image: ""
     property int servingsNumber: 0
     property int instructionsNumber: 0
     signal clicked()
+    signal pressed()
 
     height: column.height
 
@@ -18,7 +20,13 @@ Item {
     MouseArea {
         id: mouseArea
         anchors.fill: parent
-        onClicked: parent.clicked()
+
+        onClicked: {
+            parent.clicked()
+        }
+        onPressed: {
+            parent.pressed()
+        }
     }
 
     Column {

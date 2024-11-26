@@ -19,14 +19,25 @@ SearchViewModelState::SearchViewModelState(QObject *parent)
       _status(Loading)
 { }
 
-SearchViewModelState::SearchViewModelState(QString searchQuery, QString category, QObject *parent)
+SearchViewModelState::SearchViewModelState(QString searchQuery, QString category, QList<Recipe*> recipes, int continuation, QObject *parent)
     : QObject(parent),
       _searchQuery(searchQuery),
       _category(category),
-      _recipes(),
-      _continuation(-1),
+      _recipes(recipes),
+      _continuation(continuation),
       _status(Loading)
 { }
+
+SearchViewModelState::SearchViewModelState(SearchViewModelState *oldState, QList<Recipe*> recipes, int continuation, QObject *parent)
+    : QObject(parent),
+      _searchQuery(oldState->getSearchQuery()),
+      _category(oldState->getCategory()),
+      _recipes(oldState->getRecipesList() + recipes),
+      _continuation(continuation),
+      _status(Success)
+{
+    setRecipesParent(_recipes, this);
+}
 
 SearchViewModelState::SearchViewModelState(SearchViewModelState *oldState, QObject *parent)
     : QObject(parent),
@@ -34,18 +45,7 @@ SearchViewModelState::SearchViewModelState(SearchViewModelState *oldState, QObje
       _category(oldState->getCategory()),
       _recipes(oldState->getRecipesList()),
       _continuation(oldState->getContinuation()),
-      _status(Loading)
-{
-    setRecipesParent(_recipes, this);
-}
-
-SearchViewModelState::SearchViewModelState(SearchViewModelState *oldState, QList<Recipe*> recipes, int continuation, QObject *parent)
-    : QObject(parent),
-      _searchQuery(oldState->getSearchQuery()),
-      _category(oldState->getCategory()),
-      _recipes(oldState->getRecipesList() + recipes),
-      _continuation(recipes.isEmpty() ? oldState->getContinuation() : continuation),
-      _status(recipes.isEmpty() ? Error : Success)
+      _status(Error)
 {
     setRecipesParent(_recipes, this);
 }

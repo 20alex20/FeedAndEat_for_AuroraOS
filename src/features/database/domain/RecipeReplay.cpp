@@ -14,7 +14,6 @@ RecipeReplay::RecipeReplay(const QUrl &url, QNetworkAccessManager * const networ
 void RecipeReplay::processResponse() {
     QJsonParseError jsonParseError;
     auto obj = QJsonDocument::fromJson(_networkReplay->readAll(), &jsonParseError).object();
-    _networkReplay->deleteLater();
 
     if (jsonParseError.error == QJsonParseError::NoError && !obj.contains("error")) {
         QList<QJsonObject> recipe = { obj.value(obj.keys().at(0)).toObject() };

@@ -13,6 +13,7 @@ public:
 private:
     void processResponse() override;
     void processError(QNetworkReply::NetworkError code) override;
+    void loadRecipe(int recipeId);
     void collectResponses(RecipesReplay *recipesReplay, QList<Recipe*> recipe);
 
     QList<Recipe*> _recipes;

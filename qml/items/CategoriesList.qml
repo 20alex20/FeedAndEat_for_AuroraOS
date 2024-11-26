@@ -1,6 +1,6 @@
 import QtQuick 2.0
 
-Item {
+QtObject {
     property var categories: [
         "Uncategorized",
         "antipasti",

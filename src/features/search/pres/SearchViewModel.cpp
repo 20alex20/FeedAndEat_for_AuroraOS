@@ -1,5 +1,6 @@
 #include "SearchViewModel.h"
 #include "src/Default.h"
+#include <QDebug>
 
 SearchViewModel::SearchViewModel(QObject *parent)
     : QObject(parent),
@@ -22,6 +23,7 @@ SearchViewModel::~SearchViewModel() {
 }
 
 void SearchViewModel::bind() {
+    qDebug() << "b1";
     _recipesReplays.clear();
     _currentRecipesReplay = _databaseHandler->getSearchRecipes(_state->getSearchQuery(), _state->getCategory());
     connect(_currentRecipesReplay, &RecipesReplay::receive, this, &SearchViewModel::receiveRecipes);
@@ -43,7 +45,7 @@ void SearchViewModel::loadFromAllCategories() {
 }
 
 void SearchViewModel::loadAdditionalRecipes() {
-    setState(new SearchViewModelState(_state));
+    setState(new SearchViewModelState(_state->getSearchQuery(), _state->getCategory(), _state->getRecipesList(), _state->getContinuation()));
     _currentRecipesReplay = _databaseHandler->getSearchRecipes(_state->getSearchQuery(), _state->getCategory(), _state->getContinuation());
     connect(_currentRecipesReplay, &RecipesReplay::receive, this, &SearchViewModel::receiveRecipes);
 }
@@ -58,10 +60,14 @@ void SearchViewModel::loadRecipe(int recipeIndex) {
 }
 
 void SearchViewModel::receiveRecipes(RecipesReplay *recipesReplay, QList<Recipe*> recipes) {
+    qDebug() << "b9";
     if (_currentRecipesReplay == recipesReplay) {
         if (recipes.size() == Default::PageLength + 1) {
             setState(new SearchViewModelState(_state, recipes.mid(0, Default::PageLength), recipes[Default::PageLength]->getId()));
             recipes[Default::PageLength]->deleteLater();
+        }
+        else if (recipes.size() == 1 && recipes[0] == nullptr) {
+            setState(new SearchViewModelState(_state));
         }
         else {
             setState(new SearchViewModelState(_state, recipes));

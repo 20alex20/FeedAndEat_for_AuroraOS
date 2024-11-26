@@ -29,14 +29,15 @@ RecipesReplay *DatabaseHandler::getHomepageCollection(QString collectionName) {
 }
 
 RecipesReplay *DatabaseHandler::getSearchRecipes(QString searchQuery, QString category, const int continuation) {
+    qDebug() << "b2";
     QString url = "https://feedandeat-2024-default-rtdb.firebaseio.com/recipeIdAndName";
     if (category != "")
         url += "ByCategories/" + category;
     if (searchQuery != "")
         url += ".json?orderBy=\"name\"&startAt=\"" + searchQuery.toLower() + "\"&endAt=\"" + searchQuery.toLower() + "~\"";
     else if (continuation == -1)
-        url += ".json?orderBy=\"id\"&limitToFirst=" + QString::number(Default::PageLength + 1);
+        url += ".json?orderBy=\"recipeId\"&limitToFirst=" + QString::number(Default::PageLength + 1);
     else
-        url += ".json?orderBy=\"id\"&startAt=" + QString::number(continuation) + "&limitToFirst=" + QString::number(Default::PageLength + 1);
+        url += ".json?orderBy=\"recipeId\"&startAt=" + QString::number(continuation) + "&limitToFirst=" + QString::number(Default::PageLength + 1);
     return new SearchRecipesReplay(QUrl(url), _networkManager);
 }

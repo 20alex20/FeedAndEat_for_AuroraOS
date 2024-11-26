@@ -7,6 +7,7 @@ Column {
         dailyRecipe.visible = false
     }
     function setRecipe(recipe) {
+        dailyRecipe.isSuccess = recipe.isSuccess()
         dailyRecipe.name = recipe.getName()
         dailyRecipe.image = recipe.getImage()
         dailyRecipe.servingsNumber = recipe.getServingsNumber()

@@ -31,7 +31,7 @@ Column {
     signal reloadCollection()
 
     spacing: Theme.paddingLarge
-    property real recipeHeight: 3*(parent.width - 3*Theme.paddingLarge)/8 + Theme.paddingSmall + 2*textMetrics.contentHeight +
+    property real recipeHeight: (parent.width - 3*Theme.paddingLarge)*3/8 + Theme.paddingSmall + 2*textMetrics.contentHeight +
                                 2*Theme.paddingMedium + (Theme.iconSizeSmall + Theme.iconSizeSmallPlus)/2
     Label { id: textMetrics; font.pixelSize: Theme.fontSizeLarge }
 
@@ -70,7 +70,9 @@ Column {
             id: button
             anchors.centerIn: parent
             text: "Retry"
-            onClicked: reloadCollection()
+            onClicked: {
+                reloadCollection()
+            }
         }
     }
     ListView {
@@ -87,7 +89,9 @@ Column {
             image: ie
             servingsNumber: sr
             instructionsNumber: ir
-            onClicked: recipeClicked(index)
+            onClicked: {
+                recipeClicked(index)
+            }
         }
     }
 }

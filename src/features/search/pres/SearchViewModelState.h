@@ -14,9 +14,9 @@ class SearchViewModelState : public QObject
     Q_PROPERTY(Status status READ getStatus CONSTANT)
 public:
     explicit SearchViewModelState(QObject *parent = nullptr);
-    explicit SearchViewModelState(QString searchQuery, QString category = "", QObject *parent = nullptr);
-    explicit SearchViewModelState(SearchViewModelState *oldState, QObject *parent = nullptr);
+    explicit SearchViewModelState(QString searchQuery, QString category = "", QList<Recipe*> recipes = { }, int continuation = -1, QObject *parent = nullptr);
     explicit SearchViewModelState(SearchViewModelState *oldState, QList<Recipe*> recipes, int continuation = -1, QObject *parent = nullptr);
+    explicit SearchViewModelState(SearchViewModelState *oldState, QObject *parent = nullptr);
     explicit SearchViewModelState(SearchViewModelState *oldState, int index, QObject *parent = nullptr);
     explicit SearchViewModelState(SearchViewModelState *oldState, int index, Recipe *recipe, QObject *parent = nullptr);
 
