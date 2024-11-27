@@ -62,6 +62,49 @@ Page {
             width: flickable.width
             spacing: 2*Theme.paddingLarge
 
+            Rectangle {
+                width: parent.width
+                height: (Theme.iconSizeSmall + Theme.iconSizeSmallPlus)/2 + 2*Theme.paddingLarge
+                color: Theme.highlightBackgroundColor
+
+                Label {
+                    id: searchQuery
+                    anchors.left: parent.left
+                    anchors.right: searchIcon.left
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.leftMargin: Theme.paddingLarge
+                    anchors.rightMargin: Theme.paddingLarge
+
+                    font.pixelSize: Theme.fontSizeLarge
+                    color: Theme.secondaryColor
+                    text: "Search"
+                }
+                Icon {
+                    id: searchIcon
+                    anchors.right: parent.right
+                    anchors.rightMargin: Theme.paddingLarge
+                    anchors.verticalCenter: parent.verticalCenter
+                    width: (Theme.iconSizeSmall + Theme.iconSizeSmallPlus)/2
+                    height: (Theme.iconSizeSmall + Theme.iconSizeSmallPlus)/2
+
+                    color: Theme.primaryColor
+                    source: "../icons/search.svg"
+                }
+
+                MouseArea {
+                    id: mouseArea
+                    anchors.fill: parent
+                    onClicked: {
+                        pageStack.push("SearchPage.qml")
+                    }
+                }
+                Rectangle {
+                    anchors.fill: parent
+                    visible: mouseArea.pressed
+                    color: "#40000000"
+                }
+            }
+
             DailyRecipe {
                 id: dailyRecipe
                 width: parent.width
@@ -99,13 +142,6 @@ Page {
                 title: "Low calorie"
                 onReloadCollection: {
                     viewModel.reloadLowCalorieRecipes()
-                }
-            }
-
-            Button {
-                text: "search"
-                onClicked: {
-                    pageStack.push("SearchPage.qml")
                 }
             }
         }

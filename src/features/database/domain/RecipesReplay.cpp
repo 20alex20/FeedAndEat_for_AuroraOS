@@ -23,6 +23,10 @@ RecipesReplay::RecipesReplay(const QUrl &url, QNetworkAccessManager * const netw
     _networkReplay->setParent(this);
 }
 
+QString RecipesReplay::getUrl() {
+    return _url.toString();
+}
+
 void RecipesReplay::sendResponse(QList<QJsonObject> &recipes) {
     qDebug() << "b7";
     QList<Recipe*> processedRecipes;

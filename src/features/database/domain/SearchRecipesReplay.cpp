@@ -7,6 +7,7 @@
 
 SearchRecipesReplay::SearchRecipesReplay(const QUrl &url, QNetworkAccessManager * const networkManager, const int loudsNumber, QObject *parent)
     : RecipesReplay(url, networkManager, loudsNumber, parent),
+      _withSearchQuery(url.toString().right(4) == "~%22"),
       _recipes(),
       _recipesCnt(0)
 { }
@@ -16,7 +17,7 @@ void SearchRecipesReplay::processResponse() {
     QJsonParseError jsonRarseError;
     auto sth = QJsonDocument::fromJson(_networkReplay->readAll(), &jsonRarseError);
 
-    qDebug() << _url;
+    qDebug() << _url.toString();
     QJsonObject obj;
     if (jsonRarseError.error == QJsonParseError::NoError && sth.isObject() && !(obj = sth.object()).contains("error")) {
         if (obj.isEmpty()) {
@@ -28,8 +29,9 @@ void SearchRecipesReplay::processResponse() {
         for (int i = 0; i < keys.size(); i++) {
             int recipeId = obj.value(keys[i]).toObject().value("recipeId").toInt();
             _recipes.append(new Recipe(recipeId));
-            if (i < Default::PageLength)
-                loadRecipe(recipeId);
+            if (!_withSearchQuery && i == Default::PageLength)
+                break;
+            loadRecipe(recipeId);
         }
     }
     else if (jsonRarseError.error == QJsonParseError::NoError && sth.isArray()) {
@@ -47,10 +49,10 @@ void SearchRecipesReplay::processResponse() {
         _recipes.reserve(arr.size() - firstNotNull);
         for (int i = firstNotNull; i < arr.size(); i++) {
             int recipeId = arr[i].toObject().value("recipeId").toInt();
-            qDebug() << recipeId;
             _recipes.append(new Recipe(recipeId));
-            if (i < Default::PageLength + firstNotNull)
-                loadRecipe(recipeId);
+            if (i == Default::PageLength + firstNotNull)
+                break;
+            loadRecipe(recipeId);
         }
     }
     else {
@@ -59,8 +61,8 @@ void SearchRecipesReplay::processResponse() {
 }
 
 void SearchRecipesReplay::processError(QNetworkReply::NetworkError code) {
-    qDebug() << "b5";
     Q_UNUSED(code)
+    qDebug() << "b5";
     _loudsNumber--;
     if (_loudsNumber <= 0)
         emit receive(this, { nullptr });
@@ -85,6 +87,6 @@ void SearchRecipesReplay::collectResponses(RecipesReplay *recipesReplay, QList<R
             _recipesCnt++;
             break;
         }
-    if (_recipesCnt == _recipes.size() || _recipesCnt == Default::PageLength)
+    if (_recipesCnt == _recipes.size() || (!_withSearchQuery && _recipesCnt == Default::PageLength))
         emit receive(this, _recipes);
 }

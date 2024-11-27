@@ -34,6 +34,7 @@ Column {
         height: parent.width/2 + Theme.paddingSmall + 2*textMetrics.contentHeight +
                 2*Theme.paddingMedium + (Theme.iconSizeSmall + Theme.iconSizeSmallPlus)/2
 
+        visible: true
         size: Theme.itemSizeHuge
         running: visible
 
@@ -47,6 +48,7 @@ Column {
         anchors.horizontalCenter: parent.horizontalCenter
         width: parent.width*2/3
 
+        visible: false
         onClicked: {
             if (name == "Loading error")
                 reloadRecipe()

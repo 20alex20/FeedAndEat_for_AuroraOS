@@ -3,13 +3,11 @@ import Sailfish.Silica 1.0
 
 Column {
     function setLoading() {
-        row.model.clear()
         rowLoading.visible = true
         rowError.visible = false
         row.visible = false
     }
     function setError() {
-        row.model.clear()
         rowLoading.visible = false
         rowError.visible = true
         row.visible = false
@@ -48,6 +46,7 @@ Column {
         width: parent.width
         height: recipeHeight
 
+        visible: true
         size: Theme.itemSizeHuge
         running: visible
     }
@@ -55,6 +54,7 @@ Column {
         id: rowError
         width: parent.width
         height: recipeHeight
+        visible: false
 
         Label {
             anchors.horizontalCenter: parent.horizontalCenter
@@ -80,6 +80,7 @@ Column {
         width: parent.width
         height: recipeHeight
 
+        visible: false
         model: ListModel { }
         orientation: ListView.Horizontal
         spacing: Theme.paddingLarge

@@ -4,7 +4,6 @@
 #include <QObject>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
-#include <QTimer>
 #include <QJsonObject>
 #include "Recipe.h"
 
@@ -14,6 +13,8 @@ class RecipesReplay : public QObject
 public:
     explicit RecipesReplay(QObject *parent = nullptr);
     explicit RecipesReplay(const QUrl &url, QNetworkAccessManager * const networkManager, const int loudsNumber, QObject *parent = nullptr);
+
+    QString getUrl();
 
 signals:
     void receive(RecipesReplay *recipesReplay, QList<Recipe*> recipes);
@@ -29,7 +30,6 @@ protected:
     const QUrl _url;
     QNetworkAccessManager * const _networkManager;
     QNetworkReply *_networkReplay;
-    // QTimer timer;
     int _loudsNumber;
 };
 

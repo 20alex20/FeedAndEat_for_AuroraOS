@@ -34,7 +34,6 @@ Page {
                             record.ir1 = -1
                     }
                     else if (recipe !== null && isLoading) {
-                        console.log("bad1")
                         if (i % 2 === 0) {
                             record.is0 = recipe.isSuccess()
                             record.ne0 = recipe.getName()
@@ -52,8 +51,8 @@ Page {
                     }
                 }
 
-                var length = (recipes.length - recipes.length % 2)/2
-                for (var j = 2*listView.model.count; j < length; j++) {
+                var length = recipes.length - recipes.length % 2
+                for (var j = listView.model.count; j < length/2; j++) {
                     var recipe0 = recipes[2*j]
                     var recipe1 = recipes[2*j + 1]
                     listView.model.append({ "is0": recipe0.isSuccess(),
@@ -117,10 +116,8 @@ Page {
                 validator: RegExpValidator { regExp: /^[A-Za-z0-9 ]*$/ }
                 strictValidation: true
                 onTextChanged: {
-                    if (text.length >= 2)
+                    if (text.length >= 2 || (viewModel.state.searchQuery !== "" && text.length === 0))
                         viewModel.loadBySearchQuery(text)
-                    else if (viewModel.state.searchQuery !== "" && text.length < 2)
-                        viewModel.loadBySearchQuery("")
                 }
             }
             Icon {
@@ -233,7 +230,6 @@ Page {
                 servingsNumber: sr0
                 instructionsNumber: ir0
                 onClicked: {
-                    console.log(isSuccess, is0, index)
                     if (!isSuccess)
                         viewModel.loadRecipe(2*index)
                 }
@@ -261,7 +257,6 @@ Page {
                 servingsNumber: sr1
                 instructionsNumber: ir1
                 onClicked: {
-                    console.log(isSuccess, is1, index)
                     if (!isSuccess)
                         viewModel.loadRecipe(2*index + 1)
                 }

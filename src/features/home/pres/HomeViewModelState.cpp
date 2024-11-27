@@ -1,5 +1,4 @@
 #include "HomeViewModelState.h"
-#include <QDebug>
 
 namespace {
 
@@ -64,7 +63,6 @@ HomeViewModelState::HomeViewModelState(HomeViewModelState *oldState, Collection 
     : QObject(parent),
       _dailyRecipe(oldState->getDailyRecipe())
 {
-    qDebug() << "a8";
     if (_dailyRecipe != nullptr)
         _dailyRecipe->setParent(this);
     for (int i = 0; i < 4; i++)
@@ -77,7 +75,6 @@ HomeViewModelState::HomeViewModelState(HomeViewModelState *oldState, Collection 
             _collectionsRecipesStatuses[i] = oldState->getCollectionRecipesStatus(i);
         }
     setRecipesParent(_collectionsRecipes, this);
-    qDebug() << "a8.1";
 }
 
 Recipe *HomeViewModelState::getDailyRecipe() {

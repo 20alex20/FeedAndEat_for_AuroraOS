@@ -16,6 +16,7 @@ private:
     void loadRecipe(int recipeId);
     void collectResponses(RecipesReplay *recipesReplay, QList<Recipe*> recipe);
 
+    bool _withSearchQuery;
     QList<Recipe*> _recipes;
     int _recipesCnt;
 };

@@ -1,6 +1,5 @@
 #include <auroraapp.h>
 #include <QtQuick>
-#include <QDebug>
 #include "features/database/DatabaseFeature.h"
 #include "features/home/HomeFeature.h"
 #include "features/search/SearchFeature.h"
@@ -13,7 +12,6 @@ int main(int argc, char *argv[]) {
     DatabaseFeature databaseFeature;
     HomeFeature homeFeature(databaseFeature.getDatabaseHandler());
     SearchFeature searchFeature(databaseFeature.getDatabaseHandler());
-    qDebug() << "1";
 
     QScopedPointer<QQuickView> view(Aurora::Application::createView());
     view->rootContext()->setContextProperty("HomeFeature", &homeFeature);

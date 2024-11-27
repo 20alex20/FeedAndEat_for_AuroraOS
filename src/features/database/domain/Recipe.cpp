@@ -36,7 +36,7 @@ int Recipe::getId() const {
 }
 
 bool Recipe::isSuccess() const {
-    return _id == -1;
+    return !_instructions.isEmpty();
 }
 
 QString Recipe::getName() const {

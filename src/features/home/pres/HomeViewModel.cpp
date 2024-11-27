@@ -18,7 +18,6 @@ HomeViewModel::~HomeViewModel() {
 }
 
 void HomeViewModel::bind() {
-    qDebug() << "2";
     connect(_databaseHandler->getDailyRecipe(), &RecipesReplay::receive, this, &HomeViewModel::receiveDailyRecipe);
     connect(_databaseHandler->getHomepageCollection("breakfast"), &RecipesReplay::receive,
             this, &HomeViewModel::receiveBreakfastRecipes);
@@ -60,17 +59,11 @@ void HomeViewModel::reloadLowCalorieRecipes() {
 }
 
 void HomeViewModel::receiveDailyRecipe(RecipesReplay *recipeReplay, QList<Recipe*> recipe) {
-    qDebug() << 7;
-    qDebug() << recipe[0]->getId() << recipe[0]->getName();
     setState(new HomeViewModelState(_state, recipe[0]));
     recipeReplay->deleteLater();
 }
 
 void HomeViewModel::receiveBreakfastRecipes(RecipesReplay *recipesReplay, QList<Recipe*> recipes) {
-    qDebug() << "a7";
-    qDebug() << recipes.size();
-    if (recipes.size() > 0)
-        qDebug() << recipes[0]->getId() << recipes[0]->getName();
     setState(new HomeViewModelState(_state, HomeViewModelState::Breakfast, recipes));
     recipesReplay->deleteLater();
 }
@@ -98,6 +91,5 @@ void HomeViewModel::setState(HomeViewModelState *newState) {
 }
 
 HomeViewModelState *HomeViewModel::getState() const {
-    qDebug() << "length" << _state->getCollectionRecipes(0).size();
     return _state;
 }

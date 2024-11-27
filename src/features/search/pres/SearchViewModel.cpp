@@ -51,18 +51,18 @@ void SearchViewModel::loadAdditionalRecipes() {
 }
 
 void SearchViewModel::loadRecipe(int recipeIndex) {
-    if (recipeIndex > 0 || recipeIndex >= _state->getRecipesNumber())
+    if (recipeIndex < 0 || recipeIndex >= _state->getRecipesNumber())
         return;
     auto recipeId = _state->getRecipe(recipeIndex)->getId();
     setState(new SearchViewModelState(_state, recipeIndex));
     _recipesReplays.append({ _databaseHandler->getRecipe(recipeId), recipeIndex });
-    connect(_recipesReplays.last().first, &RecipesReplay::receive, this, &SearchViewModel::receiveRecipes);
+    connect(_recipesReplays.last().first, &RecipesReplay::receive, this, &SearchViewModel::receiveRecipe);
 }
 
 void SearchViewModel::receiveRecipes(RecipesReplay *recipesReplay, QList<Recipe*> recipes) {
     qDebug() << "b9";
     if (_currentRecipesReplay == recipesReplay) {
-        if (recipes.size() == Default::PageLength + 1) {
+        if (recipesReplay->getUrl().right(4) != "~%22" && recipes.size() == Default::PageLength + 1) {
             setState(new SearchViewModelState(_state, recipes.mid(0, Default::PageLength), recipes[Default::PageLength]->getId()));
             recipes[Default::PageLength]->deleteLater();
         }

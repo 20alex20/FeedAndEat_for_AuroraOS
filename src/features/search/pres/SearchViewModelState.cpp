@@ -3,7 +3,7 @@
 namespace {
 
 void setRecipesParent(QList<Recipe*> &recipes, QObject *parent) {
-    for (auto recipe: recipes)
+    for (auto &recipe: recipes)
         if (recipe != nullptr)
             recipe->setParent(parent);
 }
@@ -26,7 +26,9 @@ SearchViewModelState::SearchViewModelState(QString searchQuery, QString category
       _recipes(recipes),
       _continuation(continuation),
       _status(Loading)
-{ }
+{
+    setRecipesParent(_recipes, this);
+}
 
 SearchViewModelState::SearchViewModelState(SearchViewModelState *oldState, QList<Recipe*> recipes, int continuation, QObject *parent)
     : QObject(parent),
