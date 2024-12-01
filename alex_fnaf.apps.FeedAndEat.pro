@@ -40,10 +40,13 @@ HEADERS += \
 
 DISTFILES += rpm/alex_fnaf.apps.FeedAndEat.spec \
     qml/cover/CoverPage.qml \
-    qml/items/CategoriesList.qml \
+    qml/dataObjects/RecipeCardHeight.qml \
+    qml/dataObjects/CategoriesList.qml \
     qml/items/RecipeCard.qml \
     qml/items/DailyRecipe.qml \
     qml/items/RecipesCollection.qml \
+    qml/items/SearchButtonCard.qml \
+    qml/items/SearchCategoryCard.qml \
     qml/pages/HomePage.qml \
     qml/pages/RecipePage.qml \
     qml/pages/SearchPage.qml \

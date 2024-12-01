@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import "../dataObjects"
 
 Column {
     function setLoading() {
@@ -31,17 +32,12 @@ Column {
     BusyIndicator {
         id: dailyRecipeLoading
         width: parent.width
-        height: parent.width/2 + Theme.paddingSmall + 2*textMetrics.contentHeight +
-                2*Theme.paddingMedium + (Theme.iconSizeSmall + Theme.iconSizeSmallPlus)/2
+        height: recipeCardHeight.getHeight(parent.width*2/3)
+        RecipeCardHeight { id: recipeCardHeight }
 
         visible: true
         size: Theme.itemSizeHuge
         running: visible
-
-        Label {
-            id: textMetrics
-            font.pixelSize: Theme.fontSizeLarge
-        }
     }
     RecipeCard {
         id: dailyRecipe

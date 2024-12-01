@@ -73,7 +73,7 @@ Item {
 
                         color: Theme.primaryColor
                         opacity: 0.8
-                        source: "../icons/servings.svg"
+                        source: Qt.resolvedUrl("../icons/servings.svg")
                     }
                     Label {
                         font.pixelSize: Theme.fontSizeLarge
@@ -101,7 +101,7 @@ Item {
 
                         color: Theme.primaryColor
                         opacity: 0.8
-                        source: "../icons/steps.svg"
+                        source: Qt.resolvedUrl("../icons/steps.svg")
                     }
                 }
             }

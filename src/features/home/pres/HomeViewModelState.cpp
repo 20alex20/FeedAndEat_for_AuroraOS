@@ -24,7 +24,7 @@ HomeViewModelState::HomeViewModelState(HomeViewModelState *oldState, QObject *pa
       _dailyRecipe(nullptr)
 {
     for (int i = 0; i < 4; i++) {
-        _collectionsRecipes[i] = oldState->getCollectionRecipes(i);
+        _collectionsRecipes[i] = oldState->getCollectionRecipesList(i);
         _collectionsRecipesStatuses[i] = oldState->getCollectionRecipesStatus(i);
     }
     setRecipesParent(_collectionsRecipes, this);
@@ -36,7 +36,7 @@ HomeViewModelState::HomeViewModelState(HomeViewModelState *oldState, Recipe *dai
 {
     _dailyRecipe->setParent(this);
     for (int i = 0; i < 4; i++) {
-        _collectionsRecipes[i] = oldState->getCollectionRecipes(i);
+        _collectionsRecipes[i] = oldState->getCollectionRecipesList(i);
         _collectionsRecipesStatuses[i] = oldState->getCollectionRecipesStatus(i);
     }
     setRecipesParent(_collectionsRecipes, this);
@@ -53,7 +53,7 @@ HomeViewModelState::HomeViewModelState(HomeViewModelState *oldState, Collection 
             _collectionsRecipesStatuses[i] = Loading;
         }
         else {
-            _collectionsRecipes[i] = oldState->getCollectionRecipes(i);
+            _collectionsRecipes[i] = oldState->getCollectionRecipesList(i);
             _collectionsRecipesStatuses[i] = oldState->getCollectionRecipesStatus(i);
         }
     setRecipesParent(_collectionsRecipes, this);
@@ -71,7 +71,7 @@ HomeViewModelState::HomeViewModelState(HomeViewModelState *oldState, Collection 
             _collectionsRecipesStatuses[i] = recipes.isEmpty() ? Error : Success;
         }
         else {
-            _collectionsRecipes[i] = oldState->getCollectionRecipes(i);
+            _collectionsRecipes[i] = oldState->getCollectionRecipesList(i);
             _collectionsRecipesStatuses[i] = oldState->getCollectionRecipesStatus(i);
         }
     setRecipesParent(_collectionsRecipes, this);
@@ -81,49 +81,31 @@ Recipe *HomeViewModelState::getDailyRecipe() {
     return _dailyRecipe;
 }
 
-QVariantList HomeViewModelState::getVariantList(HomeViewModelState::Collection collection) {
+QVariantList HomeViewModelState::getCollectionRecipes(HomeViewModelState::Collection collection) {
     QVariantList recipes;
     for (auto &recipe: _collectionsRecipes[collection - Qt::UserRole - 1])
         recipes.append(QVariant::fromValue<Recipe*>(recipe));
     return recipes;
 }
 
-QVariantList HomeViewModelState::getBreakfastRecipes() {
-    return getVariantList(Breakfast);
+HomeViewModelState::Status HomeViewModelState::getCollectionStatus(HomeViewModelState::Collection collection) {
+    return _collectionsRecipesStatuses[collection - Qt::UserRole - 1];
 }
 
-HomeViewModelState::Status HomeViewModelState::getBreakfastRecipesStatus() {
-    return _collectionsRecipesStatuses[Breakfast - Qt::UserRole - 1];
+Recipe *HomeViewModelState::getRecipe(HomeViewModelState::Collection collection, int index) {
+    if (index < 0 || index >= _collectionsRecipes[collection - Qt::UserRole - 1].size())
+        return new Recipe(this);
+    return _collectionsRecipes[collection - Qt::UserRole - 1][index];
 }
 
-QVariantList HomeViewModelState::getDrinkRecipes() {
-    return getVariantList(Drink);
-}
-
-HomeViewModelState::Status HomeViewModelState::getDrinkRecipesStatus() {
-    return _collectionsRecipesStatuses[Drink - Qt::UserRole - 1];
-}
-
-QVariantList HomeViewModelState::getRecipesForBigGroup() {
-    return getVariantList(ForBigGroup);
-}
-
-HomeViewModelState::Status HomeViewModelState::getRecipesForBigGroupStatus() {
-    return _collectionsRecipesStatuses[ForBigGroup - Qt::UserRole - 1];
-}
-
-QVariantList HomeViewModelState::getLowCalorieRecipes() {
-    return getVariantList(LowCalorie);
-}
-
-HomeViewModelState::Status HomeViewModelState::getLowCalorieRecipesStatus() {
-    return _collectionsRecipesStatuses[LowCalorie - Qt::UserRole - 1];
-}
-
-QList<Recipe*> HomeViewModelState::getCollectionRecipes(int index) {
+QList<Recipe*> HomeViewModelState::getCollectionRecipesList(int index) {
+    if (index < 0 || index >= 4)
+        return { };
     return _collectionsRecipes[index];
 }
 
 HomeViewModelState::Status HomeViewModelState::getCollectionRecipesStatus(int index) {
+    if (index < 0 || index >= 4)
+        return { };
     return _collectionsRecipesStatuses[index];
 }

@@ -50,12 +50,14 @@ void SearchViewModel::loadAdditionalRecipes() {
     connect(_currentRecipesReply, &RecipesReply::receive, this, &SearchViewModel::receiveRecipes);
 }
 
-void SearchViewModel::loadRecipe(int recipeIndex) {
-    if (recipeIndex < 0 || recipeIndex >= _state->getRecipesNumber())
+void SearchViewModel::loadRecipe(int index) {
+    if (index < 0 || index >= _state->getRecipesNumber())
         return;
-    auto recipeId = _state->getRecipe(recipeIndex)->getId();
-    setState(new SearchViewModelState(_state, recipeIndex));
-    _recipesReplies.append({ _databaseHandler->getRecipe(recipeId), recipeIndex });
+    auto recipeId = _state->getRecipe(index)->getId();
+    if (recipeId == -1)
+        return;
+    setState(new SearchViewModelState(_state, index));
+    _recipesReplies.append({ _databaseHandler->getRecipe(recipeId), index });
     connect(_recipesReplies.last().first, &RecipesReply::receive, this, &SearchViewModel::receiveRecipe);
 }
 

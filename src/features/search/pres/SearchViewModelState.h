@@ -28,16 +28,16 @@ public:
     };
     Q_ENUM(Status)
 
-    QString getCategory();
-    QList<Recipe*> getRecipesList();
-    Recipe* getRecipe(int index);
-    int getContinuation();
-
     QString getSearchQuery();
     QVariantList getRecipes();
     int getRecipesNumber();
     bool isEnd();
     Status getStatus();
+    Q_INVOKABLE Recipe *getRecipe(int index);
+
+    QString getCategory();
+    QList<Recipe*> getRecipesList();
+    int getContinuation();
 
 private:
     QString _searchQuery;

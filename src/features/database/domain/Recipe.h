@@ -30,7 +30,7 @@ public:
     QList<QString> getInstructions() const;
     int getInstructionsNumber() const;
 
-    Q_INVOKABLE QVariantList getInstructionTimers(int instructionIndex) const;
+    Q_INVOKABLE QVariantList getInstructionTimers(int index) const;
 
 private:
     int _id;

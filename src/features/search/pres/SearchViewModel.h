@@ -18,7 +18,7 @@ public:
     Q_INVOKABLE void loadFromCategory(QString category);
     Q_INVOKABLE void loadFromAllCategories();
     Q_INVOKABLE void loadAdditionalRecipes();
-    Q_INVOKABLE void loadRecipe(int recipeIndex);
+    Q_INVOKABLE void loadRecipe(int index);
 
     void receiveRecipes(RecipesReply *recipesReply, QList<Recipe*> recipes);
     void receiveRecipe(RecipesReply *recipeReply, QList<Recipe*> recipes);

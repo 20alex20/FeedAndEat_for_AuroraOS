@@ -66,10 +66,10 @@ int Recipe::getInstructionsNumber() const {
     return _instructions.size();
 }
 
-QVariantList Recipe::getInstructionTimers(int instructionIndex) const {
+QVariantList Recipe::getInstructionTimers(int index) const {
     QVariantList instructionTimers;
-    if (instructionIndex >= 0 && instructionIndex < _instructionsTimers.size())
-        for (auto &instructionTimer: _instructionsTimers[instructionIndex])
+    if (index >= 0 && index < _instructionsTimers.size())
+        for (auto &instructionTimer: _instructionsTimers[index])
             instructionTimers.append(QVariant::fromValue<QPair<int, int>>(instructionTimer));
     return instructionTimers;
 }

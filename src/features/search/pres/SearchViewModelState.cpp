@@ -78,22 +78,6 @@ SearchViewModelState::SearchViewModelState(SearchViewModelState *oldState, int i
     setRecipesParent(_recipes, this);
 }
 
-QString SearchViewModelState::getCategory() {
-    return _category;
-}
-
-QList<Recipe*> SearchViewModelState::getRecipesList() {
-    return _recipes;
-}
-
-Recipe* SearchViewModelState::getRecipe(int index) {
-    return _recipes[index];
-}
-
-int SearchViewModelState::getContinuation() {
-    return _continuation;
-}
-
 QString SearchViewModelState::getSearchQuery() {
     return _searchQuery;
 }
@@ -115,4 +99,22 @@ bool SearchViewModelState::isEnd() {
 
 SearchViewModelState::Status SearchViewModelState::getStatus() {
     return _status;
+}
+
+Recipe *SearchViewModelState::getRecipe(int index) {
+    if (index < 0 || index >= _recipes.size())
+        return new Recipe(this);
+    return _recipes[index];
+}
+
+QString SearchViewModelState::getCategory() {
+    return _category;
+}
+
+QList<Recipe*> SearchViewModelState::getRecipesList() {
+    return _recipes;
+}
+
+int SearchViewModelState::getContinuation() {
+    return _continuation;
 }

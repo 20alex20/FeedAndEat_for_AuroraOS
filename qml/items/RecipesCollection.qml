@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import "../dataObjects"
 
 Column {
     function setLoading() {
@@ -29,9 +30,7 @@ Column {
     signal reloadCollection()
 
     spacing: Theme.paddingLarge
-    property real recipeHeight: (parent.width - 3*Theme.paddingLarge)*3/8 + Theme.paddingSmall + 2*textMetrics.contentHeight +
-                                2*Theme.paddingMedium + (Theme.iconSizeSmall + Theme.iconSizeSmallPlus)/2
-    Label { id: textMetrics; font.pixelSize: Theme.fontSizeLarge }
+    property real recipeHeight: recipeCardHeight.getHeight((row.width - 3*Theme.paddingLarge)/2)
 
     Label {
         anchors.horizontalCenter: parent.horizontalCenter
@@ -40,6 +39,8 @@ Column {
         font.bold: true
         color: Theme.highlightColor
         text: title
+
+        RecipeCardHeight { id: recipeCardHeight }
     }
 
     BusyIndicator {

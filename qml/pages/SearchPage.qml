@@ -3,6 +3,7 @@ import Sailfish.Silica 1.0
 import FeadAndEat.Recipe 1.0
 import FeadAndEat.Feature.Search 1.0
 import "../items"
+import "../dataObjects"
 
 Page {
     property SearchViewModel viewModel: SearchFeature.getSearchViewModel(this);
@@ -85,7 +86,7 @@ Page {
         }
     }
 
-    Column {
+    SearchCategoryCard {
         id: titleCards
         anchors.top: parent.top
         anchors.left: parent.left
@@ -93,107 +94,16 @@ Page {
         anchors.topMargin: Theme.horizontalPageMargin
         anchors.leftMargin: Theme.horizontalPageMargin
         anchors.rightMargin: Theme.horizontalPageMargin
-        spacing: 2*Theme.paddingLarge
 
-        Rectangle {
-            width: parent.width
-            height: (Theme.iconSizeSmall + Theme.iconSizeSmallPlus)/2 + 2*Theme.paddingLarge
-            color: Theme.highlightBackgroundColor
-
-            TextField {
-                id: searchQuery
-                anchors.left: parent.left
-                anchors.right: searchIcon.left
-                anchors.top: parent.top
-                anchors.leftMargin: Theme.paddingLarge
-                anchors.rightMargin: Theme.paddingLarge
-                anchors.topMargin: Theme.paddingMedium + Theme.paddingSmall
-
-                textMargin: 0
-                font.pixelSize: Theme.fontSizeLarge
-                color: Theme.primaryColor
-                placeholderText: "Search"
-                backgroundStyle: TextEditor.NoBackground
-                validator: RegExpValidator { regExp: /^[A-Za-z0-9 ]*$/ }
-                strictValidation: true
-                onTextChanged: {
-                    if (text.length >= 2 || (viewModel.state.searchQuery !== "" && text.length === 0))
-                        viewModel.loadBySearchQuery(text)
-                }
-            }
-            Icon {
-                id: searchIcon
-                anchors.right: parent.right
-                anchors.rightMargin: Theme.paddingLarge
-                anchors.verticalCenter: parent.verticalCenter
-                width: (Theme.iconSizeSmall + Theme.iconSizeSmallPlus)/2
-                height: (Theme.iconSizeSmall + Theme.iconSizeSmallPlus)/2
-
-                color: Theme.primaryColor
-                source: "../icons/search.svg"
-            }
+        onSearchQueryChanged: {
+            if (searchQuery.length >= 2 || (viewModel.state.searchQuery !== "" && searchQuery.length === 0))
+                viewModel.loadBySearchQuery(text)
         }
-
-        Item {
-            width: parent.width
-            height: categoryCardDesign.height
-
-            ComboBox {
-                id: categories
-                width: parent.width
-                height: parent.height
-
-                CategoriesList { id: categoriesList }
-                menu: ContextMenu {
-                    Repeater {
-                        model: categoriesList.categories
-
-                        MenuItem {
-                            font.pixelSize: Theme.fontSizeLarge
-                            text: modelData
-                        }
-                    }
-                }
-                onCurrentIndexChanged: {
-                    if (currentIndex === 0)
-                        viewModel.loadFromAllCategories()
-                    else
-                        viewModel.loadFromCategory(currentItem.text)
-                }
-            }
-
-            Rectangle {
-                id: categoryCardDesign
-                width: parent.width
-                height: categoryTitle.height + 2*Theme.paddingLarge
-                color: Theme.highlightBackgroundColor
-
-                Label {
-                    id: categoryTitle
-                    anchors.left: parent.left
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.leftMargin: Theme.paddingLarge
-
-                    font.pixelSize: Theme.fontSizeLarge
-                    color: Theme.primaryColor
-                    text: "Category: "
-                }
-                Label {
-                    anchors.left: categoryTitle.right
-                    anchors.verticalCenter: parent.verticalCenter
-
-                    font.pixelSize: Theme.fontSizeLarge
-                    font.bold: true
-                    color: Theme.primaryColor
-                    text: categories.value
-                }
-
-                Rectangle {
-                    anchors.fill: parent
-                    visible: categories.pressed
-                    color: "#40000000"
-                }
-            }
+        onCategoryChanged: {
+            if (!isCategorySelected)
+                viewModel.loadFromAllCategories()
+            else
+                viewModel.loadFromCategory(category)
         }
     }
 
@@ -210,8 +120,9 @@ Page {
 
         property bool loading: true
         property bool error: false
-        property real rowHeight: (width - Theme.paddingLarge)*3/8 + Theme.paddingSmall + 2*categoryTitle.contentHeight +
-                                 2*Theme.paddingMedium + (Theme.iconSizeSmall + Theme.iconSizeSmallPlus)/2
+        property real rowHeight: recipeCardHeight.getHeight((width - Theme.paddingLarge)/2)
+        RecipeCardHeight { id: recipeCardHeight }
+
         model: ListModel { }
         clip: true
         spacing: Theme.paddingLarge
@@ -233,6 +144,8 @@ Page {
                 onClicked: {
                     if (!isSuccess)
                         viewModel.loadRecipe(2*index)
+                    else
+                        pageStack.push(Qt.resolvedUrl("RecipePage.qml"), { "recipe": viewModel.state.getRecipe(2*index) })
                 }
             }
             BusyIndicator {
@@ -259,6 +172,8 @@ Page {
                 onClicked: {
                     if (!isSuccess)
                         viewModel.loadRecipe(2*index + 1)
+                    else
+                        pageStack.push(Qt.resolvedUrl("RecipePage.qml"), { "recipe": viewModel.state.getRecipe(2*index + 1) })
                 }
             }
             BusyIndicator {
@@ -311,7 +226,7 @@ Page {
                 viewModel.loadAdditionalRecipes()
         }
         onMovementStarted: {
-            searchQuery.focus = false
+            titleCards.removeSearchCardFocus()
         }
     }
 }
