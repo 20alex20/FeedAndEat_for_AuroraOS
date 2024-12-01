@@ -1,7 +1,7 @@
 #ifndef DATABASEHANDLER_H
 #define DATABASEHANDLER_H
 
-#include "../domain/RecipesReplay.h"
+#include "../domain/RecipesReply.h"
 
 class DatabaseHandler : public QObject
 {
@@ -9,10 +9,10 @@ class DatabaseHandler : public QObject
 public:
     explicit DatabaseHandler(QObject *parent = nullptr);
 
-    RecipesReplay *getRecipe(const int recipeId);
-    RecipesReplay *getDailyRecipe();
-    RecipesReplay *getHomepageCollection(QString collectionName);
-    RecipesReplay *getSearchRecipes(QString searchQuery, QString category, const int continuation = -1);
+    RecipesReply *getRecipe(const int recipeId);
+    RecipesReply *getDailyRecipe();
+    RecipesReply *getHomepageCollection(QString collectionName);
+    RecipesReply *getSearchRecipes(QString searchQuery, QString category, const int continuation = -1);
 
 private:
     QNetworkAccessManager * const _networkManager;

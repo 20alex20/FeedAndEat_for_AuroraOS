@@ -6,12 +6,12 @@ CONFIG += auroraapp
 
 SOURCES += \
     src/features/database/DatabaseFeature.cpp \
-    src/features/database/domain/DailyRecipeReplay.cpp \
-    src/features/database/domain/HomepageCollectionReplay.cpp \
+    src/features/database/domain/DailyRecipeReply.cpp \
+    src/features/database/domain/HomepageCollectionReply.cpp \
     src/features/database/domain/Recipe.cpp \
-    src/features/database/domain/RecipeReplay.cpp \
-    src/features/database/domain/RecipesReplay.cpp \
-    src/features/database/domain/SearchRecipesReplay.cpp \
+    src/features/database/domain/RecipeReply.cpp \
+    src/features/database/domain/RecipesReply.cpp \
+    src/features/database/domain/SearchRecipesReply.cpp \
     src/features/database/data/DatabaseHandler.cpp \
     src/features/home/HomeFeature.cpp \
     src/features/home/pres/HomeViewModel.cpp \
@@ -24,12 +24,12 @@ SOURCES += \
 HEADERS += \
     src/Default.h \
     src/features/database/DatabaseFeature.h \
-    src/features/database/domain/DailyRecipeReplay.h \
-    src/features/database/domain/HomepageCollectionReplay.h \
+    src/features/database/domain/DailyRecipeReply.h \
+    src/features/database/domain/HomepageCollectionReply.h \
     src/features/database/domain/Recipe.h \
-    src/features/database/domain/RecipeReplay.h \
-    src/features/database/domain/RecipesReplay.h \
-    src/features/database/domain/SearchRecipesReplay.h \
+    src/features/database/domain/RecipeReply.h \
+    src/features/database/domain/RecipesReply.h \
+    src/features/database/domain/SearchRecipesReply.h \
     src/features/database/data/DatabaseHandler.h \
     src/features/home/HomeFeature.h \
     src/features/home/pres/HomeViewModel.h \
@@ -39,13 +39,14 @@ HEADERS += \
     src/features/search/pres/SearchViewModelState.h
 
 DISTFILES += rpm/alex_fnaf.apps.FeedAndEat.spec \
+    qml/cover/CoverPage.qml \
     qml/items/CategoriesList.qml \
     qml/items/RecipeCard.qml \
     qml/items/DailyRecipe.qml \
     qml/items/RecipesCollection.qml \
     qml/pages/HomePage.qml \
+    qml/pages/RecipePage.qml \
     qml/pages/SearchPage.qml \
-    qml/cover/DefaultCoverPage.qml \
     qml/Main.qml
 
 AURORAAPP_ICONS = 86x86 108x108 128x128 172x172

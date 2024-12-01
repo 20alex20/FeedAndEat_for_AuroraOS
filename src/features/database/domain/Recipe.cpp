@@ -7,7 +7,8 @@ Recipe::Recipe(QObject *parent)
       _image("../images/clickToReload.png"),
       _categories(),
       _servingsNumber(0),
-      _instructions()
+      _instructions(),
+      _instructionsTimers()
 { }
 
 Recipe::Recipe(int id, QObject *parent)
@@ -17,18 +18,20 @@ Recipe::Recipe(int id, QObject *parent)
       _image("../images/clickToReload.png"),
       _categories(),
       _servingsNumber(0),
-      _instructions()
+      _instructions(),
+      _instructionsTimers()
 { }
 
-Recipe::Recipe(int id, const QString &name, const QString &image, const QList<QString> &categories,
-               int servingsNumber, const QList<InstructionRecord> &instructions, QObject *parent)
+Recipe::Recipe(int id, const QString &name, const QString &image, const QList<QString> &categories, int servingsNumber,
+               const QList<QString> &instructions, const QList<QList<QPair<int, int>>> &instructionsTimers, QObject *parent)
     : QObject(parent),
       _id(id),
       _name(name),
       _image(image),
       _categories(categories),
       _servingsNumber(servingsNumber),
-      _instructions(instructions)
+      _instructions(instructions),
+      _instructionsTimers(instructionsTimers)
 { }
 
 int Recipe::getId() const {
@@ -55,14 +58,18 @@ int Recipe::getServingsNumber() const {
     return _servingsNumber;
 }
 
-QString Recipe::getInstructionTextAt(int index) const {
-    return _instructions[index].text;
-}
-
-QList<QPair<int, int>> Recipe::getInstructionTimersAt(int index) const {
-    return _instructions[index].timers;
+QList<QString> Recipe::getInstructions() const {
+    return _instructions;
 }
 
 int Recipe::getInstructionsNumber() const {
     return _instructions.size();
+}
+
+QVariantList Recipe::getInstructionTimers(int instructionIndex) const {
+    QVariantList instructionTimers;
+    if (instructionIndex >= 0 && instructionIndex < _instructionsTimers.size())
+        for (auto &instructionTimer: _instructionsTimers[instructionIndex])
+            instructionTimers.append(QVariant::fromValue<QPair<int, int>>(instructionTimer));
+    return instructionTimers;
 }

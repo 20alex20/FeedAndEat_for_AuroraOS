@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import FeadAndEat.Recipe 1.0
 import FeadAndEat.Feature.Home 1.0
 import "../items"
 
@@ -90,12 +91,11 @@ Page {
                     color: Theme.primaryColor
                     source: "../icons/search.svg"
                 }
-
                 MouseArea {
                     id: mouseArea
                     anchors.fill: parent
                     onClicked: {
-                        pageStack.push("SearchPage.qml")
+                        pageStack.push(Qt.resolvedUrl("SearchPage.qml"))
                     }
                 }
                 Rectangle {
@@ -112,6 +112,7 @@ Page {
                     viewModel.reloadDailyRecipe()
                 }
             }
+
             RecipesCollection {
                 id: row1
                 width: parent.width
@@ -120,6 +121,7 @@ Page {
                     viewModel.reloadBreakfastRecipes()
                 }
             }
+
             RecipesCollection {
                 id: row2
                 width: parent.width
@@ -128,6 +130,7 @@ Page {
                     viewModel.reloadDrinkRecipes()
                 }
             }
+
             RecipesCollection {
                 id: row3
                 width: parent.width
@@ -136,6 +139,7 @@ Page {
                     viewModel.reloadRecipesForBigGroup()
                 }
             }
+
             RecipesCollection {
                 id: row4
                 width: parent.width

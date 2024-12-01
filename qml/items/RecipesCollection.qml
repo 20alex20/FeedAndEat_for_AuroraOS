@@ -15,10 +15,10 @@ Column {
     function setSuccess(recipes) {
         row.model.clear()
         for (var i = 0; i < recipes.length; i++)
-            row.model.append({ "ne": recipes[i].getName(),
-                               "ie": recipes[i].getImage(),
-                               "sr": recipes[i].getServingsNumber(),
-                               "ir": recipes[i].getInstructionsNumber() })
+            row.model.append({ "ne": recipes[i].name,
+                               "ie": recipes[i].image,
+                               "sr": recipes[i].servingsNumber,
+                               "ir": recipes[i].instructionsNumber })
         rowLoading.visible = false
         rowError.visible = false
         row.visible = true
@@ -41,6 +41,7 @@ Column {
         color: Theme.highlightColor
         text: title
     }
+
     BusyIndicator {
         id: rowLoading
         width: parent.width
@@ -50,6 +51,7 @@ Column {
         size: Theme.itemSizeHuge
         running: visible
     }
+
     Item {
         id: rowError
         width: parent.width
@@ -75,6 +77,7 @@ Column {
             }
         }
     }
+
     ListView {
         id: row
         width: parent.width

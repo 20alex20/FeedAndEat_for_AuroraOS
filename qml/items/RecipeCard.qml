@@ -83,6 +83,7 @@ Item {
                         text: servingsNumber
                     }
                 }
+
                 Row {
                     anchors.right: parent.right
                     spacing: Theme.paddingSmall

@@ -18,69 +18,69 @@ HomeViewModel::~HomeViewModel() {
 }
 
 void HomeViewModel::bind() {
-    connect(_databaseHandler->getDailyRecipe(), &RecipesReplay::receive, this, &HomeViewModel::receiveDailyRecipe);
-    connect(_databaseHandler->getHomepageCollection("breakfast"), &RecipesReplay::receive,
+    connect(_databaseHandler->getDailyRecipe(), &RecipesReply::receive, this, &HomeViewModel::receiveDailyRecipe);
+    connect(_databaseHandler->getHomepageCollection("breakfast"), &RecipesReply::receive,
             this, &HomeViewModel::receiveBreakfastRecipes);
-    connect(_databaseHandler->getHomepageCollection("drink"), &RecipesReplay::receive,
+    connect(_databaseHandler->getHomepageCollection("drink"), &RecipesReply::receive,
             this, &HomeViewModel::receiveDrinkRecipes);
-    connect(_databaseHandler->getHomepageCollection("forBigGroup"), &RecipesReplay::receive,
+    connect(_databaseHandler->getHomepageCollection("forBigGroup"), &RecipesReply::receive,
             this, &HomeViewModel::receiveRecipesForBigGroup);
-    connect(_databaseHandler->getHomepageCollection("lowCalorie"), &RecipesReplay::receive,
+    connect(_databaseHandler->getHomepageCollection("lowCalorie"), &RecipesReply::receive,
             this, &HomeViewModel::receiveLowCalorieRecipes);
 }
 
 void HomeViewModel::reloadDailyRecipe() {
     setState(new HomeViewModelState(_state));
-    connect(_databaseHandler->getDailyRecipe(), &RecipesReplay::receive, this, &HomeViewModel::receiveDailyRecipe);
+    connect(_databaseHandler->getDailyRecipe(), &RecipesReply::receive, this, &HomeViewModel::receiveDailyRecipe);
 }
 
 void HomeViewModel::reloadBreakfastRecipes() {
     setState(new HomeViewModelState(_state, HomeViewModelState::Breakfast));
-    connect(_databaseHandler->getHomepageCollection("breakfast"), &RecipesReplay::receive,
+    connect(_databaseHandler->getHomepageCollection("breakfast"), &RecipesReply::receive,
             this, &HomeViewModel::receiveBreakfastRecipes);
 }
 
 void HomeViewModel::reloadDrinkRecipes() {
     setState(new HomeViewModelState(_state, HomeViewModelState::Drink));
-    connect(_databaseHandler->getHomepageCollection("drink"), &RecipesReplay::receive,
+    connect(_databaseHandler->getHomepageCollection("drink"), &RecipesReply::receive,
             this, &HomeViewModel::receiveDrinkRecipes);
 }
 
 void HomeViewModel::reloadRecipesForBigGroup() {
     setState(new HomeViewModelState(_state, HomeViewModelState::ForBigGroup));
-    connect(_databaseHandler->getHomepageCollection("forBigGroup"), &RecipesReplay::receive,
+    connect(_databaseHandler->getHomepageCollection("forBigGroup"), &RecipesReply::receive,
             this, &HomeViewModel::receiveRecipesForBigGroup);
 }
 
 void HomeViewModel::reloadLowCalorieRecipes() {
     setState(new HomeViewModelState(_state, HomeViewModelState::LowCalorie));
-    connect(_databaseHandler->getHomepageCollection("lowCalorie"), &RecipesReplay::receive,
+    connect(_databaseHandler->getHomepageCollection("lowCalorie"), &RecipesReply::receive,
             this, &HomeViewModel::receiveLowCalorieRecipes);
 }
 
-void HomeViewModel::receiveDailyRecipe(RecipesReplay *recipeReplay, QList<Recipe*> recipe) {
+void HomeViewModel::receiveDailyRecipe(RecipesReply *recipeReply, QList<Recipe*> recipe) {
     setState(new HomeViewModelState(_state, recipe[0]));
-    recipeReplay->deleteLater();
+    recipeReply->deleteLater();
 }
 
-void HomeViewModel::receiveBreakfastRecipes(RecipesReplay *recipesReplay, QList<Recipe*> recipes) {
+void HomeViewModel::receiveBreakfastRecipes(RecipesReply *recipesReply, QList<Recipe*> recipes) {
     setState(new HomeViewModelState(_state, HomeViewModelState::Breakfast, recipes));
-    recipesReplay->deleteLater();
+    recipesReply->deleteLater();
 }
 
-void HomeViewModel::receiveDrinkRecipes(RecipesReplay *recipesReplay, QList<Recipe*> recipes) {
+void HomeViewModel::receiveDrinkRecipes(RecipesReply *recipesReply, QList<Recipe*> recipes) {
     setState(new HomeViewModelState(_state, HomeViewModelState::Drink, recipes));
-    recipesReplay->deleteLater();
+    recipesReply->deleteLater();
 }
 
-void HomeViewModel::receiveRecipesForBigGroup(RecipesReplay *recipesReplay, QList<Recipe*> recipes) {
+void HomeViewModel::receiveRecipesForBigGroup(RecipesReply *recipesReply, QList<Recipe*> recipes) {
     setState(new HomeViewModelState(_state, HomeViewModelState::ForBigGroup, recipes));
-    recipesReplay->deleteLater();
+    recipesReply->deleteLater();
 }
 
-void HomeViewModel::receiveLowCalorieRecipes(RecipesReplay *recipesReplay, QList<Recipe*> recipes) {
+void HomeViewModel::receiveLowCalorieRecipes(RecipesReply *recipesReply, QList<Recipe*> recipes) {
     setState(new HomeViewModelState(_state, HomeViewModelState::LowCalorie, recipes));
-    recipesReplay->deleteLater();
+    recipesReply->deleteLater();
 }
 
 void HomeViewModel::setState(HomeViewModelState *newState) {

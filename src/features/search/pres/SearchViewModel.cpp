@@ -6,16 +6,16 @@ SearchViewModel::SearchViewModel(QObject *parent)
     : QObject(parent),
       _databaseHandler(nullptr),
       _state(new SearchViewModelState()),
-      _currentRecipesReplay(nullptr),
-      _recipesReplays()
+      _currentRecipesReply(nullptr),
+      _recipesReplies()
 { }
 
 SearchViewModel::SearchViewModel(DatabaseHandler * const databaseHandler, QObject *parent)
     : QObject(parent),
       _databaseHandler(databaseHandler),
       _state(new SearchViewModelState()),
-      _currentRecipesReplay(nullptr),
-      _recipesReplays()
+      _currentRecipesReply(nullptr),
+      _recipesReplies()
 { }
 
 SearchViewModel::~SearchViewModel() {
@@ -24,9 +24,9 @@ SearchViewModel::~SearchViewModel() {
 
 void SearchViewModel::bind() {
     qDebug() << "b1";
-    _recipesReplays.clear();
-    _currentRecipesReplay = _databaseHandler->getSearchRecipes(_state->getSearchQuery(), _state->getCategory());
-    connect(_currentRecipesReplay, &RecipesReplay::receive, this, &SearchViewModel::receiveRecipes);
+    _recipesReplies.clear();
+    _currentRecipesReply = _databaseHandler->getSearchRecipes(_state->getSearchQuery(), _state->getCategory());
+    connect(_currentRecipesReply, &RecipesReply::receive, this, &SearchViewModel::receiveRecipes);
 }
 
 void SearchViewModel::loadBySearchQuery(QString searchQuery) {
@@ -46,8 +46,8 @@ void SearchViewModel::loadFromAllCategories() {
 
 void SearchViewModel::loadAdditionalRecipes() {
     setState(new SearchViewModelState(_state->getSearchQuery(), _state->getCategory(), _state->getRecipesList(), _state->getContinuation()));
-    _currentRecipesReplay = _databaseHandler->getSearchRecipes(_state->getSearchQuery(), _state->getCategory(), _state->getContinuation());
-    connect(_currentRecipesReplay, &RecipesReplay::receive, this, &SearchViewModel::receiveRecipes);
+    _currentRecipesReply = _databaseHandler->getSearchRecipes(_state->getSearchQuery(), _state->getCategory(), _state->getContinuation());
+    connect(_currentRecipesReply, &RecipesReply::receive, this, &SearchViewModel::receiveRecipes);
 }
 
 void SearchViewModel::loadRecipe(int recipeIndex) {
@@ -55,14 +55,14 @@ void SearchViewModel::loadRecipe(int recipeIndex) {
         return;
     auto recipeId = _state->getRecipe(recipeIndex)->getId();
     setState(new SearchViewModelState(_state, recipeIndex));
-    _recipesReplays.append({ _databaseHandler->getRecipe(recipeId), recipeIndex });
-    connect(_recipesReplays.last().first, &RecipesReplay::receive, this, &SearchViewModel::receiveRecipe);
+    _recipesReplies.append({ _databaseHandler->getRecipe(recipeId), recipeIndex });
+    connect(_recipesReplies.last().first, &RecipesReply::receive, this, &SearchViewModel::receiveRecipe);
 }
 
-void SearchViewModel::receiveRecipes(RecipesReplay *recipesReplay, QList<Recipe*> recipes) {
+void SearchViewModel::receiveRecipes(RecipesReply *recipesReply, QList<Recipe*> recipes) {
     qDebug() << "b9";
-    if (_currentRecipesReplay == recipesReplay) {
-        if (recipesReplay->getUrl().right(4) != "~%22" && recipes.size() == Default::PageLength + 1) {
+    if (_currentRecipesReply == recipesReply) {
+        if (recipesReply->getUrl().right(4) != "~%22" && recipes.size() == Default::PageLength + 1) {
             setState(new SearchViewModelState(_state, recipes.mid(0, Default::PageLength), recipes[Default::PageLength]->getId()));
             recipes[Default::PageLength]->deleteLater();
         }
@@ -73,17 +73,17 @@ void SearchViewModel::receiveRecipes(RecipesReplay *recipesReplay, QList<Recipe*
             setState(new SearchViewModelState(_state, recipes));
         }
     }
-    recipesReplay->deleteLater();
+    recipesReply->deleteLater();
 }
 
-void SearchViewModel::receiveRecipe(RecipesReplay *recipesReplay, QList<Recipe*> recipes) {
-    for (int i = 0; i < _recipesReplays.size(); i++)
-        if (_recipesReplays[i].first == recipesReplay) {
-            setState(new SearchViewModelState(_state, _recipesReplays[i].second, recipes[0]));
-            _recipesReplays.removeAt(i);
+void SearchViewModel::receiveRecipe(RecipesReply *recipesReply, QList<Recipe*> recipes) {
+    for (int i = 0; i < _recipesReplies.size(); i++)
+        if (_recipesReplies[i].first == recipesReply) {
+            setState(new SearchViewModelState(_state, _recipesReplies[i].second, recipes[0]));
+            _recipesReplies.removeAt(i);
             break;
         }
-    recipesReplay->deleteLater();
+    recipesReply->deleteLater();
 }
 
 void SearchViewModel::setState(SearchViewModelState *newState) {

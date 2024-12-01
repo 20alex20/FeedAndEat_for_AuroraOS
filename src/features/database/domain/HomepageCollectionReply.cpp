@@ -1,15 +1,15 @@
-#include "HomepageCollectionReplay.h"
+#include "HomepageCollectionReply.h"
 #include <QJsonDocument>
 #include <QJsonParseError>
 #include <QJsonArray>
 
-HomepageCollectionReplay::HomepageCollectionReplay(const QUrl &url, QNetworkAccessManager * const networkManager, const int loudsNumber, QObject* parent)
-    : RecipesReplay(url, networkManager, loudsNumber, parent)
+HomepageCollectionReply::HomepageCollectionReply(const QUrl &url, QNetworkAccessManager * const networkManager, const int loudsNumber, QObject* parent)
+    : RecipesReply(url, networkManager, loudsNumber, parent)
 { }
 
-void HomepageCollectionReplay::processResponse() {
+void HomepageCollectionReply::processResponse() {
     QJsonParseError jsonParseError;
-    auto sth = QJsonDocument::fromJson(_networkReplay->readAll(), &jsonParseError);
+    auto sth = QJsonDocument::fromJson(_networkReply->readAll(), &jsonParseError);
 
     if (jsonParseError.error == QJsonParseError::NoError && !sth.object().contains("error")) {
         auto arr = sth.array();
@@ -24,7 +24,7 @@ void HomepageCollectionReplay::processResponse() {
     }
 }
 
-void HomepageCollectionReplay::processError(QNetworkReply::NetworkError code) {
+void HomepageCollectionReply::processError(QNetworkReply::NetworkError code) {
     Q_UNUSED(code)
     _loudsNumber--;
     if (_loudsNumber <= 0)

@@ -20,11 +20,11 @@ public:
     Q_INVOKABLE void reloadRecipesForBigGroup();
     Q_INVOKABLE void reloadLowCalorieRecipes();
 
-    void receiveDailyRecipe(RecipesReplay *recipeReplay, QList<Recipe*> recipe);
-    void receiveBreakfastRecipes(RecipesReplay *recipesReplay, QList<Recipe*> recipes);
-    void receiveDrinkRecipes(RecipesReplay *recipesReplay, QList<Recipe*> recipes);
-    void receiveRecipesForBigGroup(RecipesReplay *recipesReplay, QList<Recipe*> recipes);
-    void receiveLowCalorieRecipes(RecipesReplay *recipesReplay, QList<Recipe*> recipes);
+    void receiveDailyRecipe(RecipesReply *recipeReply, QList<Recipe*> recipe);
+    void receiveBreakfastRecipes(RecipesReply *recipesReply, QList<Recipe*> recipes);
+    void receiveDrinkRecipes(RecipesReply *recipesReply, QList<Recipe*> recipes);
+    void receiveRecipesForBigGroup(RecipesReply *recipesReply, QList<Recipe*> recipes);
+    void receiveLowCalorieRecipes(RecipesReply *recipesReply, QList<Recipe*> recipes);
 
     void setState(HomeViewModelState* newState);
     HomeViewModelState *getState() const;

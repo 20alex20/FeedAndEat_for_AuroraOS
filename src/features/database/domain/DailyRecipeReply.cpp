@@ -1,31 +1,31 @@
-#include "DailyRecipeReplay.h"
+#include "DailyRecipeReply.h"
 #include <QJsonDocument>
 #include <QJsonParseError>
 #include <QJsonArray>
 #include <QDate>
-#include "RecipeReplay.h"
+#include "RecipeReply.h"
 
-DailyRecipeReplay::DailyRecipeReplay(const QUrl &url, QNetworkAccessManager * const networkManager, const int loudsNumber, QObject *parent)
-    : RecipesReplay(url, networkManager, loudsNumber, parent)
+DailyRecipeReply::DailyRecipeReply(const QUrl &url, QNetworkAccessManager * const networkManager, const int loudsNumber, QObject *parent)
+    : RecipesReply(url, networkManager, loudsNumber, parent)
 { }
 
-void DailyRecipeReplay::processResponse() {
+void DailyRecipeReply::processResponse() {
     QJsonParseError jsonParseError;
-    auto obj = QJsonDocument::fromJson(_networkReplay->readAll(), &jsonParseError).object();
+    auto obj = QJsonDocument::fromJson(_networkReply->readAll(), &jsonParseError).object();
 
     if (jsonParseError.error == QJsonParseError::NoError && !obj.contains("error")) {
         auto recipeIds = obj.value(obj.keys().at(0)).toObject().value("recipesId").toArray();
         int recipeId = recipeIds[QDate::currentDate().year() % recipeIds.size()].toInt();
         auto url = "https://feedandeat-2024-default-rtdb.firebaseio.com/recipe.json?orderBy=\"id\"&equalTo=" + QString::number(recipeId);
-        auto newRecipesReplay = new RecipeReplay(QUrl(url), _networkManager, recipeId, this);
-        connect(newRecipesReplay, &RecipeReplay::receive, this, &DailyRecipeReplay::receive);
+        auto newRecipesReply = new RecipeReply(QUrl(url), _networkManager, recipeId, this);
+        connect(newRecipesReply, &RecipeReply::receive, this, &DailyRecipeReply::receive);
     }
     else {
         processError(QNetworkReply::ContentNotFoundError);
     }
 }
 
-void DailyRecipeReplay::processError(QNetworkReply::NetworkError code) {
+void DailyRecipeReply::processError(QNetworkReply::NetworkError code) {
     Q_UNUSED(code)
     _loudsNumber--;
     if (_loudsNumber <= 0)

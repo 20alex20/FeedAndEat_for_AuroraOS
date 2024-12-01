@@ -1,5 +1,5 @@
-#ifndef RECIPESREPLAY_H
-#define RECIPESREPLAY_H
+#ifndef RECIPESREPLY_H
+#define RECIPESREPLY_H
 
 #include <QObject>
 #include <QNetworkAccessManager>
@@ -7,17 +7,17 @@
 #include <QJsonObject>
 #include "Recipe.h"
 
-class RecipesReplay : public QObject
+class RecipesReply : public QObject
 {
     Q_OBJECT
 public:
-    explicit RecipesReplay(QObject *parent = nullptr);
-    explicit RecipesReplay(const QUrl &url, QNetworkAccessManager * const networkManager, const int loudsNumber, QObject *parent = nullptr);
+    explicit RecipesReply(QObject *parent = nullptr);
+    explicit RecipesReply(const QUrl &url, QNetworkAccessManager * const networkManager, const int loudsNumber, QObject *parent = nullptr);
 
     QString getUrl();
 
 signals:
-    void receive(RecipesReplay *recipesReplay, QList<Recipe*> recipes);
+    void receive(RecipesReply *recipesReply, QList<Recipe*> recipes);
 
 private:
     virtual void processResponse() = 0;
@@ -29,8 +29,8 @@ protected:
 
     const QUrl _url;
     QNetworkAccessManager * const _networkManager;
-    QNetworkReply *_networkReplay;
+    QNetworkReply *_networkReply;
     int _loudsNumber;
 };
 
-#endif // RECIPESREPLAY_H
+#endif // RECIPESREPLY_H

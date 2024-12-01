@@ -4,6 +4,6 @@ import Sailfish.Silica 1.0
 ApplicationWindow {
     objectName: "applicationWindow"
     initialPage: Qt.resolvedUrl("pages/HomePage.qml")
-    cover: Qt.resolvedUrl("cover/DefaultCoverPage.qml")
+    cover: Qt.resolvedUrl("cover/CoverPage.qml")
     allowedOrientations: Orientation.Portrait
 }

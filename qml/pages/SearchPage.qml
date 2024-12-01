@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import FeadAndEat.Recipe 1.0
 import FeadAndEat.Feature.Search 1.0
 import "../items"
 
@@ -35,18 +36,18 @@ Page {
                     }
                     else if (recipe !== null && isLoading) {
                         if (i % 2 === 0) {
-                            record.is0 = recipe.isSuccess()
-                            record.ne0 = recipe.getName()
-                            record.ie0 = recipe.getImage()
-                            record.sr0 = recipe.getServingsNumber()
-                            record.ir0 = recipe.getInstructionsNumber()
+                            record.is0 = recipe.isSuccess
+                            record.ne0 = recipe.name
+                            record.ie0 = recipe.image
+                            record.sr0 = recipe.servingsNumber
+                            record.ir0 = recipe.instructionsNumber
                         }
                         else {
-                            record.is1 = recipe.isSuccess()
-                            record.ne1 = recipe.getName()
-                            record.ie1 = recipe.getImage()
-                            record.sr1 = recipe.getServingsNumber()
-                            record.ir1 = recipe.getInstructionsNumber()
+                            record.is1 = recipe.isSuccess
+                            record.ne1 = recipe.name
+                            record.ie1 = recipe.image
+                            record.sr1 = recipe.servingsNumber
+                            record.ir1 = recipe.instructionsNumber
                         }
                     }
                 }
@@ -55,23 +56,23 @@ Page {
                 for (var j = listView.model.count; j < length/2; j++) {
                     var recipe0 = recipes[2*j]
                     var recipe1 = recipes[2*j + 1]
-                    listView.model.append({ "is0": recipe0.isSuccess(),
-                                            "ne0": recipe0.getName(),
-                                            "ie0": recipe0.getImage(),
-                                            "sr0": recipe0.getServingsNumber(),
-                                            "ir0": recipe0.getInstructionsNumber(),
-                                            "is1": recipe1.isSuccess(),
-                                            "ne1": recipe1.getName(),
-                                            "ie1": recipe1.getImage(),
-                                            "sr1": recipe1.getServingsNumber(),
-                                            "ir1": recipe1.getInstructionsNumber() })
+                    listView.model.append({ "is0": recipe0.isSuccess,
+                                            "ne0": recipe0.name,
+                                            "ie0": recipe0.image,
+                                            "sr0": recipe0.servingsNumber,
+                                            "ir0": recipe0.instructionsNumber,
+                                            "is1": recipe1.isSuccess,
+                                            "ne1": recipe1.name,
+                                            "ie1": recipe1.image,
+                                            "sr1": recipe1.servingsNumber,
+                                            "ir1": recipe1.instructionsNumber })
                 }
                 if (recipes.length - length === 1)
-                    listView.model.append({ "is0": recipes[length].isSuccess(),
-                                            "ne0": recipes[length].getName(),
-                                            "ie0": recipes[length].getImage(),
-                                            "sr0": recipes[length].getServingsNumber(),
-                                            "ir0": recipes[length].getInstructionsNumber(),
+                    listView.model.append({ "is0": recipes[length].isSuccess,
+                                            "ne0": recipes[length].name,
+                                            "ie0": recipes[length].image,
+                                            "sr0": recipes[length].servingsNumber,
+                                            "ir0": recipes[length].instructionsNumber,
                                             "is1": true,
                                             "ne1": "",
                                             "ie1": "",
@@ -244,7 +245,6 @@ Page {
                 size: Theme.itemSizeHuge
                 running: visible
             }
-
             RecipeCard {
                 anchors.top: parent.top
                 anchors.right: parent.right
