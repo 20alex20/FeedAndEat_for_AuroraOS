@@ -89,7 +89,8 @@ Page {
                     viewModel.reloadBreakfastRecipes()
                 }
                 onRecipeClicked: {
-                    pageStack.push(Qt.resolvedUrl("RecipePage.qml"), { "recipe": viewModel.state.getRecipe(index) })
+                    pageStack.push(Qt.resolvedUrl("RecipePage.qml"),
+                                   { "recipe": viewModel.state.getRecipe(HomeViewModelState.Breakfast, index) })
                 }
             }
 
@@ -101,7 +102,8 @@ Page {
                     viewModel.reloadDrinkRecipes()
                 }
                 onRecipeClicked: {
-                    pageStack.push(Qt.resolvedUrl("RecipePage.qml"), { "recipe": viewModel.state.getRecipe(index) })
+                    pageStack.push(Qt.resolvedUrl("RecipePage.qml"),
+                                   { "recipe": viewModel.state.getRecipe(HomeViewModelState.Drink, index) })
                 }
             }
 
@@ -113,7 +115,8 @@ Page {
                     viewModel.reloadRecipesForBigGroup()
                 }
                 onRecipeClicked: {
-                    pageStack.push(Qt.resolvedUrl("RecipePage.qml"), { "recipe": viewModel.state.getRecipe(index) })
+                    pageStack.push(Qt.resolvedUrl("RecipePage.qml"),
+                                   { "recipe": viewModel.state.getRecipe(HomeViewModelState.ForBigGroup, index) })
                 }
             }
 
@@ -125,7 +128,8 @@ Page {
                     viewModel.reloadLowCalorieRecipes()
                 }
                 onRecipeClicked: {
-                    pageStack.push(Qt.resolvedUrl("RecipePage.qml"), { "recipe": viewModel.state.getRecipe(index) })
+                    pageStack.push(Qt.resolvedUrl("RecipePage.qml"),
+                                   { "recipe": viewModel.state.getRecipe(HomeViewModelState.LowCalorie, index) })
                 }
             }
         }

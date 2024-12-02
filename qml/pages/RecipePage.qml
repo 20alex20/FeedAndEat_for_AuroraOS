@@ -29,7 +29,7 @@ Page {
 
             Rectangle {
                 width: parent.width
-                height: info.height + Theme.paddingMedium
+                height: info.height + 2*Theme.paddingMedium
                 color: Theme.highlightBackgroundColor
 
                 Column {
@@ -45,7 +45,7 @@ Page {
                     Label {
                         width: parent.width
                         font.family: Theme.fontFamilyHeading
-                        font.pixelSize: Theme.fontSizeHuge
+                        font.pixelSize: (Theme.fontSizeHuge + Theme.fontSizeLarge)/2
                         font.bold: true
                         color: Theme.primaryColor
                         text: recipe.name
@@ -93,7 +93,7 @@ Page {
 
             Rectangle {
                 width: parent.width
-                height: categories.height + Theme.paddingMedium
+                height: categories.height + 2*Theme.paddingMedium
                 color: Theme.highlightBackgroundColor
 
                 Column {
@@ -134,7 +134,7 @@ Page {
 
             Rectangle {
                 width: parent.width
-                height: instructions.height + Theme.paddingMedium
+                height: instructions.height + 2*Theme.paddingMedium
                 color: Theme.highlightBackgroundColor
 
                 Column {
@@ -164,10 +164,23 @@ Page {
                             model: recipe.instructions
 
                             Label {
-                                width: instructions.width
+                                width: parent.width
+                                leftPadding: Theme.iconSizeExtraSmall + Theme.paddingMedium
                                 font.pixelSize: Theme.fontSizeLarge
                                 color: Theme.primaryColor
                                 text: modelData
+                                wrapMode: Text.WordWrap
+
+                                Rectangle {
+                                    anchors.top: parent.top
+                                    anchors.left: parent.left
+                                    anchors.topMargin: (servingsNumber.height - Theme.iconSizeExtraSmall)/2
+                                    width: Theme.iconSizeExtraSmall
+                                    height: Theme.iconSizeExtraSmall
+
+                                    radius: Theme.iconSizeExtraSmall/2
+                                    color: Theme.secondaryColor
+                                }
                             }
                         }
                     }

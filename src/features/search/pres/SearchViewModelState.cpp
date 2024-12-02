@@ -84,6 +84,7 @@ QString SearchViewModelState::getSearchQuery() {
 
 QVariantList SearchViewModelState::getRecipes() {
     QVariantList recipes;
+    recipes.reserve(_recipes.size());
     for (auto &recipe: _recipes)
         recipes.append(QVariant::fromValue<Recipe*>(recipe));
     return recipes;

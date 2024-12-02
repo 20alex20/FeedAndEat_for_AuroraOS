@@ -83,6 +83,7 @@ Recipe *HomeViewModelState::getDailyRecipe() {
 
 QVariantList HomeViewModelState::getCollectionRecipes(HomeViewModelState::Collection collection) {
     QVariantList recipes;
+    recipes.reserve(_collectionsRecipes[collection - Qt::UserRole - 1].size());
     for (auto &recipe: _collectionsRecipes[collection - Qt::UserRole - 1])
         recipes.append(QVariant::fromValue<Recipe*>(recipe));
     return recipes;
