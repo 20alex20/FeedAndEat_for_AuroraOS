@@ -11,6 +11,8 @@ RecipeReply::RecipeReply(const QUrl &url, QNetworkAccessManager * const networkM
     : RecipeReply(url, networkManager, recipeId, Default::AttemptsNumber, parent)
 { }
 
+RecipeReply::~RecipeReply() { }
+
 void RecipeReply::processResponse() {
     QJsonParseError jsonParseError;
     auto obj = QJsonDocument::fromJson(_networkReply->readAll(), &jsonParseError).object();

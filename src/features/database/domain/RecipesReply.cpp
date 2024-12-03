@@ -21,6 +21,10 @@ RecipesReply::RecipesReply(const QUrl &url, QNetworkAccessManager * const networ
     _networkReply->setParent(this);
 }
 
+RecipesReply::~RecipesReply() {
+    _networkReply->deleteLater();
+}
+
 QString RecipesReply::getUrl() {
     return _url.toString();
 }
@@ -69,8 +73,8 @@ void RecipesReply::sendResponse(QList<QJsonObject> &recipes) {
 }
 
 void RecipesReply::reload() {
+    _networkReply->deleteLater();
     _networkReply = _networkManager->get(QNetworkRequest(_url));
     connect(_networkReply, &QNetworkReply::readyRead, this, &RecipesReply::processResponse);
     connect(_networkReply, static_cast<void(QNetworkReply::*)(QNetworkReply::NetworkError)>(&QNetworkReply::error), this, &RecipesReply::processError);
-    _networkReply->setParent(this);
 }

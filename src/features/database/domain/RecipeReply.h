@@ -10,6 +10,7 @@ class RecipeReply : public RecipesReply
 public:
     explicit RecipeReply(const QUrl &url, QNetworkAccessManager * const networkManager, int recipeId, const int loudsNumber = Default::AttemptsNumber, QObject *parent = nullptr);
     explicit RecipeReply(const QUrl &url, QNetworkAccessManager * const networkManager, int recipeId, QObject *parent);
+    virtual ~RecipeReply() override;
 
 private:
     void processResponse() override;

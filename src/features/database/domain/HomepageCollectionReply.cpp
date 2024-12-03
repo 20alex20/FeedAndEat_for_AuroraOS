@@ -7,6 +7,8 @@ HomepageCollectionReply::HomepageCollectionReply(const QUrl &url, QNetworkAccess
     : RecipesReply(url, networkManager, loudsNumber, parent)
 { }
 
+HomepageCollectionReply::~HomepageCollectionReply() { }
+
 void HomepageCollectionReply::processResponse() {
     QJsonParseError jsonParseError;
     auto sth = QJsonDocument::fromJson(_networkReply->readAll(), &jsonParseError);

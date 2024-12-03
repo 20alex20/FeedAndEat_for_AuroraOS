@@ -9,6 +9,8 @@ DailyRecipeReply::DailyRecipeReply(const QUrl &url, QNetworkAccessManager * cons
     : RecipesReply(url, networkManager, loudsNumber, parent)
 { }
 
+DailyRecipeReply::~DailyRecipeReply() { }
+
 void DailyRecipeReply::processResponse() {
     QJsonParseError jsonParseError;
     auto obj = QJsonDocument::fromJson(_networkReply->readAll(), &jsonParseError).object();

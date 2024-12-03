@@ -11,6 +11,8 @@ SearchRecipesReply::SearchRecipesReply(const QUrl &url, QNetworkAccessManager * 
       _recipesCnt(0)
 { }
 
+SearchRecipesReply::~SearchRecipesReply() { }
+
 void SearchRecipesReply::processResponse() {
     QJsonParseError jsonRarseError;
     auto sth = QJsonDocument::fromJson(_networkReply->readAll(), &jsonRarseError);

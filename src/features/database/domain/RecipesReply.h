@@ -13,6 +13,7 @@ class RecipesReply : public QObject
 public:
     explicit RecipesReply(QObject *parent = nullptr);
     explicit RecipesReply(const QUrl &url, QNetworkAccessManager * const networkManager, const int loudsNumber, QObject *parent = nullptr);
+    virtual ~RecipesReply();
 
     QString getUrl();
 

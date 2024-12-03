@@ -9,6 +9,7 @@ class DailyRecipeReply : public RecipesReply
     Q_OBJECT
 public:
     explicit DailyRecipeReply(const QUrl &url, QNetworkAccessManager * const networkManager, const int loudsNumber = Default::AttemptsNumber, QObject *parent = nullptr);
+    virtual ~DailyRecipeReply() override;
 
 private:
     void processResponse() override;
