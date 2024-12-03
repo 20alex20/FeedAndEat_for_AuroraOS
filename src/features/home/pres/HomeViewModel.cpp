@@ -1,5 +1,4 @@
 #include "HomeViewModel.h"
-#include <QDebug>
 
 HomeViewModel::HomeViewModel(QObject *parent)
     : QObject(parent),

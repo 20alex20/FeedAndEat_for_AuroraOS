@@ -4,7 +4,6 @@
 #include "../domain/DailyRecipeReply.h"
 #include "../domain/HomepageCollectionReply.h"
 #include "../domain/SearchRecipesReply.h"
-#include <QDebug>
 
 DatabaseHandler::DatabaseHandler(QObject *parent)
     : QObject(parent),
@@ -27,7 +26,6 @@ RecipesReply *DatabaseHandler::getHomepageCollection(QString collectionName) {
 }
 
 RecipesReply *DatabaseHandler::getSearchRecipes(QString searchQuery, QString category, const int continuation) {
-    qDebug() << "b2";
     QString url = "https://feedandeat-2024-default-rtdb.firebaseio.com/recipeIdAndName";
     if (category != "")
         url += "ByCategories/" + category.toLower();

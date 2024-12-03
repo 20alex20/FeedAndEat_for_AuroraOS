@@ -97,7 +97,7 @@ Page {
 
         onSearchQueryChanged: {
             if (searchQuery.length >= 2 || (viewModel.state.searchQuery !== "" && searchQuery.length === 0))
-                viewModel.loadBySearchQuery(text)
+                viewModel.loadBySearchQuery(searchQuery)
         }
         onCategoryChanged: {
             if (!isCategorySelected)

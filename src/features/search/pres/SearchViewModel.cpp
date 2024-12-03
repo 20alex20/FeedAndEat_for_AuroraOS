@@ -1,6 +1,5 @@
 #include "SearchViewModel.h"
 #include "src/Default.h"
-#include <QDebug>
 
 SearchViewModel::SearchViewModel(QObject *parent)
     : QObject(parent),
@@ -23,7 +22,6 @@ SearchViewModel::~SearchViewModel() {
 }
 
 void SearchViewModel::bind() {
-    qDebug() << "b1";
     _recipesReplies.clear();
     _currentRecipesReply = _databaseHandler->getSearchRecipes(_state->getSearchQuery(), _state->getCategory());
     connect(_currentRecipesReply, &RecipesReply::receive, this, &SearchViewModel::receiveRecipes);
@@ -62,7 +60,6 @@ void SearchViewModel::loadRecipe(int index) {
 }
 
 void SearchViewModel::receiveRecipes(RecipesReply *recipesReply, QList<Recipe*> recipes) {
-    qDebug() << "b9";
     if (_currentRecipesReply == recipesReply) {
         if (recipesReply->getUrl().right(4) != "~%22" && recipes.size() == Default::PageLength + 1) {
             setState(new SearchViewModelState(_state, recipes.mid(0, Default::PageLength), recipes[Default::PageLength]->getId()));

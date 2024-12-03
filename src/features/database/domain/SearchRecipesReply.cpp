@@ -3,7 +3,6 @@
 #include <QJsonParseError>
 #include <QJsonArray>
 #include "RecipeReply.h"
-#include <QDebug>
 
 SearchRecipesReply::SearchRecipesReply(const QUrl &url, QNetworkAccessManager * const networkManager, const int loudsNumber, QObject *parent)
     : RecipesReply(url, networkManager, loudsNumber, parent),
@@ -13,11 +12,9 @@ SearchRecipesReply::SearchRecipesReply(const QUrl &url, QNetworkAccessManager * 
 { }
 
 void SearchRecipesReply::processResponse() {
-    qDebug() << "b4";
     QJsonParseError jsonRarseError;
     auto sth = QJsonDocument::fromJson(_networkReply->readAll(), &jsonRarseError);
 
-    qDebug() << _url.toString();
     QJsonObject obj;
     if (jsonRarseError.error == QJsonParseError::NoError && sth.isObject() && !(obj = sth.object()).contains("error")) {
         if (obj.isEmpty()) {
@@ -62,7 +59,6 @@ void SearchRecipesReply::processResponse() {
 
 void SearchRecipesReply::processError(QNetworkReply::NetworkError code) {
     Q_UNUSED(code)
-    qDebug() << "b5";
     _loudsNumber--;
     if (_loudsNumber <= 0)
         emit receive(this, { nullptr });
@@ -78,7 +74,6 @@ void SearchRecipesReply::loadRecipe(int recipeId) {
 
 void SearchRecipesReply::collectResponses(RecipesReply *recipesReply, QList<Recipe*> recipe) {
     Q_UNUSED(recipesReply)
-    qDebug() << "b8";
     auto recipeId = recipe[0]->getId();
     for (int i = 0; i < _recipes.size(); i++)
         if (_recipes[i]->getId() == recipeId) {
