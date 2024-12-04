@@ -131,10 +131,7 @@ Page {
             height: listView.rowHeight
 
             RecipeCard {
-                anchors.top: parent.top
-                anchors.left: parent.left
                 width: (parent.width - Theme.paddingLarge)/2
-
                 visible: ir0 !== -1
                 isSuccess: is0
                 name: ne0
@@ -149,8 +146,6 @@ Page {
                 }
             }
             BusyIndicator {
-                anchors.top: parent.top
-                anchors.left: parent.left
                 width: (parent.width - Theme.paddingLarge)/2
                 height: parent.height
 
@@ -159,7 +154,6 @@ Page {
                 running: visible
             }
             RecipeCard {
-                anchors.top: parent.top
                 anchors.right: parent.right
                 width: (parent.width - Theme.paddingLarge)/2
 
@@ -177,7 +171,6 @@ Page {
                 }
             }
             BusyIndicator {
-                anchors.top: parent.top
                 anchors.right: parent.right
                 width: (parent.width - Theme.paddingLarge)/2
                 height: parent.height

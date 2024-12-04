@@ -99,7 +99,6 @@ Column {
                 color: Theme.primaryColor
                 text: categories.value
             }
-
             Rectangle {
                 anchors.fill: parent
                 visible: categories.pressed

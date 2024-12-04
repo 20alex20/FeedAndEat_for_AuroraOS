@@ -48,6 +48,7 @@ DISTFILES += rpm/alex_fnaf.apps.FeedAndEat.spec \
     qml/items/SearchButtonCard.qml \
     qml/items/SearchCategoryCard.qml \
     qml/pages/HomePage.qml \
+    qml/pages/InstructionsPage.qml \
     qml/pages/RecipePage.qml \
     qml/pages/SearchPage.qml \
     qml/Main.qml

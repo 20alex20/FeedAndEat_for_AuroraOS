@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
-Item {
+Rectangle {
     property bool isSuccess: true
     property string name: ""
     property string image: ""
@@ -11,23 +11,7 @@ Item {
     signal pressed()
 
     height: column.height
-
-    Rectangle {
-        anchors.fill: parent
-        color: Theme.highlightBackgroundColor
-    }
-
-    MouseArea {
-        id: mouseArea
-        anchors.fill: parent
-
-        onClicked: {
-            parent.clicked()
-        }
-        onPressed: {
-            parent.pressed()
-        }
-    }
+    color: Theme.highlightBackgroundColor
 
     Column {
         id: column
@@ -108,9 +92,19 @@ Item {
         }
     }
 
-    Rectangle {
+    MouseArea {
         anchors.fill: parent
-        visible: mouseArea.pressed
-        color: "#40000000"
+        onClicked: {
+            parent.clicked()
+        }
+        onPressed: {
+            parent.pressed()
+        }
+
+        Rectangle {
+            anchors.fill: parent
+            visible: parent.pressed
+            color: "#40000000"
+        }
     }
 }

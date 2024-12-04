@@ -31,15 +31,15 @@ Rectangle {
         source: "../icons/search.svg"
     }
     MouseArea {
-        id: mouseArea
         anchors.fill: parent
         onClicked: {
            parent.clicked()
         }
-    }
-    Rectangle {
-        anchors.fill: parent
-        visible: mouseArea.pressed
-        color: "#40000000"
+
+        Rectangle {
+            anchors.fill: parent
+            visible: parent.pressed
+            color: "#40000000"
+        }
     }
 }

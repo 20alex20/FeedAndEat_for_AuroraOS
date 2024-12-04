@@ -134,6 +134,36 @@ Page {
 
             Rectangle {
                 width: parent.width
+                height: openInstructionsPage.height
+                color: Theme.highlightBackgroundColor
+
+                Label {
+                    id: openInstructionsPage
+                    width: parent.width
+
+                    padding: Theme.paddingMedium
+                    font.pixelSize: Theme.fontSizeLarge
+                    font.bold: true
+                    color: Theme.primaryColor
+                    text: "Open step-by-step instructions"
+                    horizontalAlignment: Text.AlignHCenter
+                }
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        pageStack.push(Qt.resolvedUrl("InstructionsPage.qml"), { "recipe": recipe })
+                    }
+
+                    Rectangle {
+                        anchors.fill: parent
+                        visible: parent.pressed
+                        color: "#40000000"
+                    }
+                }
+            }
+
+            Rectangle {
+                width: parent.width
                 height: instructions.height + 2*Theme.paddingMedium
                 color: Theme.highlightBackgroundColor
 
@@ -153,7 +183,7 @@ Page {
                         font.pixelSize: Theme.fontSizeLarge
                         font.bold: true
                         color: Theme.primaryColor
-                        text: "Instruction"
+                        text: "Instructions"
                         horizontalAlignment: Text.AlignHCenter
                     }
                     Column {
@@ -173,7 +203,6 @@ Page {
 
                                 Rectangle {
                                     anchors.top: parent.top
-                                    anchors.left: parent.left
                                     anchors.topMargin: (servingsNumber.height - Theme.iconSizeExtraSmall)/2
                                     width: Theme.iconSizeExtraSmall
                                     height: Theme.iconSizeExtraSmall
