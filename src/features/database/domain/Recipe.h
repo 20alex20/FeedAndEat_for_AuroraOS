@@ -18,8 +18,8 @@ class Recipe : public QObject
 public:
     explicit Recipe(QObject *parent = nullptr);
     explicit Recipe(int id, QObject *parent = nullptr);
-    explicit Recipe(int id, const QString &name, const QString &image, const QList<QString> &categories, int servingsNumber,
-                    const QList<QString> &instructions, const QList<QList<QPair<int, int>>> &instructionsTimers, QObject *parent = nullptr);
+    explicit Recipe(int id, const QString &name, const QString &image, const QList<QString> &categories,
+                    int servingsNumber, const QList<QString> &instructions, QObject *parent = nullptr);
 
     bool isSuccess() const;
     QString getName() const;
@@ -28,7 +28,6 @@ public:
     int getServingsNumber() const;
     QVariantList getInstructions() const;
     int getInstructionsNumber() const;
-    Q_INVOKABLE QVariantList getInstructionTimers(int index) const;
 
     int getId() const;
 
@@ -39,7 +38,6 @@ private:
     QList<QString> _categories;
     int _servingsNumber;
     QList<QString> _instructions;
-    QList<QList<QPair<int, int>>> _instructionsTimers;
 };
 
 #endif // RECIPE_H

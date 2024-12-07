@@ -24,6 +24,10 @@ Rectangle {
 
             fillMode: Image.PreserveAspectCrop
             source: image
+            onStatusChanged: {
+                if (status === Image.Error)
+                    source = "../images/imageLoadingError.png"
+            }
         }
 
         Column {

@@ -44,23 +44,11 @@ void RecipesReply::sendResponse(QList<QJsonObject> &recipes) {
                 categories.append(category.toString());
             int servingsNumber = recipe.value("amountOfServings").toInt();
             QList<QString> instructions;
-            QList<QList<QPair<int, int>>> instructionsTimers;
-            auto fullInstructions = recipe.value("instructions").toArray();
-            instructions.reserve(fullInstructions.size());
-            instructionsTimers.reserve(fullInstructions.size());
-            for (auto fullInstruction: fullInstructions) {
-                auto fullInstructionObject = fullInstruction.toObject();
-                instructions.append(fullInstructionObject.value("instruction").toString());
-                instructionsTimers.append(QList<QPair<int, int>>());
-                auto timers = fullInstructionObject.value("timers").toArray();
-                auto &instructionTimers = instructionsTimers.last();
-                instructionTimers.reserve(timers.size());
-                for (auto timer: timers) {
-                    auto timerObject = timer.toObject();
-                    instructionTimers.append({ timerObject.value("num1").toInt(), timerObject.value("num2").toInt() });
-                }
-            }
-            processedRecipes.append(new Recipe(id, name, image, categories, servingsNumber, instructions, instructionsTimers));
+            auto instructionsArray = recipe.value("instructions").toArray();
+            instructions.reserve(instructionsArray.size());
+            for (auto instruction: instructionsArray)
+                instructions.append(instruction.toObject().value("instruction").toString());
+            processedRecipes.append(new Recipe(id, name, image, categories, servingsNumber, instructions));
         }
         else if (recipe.contains("id")) {
             processedRecipes.append(new Recipe(recipe.value("id").toInt()));

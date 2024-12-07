@@ -25,6 +25,10 @@ Page {
 
                 fillMode: Image.PreserveAspectCrop
                 source: recipe.image
+                onStatusChanged: {
+                    if (status === Image.Error)
+                        visible = false
+                }
             }
 
             Rectangle {
