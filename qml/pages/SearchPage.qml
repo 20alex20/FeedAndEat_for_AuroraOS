@@ -6,7 +6,7 @@ import "../items"
 import "../dataObjects"
 
 Page {
-    property SearchViewModel viewModel: SearchFeature.getSearchViewModel(this);
+    property SearchViewModel viewModel: SearchFeature.getSearchViewModel(this)
     Component.onCompleted: {
         viewModel.bind()
     }

@@ -1,21 +1,20 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-import FeadAndEat.Recipe 1.0
+import FeadAndEat.Feature.Instructions 1.0
 
 Page {
-    property Recipe recipe
-    property int currentIndex: 0
     property var instructions
+    property int currentIndex: 0
     property var checks: []
-    property bool currentCheck: false
-    property bool leavePage: false
+    property InstructionsViewModel viewModel: InstructionsFeature.getInstructionsViewModel(this)
     Component.onCompleted: {
-        instructions = recipe.instructions
-        for (var i = 0; i < recipe.instructionsNumber; i++)
-            checks.push(false)
+        viewModel.bind(instructions.length)
     }
-    onCurrentIndexChanged: {
-        currentCheck = checks[currentIndex]
+    Connections {
+        target: viewModel
+        onStateChanged: {
+            checks = viewModel.state.checks
+        }
     }
 
     id: page
@@ -55,7 +54,6 @@ Page {
         anchors.rightMargin: Theme.horizontalPageMargin
         anchors.topMargin: 2*Theme.paddingLarge
         anchors.bottomMargin: 2*Theme.paddingLarge
-        height: instruction.height
         color: Theme.highlightBackgroundColor
 
         Flickable {
@@ -98,6 +96,8 @@ Page {
                 height: mark.height
 
                 visible: currentIndex > 0
+                border.width: Theme.paddingSmall
+                border.color: Theme.highlightColor
                 color: Theme.highlightBackgroundColor
 
                 Label {
@@ -106,6 +106,7 @@ Page {
                     font.bold: true
                     color: Theme.primaryColor
                     text: "To previous"
+                    wrapMode: Text.WordWrap
                     horizontalAlignment: Text.AlignHCenter
                 }
                 MouseArea {
@@ -127,7 +128,10 @@ Page {
                 anchors.horizontalCenter: parent.horizontalCenter
                 width: (parent.width - 2*Theme.paddingLarge)/3
                 height: mark.height
-                color: currentCheck ? Theme.highlightDimmerColor : Theme.highlightBackgroundColor
+
+                border.width: Theme.paddingSmall
+                border.color: Theme.highlightColor
+                color: checks[currentIndex] ? Theme.highlightDimmerColor : Theme.highlightBackgroundColor
 
                 Label {
                     id: mark
@@ -137,15 +141,14 @@ Page {
                     font.pixelSize: Theme.fontSizeLarge
                     font.bold: true
                     color: Theme.primaryColor
-                    text: currentCheck ? "Marked as completed" : "Mark as completed"
+                    text: checks[currentIndex] ? "Marked as completed" : "Mark as completed"
                     wrapMode: Text.WordWrap
                     horizontalAlignment: Text.AlignHCenter
                 }
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                       checks[currentIndex] = !checks[currentIndex]
-                       currentCheck = checks[currentIndex]
+                        viewModel.changeCheck(currentIndex)
                     }
 
                     Rectangle {
@@ -161,7 +164,9 @@ Page {
                 width: (parent.width - 2*Theme.paddingLarge)/3
                 height: mark.height
 
-                visible: currentIndex < recipe.instructionsNumber - 1
+                visible: currentIndex < instructions.length - 1
+                border.width: Theme.paddingSmall
+                border.color: Theme.highlightColor
                 color: Theme.highlightBackgroundColor
 
                 Label {
@@ -170,12 +175,13 @@ Page {
                     font.bold: true
                     color: Theme.primaryColor
                     text: "To next"
+                    wrapMode: Text.WordWrap
                     horizontalAlignment: Text.AlignHCenter
                 }
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        if (currentIndex < recipe.instructionsNumber - 1)
+                        if (currentIndex < instructions.length - 1)
                             currentIndex += 1
                     }
 
@@ -191,6 +197,9 @@ Page {
         Rectangle {
             width: parent.width
             height: confirm.height
+
+            border.width: Theme.paddingSmall
+            border.color: Theme.highlightColor
             color: Theme.highlightBackgroundColor
 
             Label {
@@ -204,35 +213,37 @@ Page {
                 text: "Leave the instructions"
                 horizontalAlignment: Text.AlignHCenter
             }
+
             MouseArea {
+                property bool leavePage: false
+
+                id: leaveInstructions
                 anchors.fill: parent
                 onClicked: {
                     for (var i = 0; i < checks.length; i++)
                         if (!checks[i]) {
-                            var dl = pageStack.push(dialog)
-                            dl.accepted.connect(function() {
-                                leavePage = true
+                            pageStack.push(dialog).accepted.connect(function() {
+                                leaveInstructions.leavePage = true
                             })
                             return
                         }
                     backNavigation = true
                     pageStack.pop()
                 }
+                Connections {
+                    target: pageStack
+                    onBusyChanged: {
+                        if (leaveInstructions.leavePage && !busy) {
+                            leaveInstructions.leavePage = false
+                            pageStack.pop(pageStack.previousPage(pageStack.currentPage), PageStackAction.Immediate)
+                        }
+                    }
+                }
 
                 Rectangle {
                     anchors.fill: parent
                     visible: parent.pressed
                     color: "#40000000"
-                }
-            }
-
-            Connections {
-                target: pageStack
-                onBusyChanged: {
-                    if (leavePage && !busy) {
-                        leavePage = false
-                        pageStack.pop(pageStack.previousPage(pageStack.currentPage), PageStackAction.Immediate)
-                    }
                 }
             }
 
@@ -249,8 +260,9 @@ Page {
                         leftPadding: Theme.horizontalPageMargin
                         rightPadding: Theme.horizontalPageMargin
                         font.pixelSize: Theme.fontSizeLarge
-                        color: Theme.highlightColor
+                        color: Theme.primaryColor
                         text: "You have not marked all steps as completed"
+                        wrapMode: Text.WordWrap
                     }
                 }
             }

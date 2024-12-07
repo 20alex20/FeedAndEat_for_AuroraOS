@@ -14,13 +14,6 @@ class SearchViewModelState : public QObject
     Q_PROPERTY(bool isEnd READ isEnd CONSTANT)
     Q_PROPERTY(Status status READ getStatus CONSTANT)
 public:
-    explicit SearchViewModelState(QObject *parent = nullptr);
-    explicit SearchViewModelState(QString searchQuery, QString category = "", QList<Recipe*> recipes = { }, int continuation = -1, QObject *parent = nullptr);
-    explicit SearchViewModelState(SearchViewModelState *oldState, QList<Recipe*> recipes, int continuation = -1, QObject *parent = nullptr);
-    explicit SearchViewModelState(SearchViewModelState *oldState, QObject *parent = nullptr);
-    explicit SearchViewModelState(SearchViewModelState *oldState, int index, QObject *parent = nullptr);
-    explicit SearchViewModelState(SearchViewModelState *oldState, int index, Recipe *recipe, QObject *parent = nullptr);
-
     enum Status {
         Loading = Qt::UserRole + 1,
         Success,
@@ -28,16 +21,23 @@ public:
     };
     Q_ENUM(Status)
 
-    QString getSearchQuery();
-    QVariantList getRecipes();
-    int getRecipesNumber();
-    bool isEnd();
-    Status getStatus();
+    explicit SearchViewModelState(QObject *parent = nullptr);
+    explicit SearchViewModelState(QString searchQuery, QString category = "", QList<Recipe*> recipes = { }, int continuation = -1, QObject *parent = nullptr);
+    explicit SearchViewModelState(SearchViewModelState *oldState, QList<Recipe*> recipes, int continuation = -1, QObject *parent = nullptr);
+    explicit SearchViewModelState(SearchViewModelState *oldState, QObject *parent = nullptr);
+    explicit SearchViewModelState(SearchViewModelState *oldState, int index, QObject *parent = nullptr);
+    explicit SearchViewModelState(SearchViewModelState *oldState, int index, Recipe *recipe, QObject *parent = nullptr);
+
+    QString getSearchQuery() const;
+    QVariantList getRecipes() const;
+    int getRecipesNumber() const;
+    bool isEnd() const;
+    Status getStatus() const;
     Q_INVOKABLE Recipe *getRecipe(int index);
 
-    QString getCategory();
-    QList<Recipe*> getRecipesList();
-    int getContinuation();
+    QString getCategory() const;
+    QList<Recipe*> getRecipesList() const;
+    int getContinuation() const;
 
 private:
     QString _searchQuery;

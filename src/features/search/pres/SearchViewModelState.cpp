@@ -78,11 +78,11 @@ SearchViewModelState::SearchViewModelState(SearchViewModelState *oldState, int i
     setRecipesParent(_recipes, this);
 }
 
-QString SearchViewModelState::getSearchQuery() {
+QString SearchViewModelState::getSearchQuery() const {
     return _searchQuery;
 }
 
-QVariantList SearchViewModelState::getRecipes() {
+QVariantList SearchViewModelState::getRecipes() const {
     QVariantList recipes;
     recipes.reserve(_recipes.size());
     for (auto &recipe: _recipes)
@@ -90,15 +90,15 @@ QVariantList SearchViewModelState::getRecipes() {
     return recipes;
 }
 
-int SearchViewModelState::getRecipesNumber() {
+int SearchViewModelState::getRecipesNumber() const {
     return _recipes.size();
 }
 
-bool SearchViewModelState::isEnd() {
+bool SearchViewModelState::isEnd() const {
     return _continuation == -1;
 }
 
-SearchViewModelState::Status SearchViewModelState::getStatus() {
+SearchViewModelState::Status SearchViewModelState::getStatus() const {
     return _status;
 }
 
@@ -108,14 +108,14 @@ Recipe *SearchViewModelState::getRecipe(int index) {
     return _recipes[index];
 }
 
-QString SearchViewModelState::getCategory() {
+QString SearchViewModelState::getCategory() const {
     return _category;
 }
 
-QList<Recipe*> SearchViewModelState::getRecipesList() {
+QList<Recipe*> SearchViewModelState::getRecipesList() const {
     return _recipes;
 }
 
-int SearchViewModelState::getContinuation() {
+int SearchViewModelState::getContinuation() const {
     return _continuation;
 }

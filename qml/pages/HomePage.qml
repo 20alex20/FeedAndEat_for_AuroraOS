@@ -5,7 +5,7 @@ import FeadAndEat.Feature.Home 1.0
 import "../items"
 
 Page {
-    property HomeViewModel viewModel: HomeFeature.getHomeViewModel(this);
+    property HomeViewModel viewModel: HomeFeature.getHomeViewModel(this)
     Component.onCompleted: {
         viewModel.bind()
     }

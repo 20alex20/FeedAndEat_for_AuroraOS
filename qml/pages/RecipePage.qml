@@ -135,6 +135,9 @@ Page {
             Rectangle {
                 width: parent.width
                 height: openInstructionsPage.height
+
+                border.width: Theme.paddingSmall
+                border.color: Theme.highlightColor
                 color: Theme.highlightBackgroundColor
 
                 Label {
@@ -151,7 +154,7 @@ Page {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        pageStack.push(Qt.resolvedUrl("InstructionsPage.qml"), { "recipe": recipe })
+                        pageStack.push(Qt.resolvedUrl("InstructionsPage.qml"), { "instructions": recipe.instructions })
                     }
 
                     Rectangle {
@@ -208,7 +211,7 @@ Page {
                                     height: Theme.iconSizeExtraSmall
 
                                     radius: Theme.iconSizeExtraSmall/2
-                                    color: Theme.secondaryColor
+                                    color: Theme.highlightColor
                                 }
                             }
                         }
