@@ -1,7 +1,6 @@
 #ifndef INSTRUCTIONSVIEWMODEL_H
 #define INSTRUCTIONSVIEWMODEL_H
 
-#include <QObject>
 #include "InstructionsViewModelState.h"
 
 class InstructionsViewModel : public QObject

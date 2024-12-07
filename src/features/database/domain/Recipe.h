@@ -3,7 +3,6 @@
 
 #include <QObject>
 #include <QVariantList>
-#include <QPair>
 
 class Recipe : public QObject
 {

@@ -3,6 +3,10 @@ import Sailfish.Silica 1.0
 import "../dataObjects"
 
 Column {
+    property bool isEmpty: row.model.count === 0
+    property alias title: titleLabel.text
+    signal recipeClicked(int index)
+    signal reloadCollection()
     function setLoading() {
         rowLoading.visible = true
         rowError.visible = false
@@ -24,21 +28,17 @@ Column {
         rowError.visible = false
         row.visible = true
     }
-    property bool isEmpty: row.model.count === 0
-    property string title: ""
-    signal recipeClicked(int index)
-    signal reloadCollection()
 
     spacing: Theme.paddingLarge
     property real recipeHeight: recipeCardHeight.getHeight((row.width - 3*Theme.paddingLarge)/2)
 
     Label {
+        id: titleLabel
         anchors.horizontalCenter: parent.horizontalCenter
         font.family: Theme.fontFamilyHeading
         font.pixelSize: Theme.fontSizeHuge
         font.bold: true
         color: Theme.highlightColor
-        text: title
 
         RecipeCardHeight { id: recipeCardHeight }
     }

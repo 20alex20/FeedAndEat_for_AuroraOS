@@ -3,7 +3,6 @@
 
 #include <QObject>
 #include <QVariantList>
-#include "src/features/database/domain/Recipe.h"
 
 class InstructionsViewModelState : public QObject
 {
@@ -16,8 +15,8 @@ public:
 
     QVariantList getChecks() const;
 
-    int getChecksNumber() const;
     QList<bool> getChecksList() const;
+    int getChecksNumber() const;
 
 private:
     QList<bool> _checks;

@@ -1,7 +1,6 @@
 #ifndef RECIPESREPLY_H
 #define RECIPESREPLY_H
 
-#include <QObject>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QJsonObject>

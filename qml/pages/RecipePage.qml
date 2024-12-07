@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import FeadAndEat.Recipe 1.0
+import "../items"
 
 Page {
     property Recipe recipe
@@ -98,6 +99,8 @@ Page {
             Rectangle {
                 width: parent.width
                 height: categories.height + 2*Theme.paddingMedium
+
+                visible: categoriesRepeater.count > 0
                 color: Theme.highlightBackgroundColor
 
                 Column {
@@ -124,6 +127,7 @@ Page {
                         spacing: Theme.paddingMedium
 
                         Repeater {
+                            id: categoriesRepeater
                             model: recipe.categories
 
                             Label {
@@ -136,42 +140,20 @@ Page {
                 }
             }
 
-            Rectangle {
+            ButtonCard {
                 width: parent.width
-                height: openInstructionsPage.height
-
-                border.width: Theme.paddingSmall
-                border.color: Theme.highlightColor
-                color: Theme.highlightBackgroundColor
-
-                Label {
-                    id: openInstructionsPage
-                    width: parent.width
-
-                    padding: Theme.paddingMedium
-                    font.pixelSize: Theme.fontSizeLarge
-                    font.bold: true
-                    color: Theme.primaryColor
-                    text: "Open step-by-step instructions"
-                    horizontalAlignment: Text.AlignHCenter
-                }
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: {
-                        pageStack.push(Qt.resolvedUrl("InstructionsPage.qml"), { "instructions": recipe.instructions })
-                    }
-
-                    Rectangle {
-                        anchors.fill: parent
-                        visible: parent.pressed
-                        color: "#40000000"
-                    }
+                visible: recipe.instructionsNumber > 0
+                text: "Open step-by-step instructions"
+                onClicked: {
+                    pageStack.push(Qt.resolvedUrl("InstructionsPage.qml"), { "instructions": recipe.instructions })
                 }
             }
 
             Rectangle {
                 width: parent.width
                 height: instructions.height + 2*Theme.paddingMedium
+
+                visible: instructionsRepeater.count > 0
                 color: Theme.highlightBackgroundColor
 
                 Column {
@@ -198,6 +180,7 @@ Page {
                         spacing: Theme.paddingMedium
 
                         Repeater {
+                            id: instructionsRepeater
                             model: recipe.instructions
 
                             Label {

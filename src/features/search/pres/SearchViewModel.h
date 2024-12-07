@@ -1,6 +1,7 @@
 #ifndef SEARCHVIEWMODEL_H
 #define SEARCHVIEWMODEL_H
 
+#include <QPair>
 #include "src/features/database/data/DatabaseHandler.h"
 #include "SearchViewModelState.h"
 

@@ -29,10 +29,10 @@ QVariantList InstructionsViewModelState::getChecks() const {
     return checks;
 }
 
-int InstructionsViewModelState::getChecksNumber() const {
-    return _checks.size();
-}
-
 QList<bool> InstructionsViewModelState::getChecksList() const {
     return _checks;
+}
+
+int InstructionsViewModelState::getChecksNumber() const {
+    return _checks.size();
 }

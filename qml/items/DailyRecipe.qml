@@ -3,12 +3,13 @@ import Sailfish.Silica 1.0
 import "../dataObjects"
 
 Column {
+    signal recipeClicked()
+    signal reloadRecipe()
     function setLoading() {
         dailyRecipeLoading.visible = true
         dailyRecipe.visible = false
     }
     function setRecipe(recipe) {
-        dailyRecipe.isSuccess = recipe.isSuccess
         dailyRecipe.name = recipe.name
         dailyRecipe.image = recipe.image
         dailyRecipe.servingsNumber = recipe.servingsNumber
@@ -16,8 +17,6 @@ Column {
         dailyRecipeLoading.visible = false
         dailyRecipe.visible = true
     }
-    signal recipeClicked()
-    signal reloadRecipe()
 
     spacing: Theme.paddingLarge
 

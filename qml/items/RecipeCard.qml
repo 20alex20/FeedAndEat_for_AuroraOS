@@ -2,11 +2,10 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 Rectangle {
-    property bool isSuccess: true
-    property string name: ""
-    property string image: ""
-    property int servingsNumber: 0
-    property int instructionsNumber: 0
+    property alias name: nameLabel.text
+    property alias image: cardImage.source
+    property alias servingsNumber: servingsNumberLabel.text
+    property alias instructionsNumber: instructionsNumberLabel.text
     signal clicked()
     signal pressed()
 
@@ -19,11 +18,11 @@ Rectangle {
         spacing: Theme.paddingSmall
 
         Image {
+            id: cardImage
             width: parent.width
             height: parent.width*3/4
 
             fillMode: Image.PreserveAspectCrop
-            source: image
             onStatusChanged: {
                 if (status === Image.Error)
                     source = "../images/imageLoadingError.png"
@@ -36,12 +35,12 @@ Rectangle {
             spacing: Theme.paddingMedium
 
             Label {
+                id: nameLabel
                 width: parent.width
                 font.family: Theme.fontFamilyHeading
                 font.pixelSize: Theme.fontSizeLarge
                 font.bold: true
                 color: Theme.primaryColor
-                text: name
                 wrapMode: Text.Wrap
                 maximumLineCount: 2
                 truncationMode: TruncationMode.Elide
@@ -64,11 +63,11 @@ Rectangle {
                         source: Qt.resolvedUrl("../icons/servings.svg")
                     }
                     Label {
+                        id: servingsNumberLabel
                         font.pixelSize: Theme.fontSizeLarge
                         font.bold: true
                         color: Theme.primaryColor
                         opacity: 0.8
-                        text: servingsNumber
                     }
                 }
 
@@ -77,11 +76,11 @@ Rectangle {
                     spacing: Theme.paddingSmall
 
                     Label {
+                        id: instructionsNumberLabel
                         font.pixelSize: Theme.fontSizeLarge
                         font.bold: true
                         color: Theme.primaryColor
                         opacity: 0.8
-                        text: instructionsNumber
                     }
                     Icon {
                         width: (Theme.iconSizeSmall + Theme.iconSizeSmallPlus)/2

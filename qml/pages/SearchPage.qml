@@ -86,7 +86,7 @@ Page {
         }
     }
 
-    SearchCategoryCard {
+    SearchCategoryCards {
         id: titleCards
         anchors.top: parent.top
         anchors.left: parent.left
@@ -133,13 +133,12 @@ Page {
             RecipeCard {
                 width: (parent.width - Theme.paddingLarge)/2
                 visible: ir0 !== -1
-                isSuccess: is0
                 name: ne0
                 image: ie0
                 servingsNumber: sr0
                 instructionsNumber: ir0
                 onClicked: {
-                    if (!isSuccess)
+                    if (!is0)
                         viewModel.loadRecipe(2*index)
                     else
                         pageStack.push(Qt.resolvedUrl("RecipePage.qml"), { "recipe": viewModel.state.getRecipe(2*index) })
@@ -158,13 +157,12 @@ Page {
                 width: (parent.width - Theme.paddingLarge)/2
 
                 visible: ir1 !== -1 && ne1 !== ""
-                isSuccess: is1
                 name: ne1
                 image: ie1
                 servingsNumber: sr1
                 instructionsNumber: ir1
                 onClicked: {
-                    if (!isSuccess)
+                    if (!is1)
                         viewModel.loadRecipe(2*index + 1)
                     else
                         pageStack.push(Qt.resolvedUrl("RecipePage.qml"), { "recipe": viewModel.state.getRecipe(2*index + 1) })

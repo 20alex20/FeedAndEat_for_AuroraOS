@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import FeadAndEat.Feature.Instructions 1.0
+import "../items"
 
 Page {
     property var instructions
@@ -61,6 +62,7 @@ Page {
             anchors.fill: parent
             anchors.margins: Theme.paddingMedium
 
+            clip: true
             flickableDirection: Flickable.VerticalFlick
             contentWidth: instruction.width
             contentHeight: instruction.height
@@ -89,161 +91,69 @@ Page {
 
         Item {
             width: parent.width
-            height: mark.height
+            height: check.height
 
-            Rectangle {
+            ButtonCard {
                 width: (parent.width - 2*Theme.paddingLarge)/3
-                height: mark.height
+                height: check.height
 
                 visible: currentIndex > 0
-                border.width: Theme.paddingSmall
-                border.color: Theme.highlightColor
-                color: Theme.highlightBackgroundColor
-
-                Label {
-                    anchors.centerIn: parent
-                    font.pixelSize: Theme.fontSizeLarge
-                    font.bold: true
-                    color: Theme.primaryColor
-                    text: "To previous"
-                    wrapMode: Text.WordWrap
-                    horizontalAlignment: Text.AlignHCenter
-                }
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: {
-                        if (currentIndex > 0)
-                            currentIndex -= 1
-                    }
-
-                    Rectangle {
-                        anchors.fill: parent
-                        visible: parent.pressed
-                        color: "#40000000"
-                    }
+                text: "To previous"
+                onClicked: {
+                    if (currentIndex > 0)
+                        currentIndex -= 1
                 }
             }
-
-            Rectangle {
+            ButtonCard {
+                id: check
                 anchors.horizontalCenter: parent.horizontalCenter
                 width: (parent.width - 2*Theme.paddingLarge)/3
-                height: mark.height
 
-                border.width: Theme.paddingSmall
-                border.color: Theme.highlightColor
                 color: checks[currentIndex] ? Theme.highlightDimmerColor : Theme.highlightBackgroundColor
-
-                Label {
-                    id: mark
-                    width: parent.width
-
-                    padding: Theme.paddingMedium
-                    font.pixelSize: Theme.fontSizeLarge
-                    font.bold: true
-                    color: Theme.primaryColor
-                    text: checks[currentIndex] ? "Marked as completed" : "Mark as completed"
-                    wrapMode: Text.WordWrap
-                    horizontalAlignment: Text.AlignHCenter
-                }
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: {
-                        viewModel.changeCheck(currentIndex)
-                    }
-
-                    Rectangle {
-                        anchors.fill: parent
-                        visible: parent.pressed
-                        color: "#40000000"
-                    }
+                text: checks[currentIndex] ? "Marked as completed" : "Mark as completed"
+                onClicked: {
+                    viewModel.changeCheck(currentIndex)
                 }
             }
-
-            Rectangle {
+            ButtonCard {
                 anchors.right: parent.right
                 width: (parent.width - 2*Theme.paddingLarge)/3
-                height: mark.height
+                height: check.height
 
                 visible: currentIndex < instructions.length - 1
-                border.width: Theme.paddingSmall
-                border.color: Theme.highlightColor
-                color: Theme.highlightBackgroundColor
-
-                Label {
-                    anchors.centerIn: parent
-                    font.pixelSize: Theme.fontSizeLarge
-                    font.bold: true
-                    color: Theme.primaryColor
-                    text: "To next"
-                    wrapMode: Text.WordWrap
-                    horizontalAlignment: Text.AlignHCenter
-                }
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: {
-                        if (currentIndex < instructions.length - 1)
-                            currentIndex += 1
-                    }
-
-                    Rectangle {
-                        anchors.fill: parent
-                        visible: parent.pressed
-                        color: "#40000000"
-                    }
+                text: "To next"
+                onClicked: {
+                    if (currentIndex < instructions.length - 1)
+                        currentIndex += 1
                 }
             }
         }
 
-        Rectangle {
+        ButtonCard {
+            property bool leavePage: false
+
+            id: leaveInstructions
             width: parent.width
-            height: confirm.height
 
-            border.width: Theme.paddingSmall
-            border.color: Theme.highlightColor
-            color: Theme.highlightBackgroundColor
-
-            Label {
-                id: confirm
-                width: parent.width
-
-                padding: Theme.paddingMedium
-                font.pixelSize: Theme.fontSizeLarge
-                font.bold: true
-                color: Theme.primaryColor
-                text: "Leave the instructions"
-                horizontalAlignment: Text.AlignHCenter
+            text: "Leave the instructions"
+            onClicked: {
+                for (var i = 0; i < checks.length; i++)
+                    if (!checks[i]) {
+                        pageStack.push(dialog).accepted.connect(function() {
+                            leaveInstructions.leavePage = true
+                        })
+                        return
+                    }
+                pageStack.pop()
             }
 
-            MouseArea {
-                property bool leavePage: false
-
-                id: leaveInstructions
-                anchors.fill: parent
-                onClicked: {
-                    for (var i = 0; i < checks.length; i++)
-                        if (!checks[i]) {
-                            pageStack.push(dialog).accepted.connect(function() {
-                                leaveInstructions.leavePage = true
-                            })
-                            return
-                        }
-                    backNavigation = true
-                    pageStack.pop()
-                }
-                Connections {
-                    target: pageStack
-                    onBusyChanged: {
-                        if (leaveInstructions.leavePage && !busy) {
-                            leaveInstructions.leavePage = false
-                            pageStack.pop(pageStack.previousPage(pageStack.currentPage), PageStackAction.Immediate)
-                        }
+            Connections {
+                target: pageStack
+                onBusyChanged: {
+                    if (leaveInstructions.leavePage && !busy) {
+                        leaveInstructions.leavePage = false
+                        pageStack.pop(pageStack.previousPage(pageStack.currentPage), PageStackAction.Immediate)
                     }
-                }
-
-                Rectangle {
-                    anchors.fill: parent
-                    visible: parent.pressed
-                    color: "#40000000"
                 }
             }
 
