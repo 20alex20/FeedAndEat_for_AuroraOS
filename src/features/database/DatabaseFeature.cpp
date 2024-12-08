@@ -12,6 +12,6 @@ DatabaseFeature::~DatabaseFeature()
     _databaseHandler->deleteLater();
 }
 
-DatabaseHandler * DatabaseFeature::getDatabaseHandler() {
+DatabaseHandler *DatabaseFeature::getDatabaseHandler() {
     return _databaseHandler;
 }

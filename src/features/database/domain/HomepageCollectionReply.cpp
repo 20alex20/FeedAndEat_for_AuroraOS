@@ -3,7 +3,7 @@
 #include <QJsonParseError>
 #include <QJsonArray>
 
-HomepageCollectionReply::HomepageCollectionReply(const QUrl &url, QNetworkAccessManager * const networkManager, const int loudsNumber, QObject* parent)
+HomepageCollectionReply::HomepageCollectionReply(const QUrl &url, QNetworkAccessManager * const networkManager, int loudsNumber, QObject* parent)
     : RecipesReply(url, networkManager, loudsNumber, parent)
 { }
 

@@ -13,13 +13,13 @@ public:
 
     Q_INVOKABLE void bind(int instructionsNumber);
     Q_INVOKABLE void changeCheck(int index);
-
-    void setState(InstructionsViewModelState* newState);
     InstructionsViewModelState *getState() const;
+
 signals:
     void stateChanged();
 
 private:
+    void setState(InstructionsViewModelState *newState);
 
     InstructionsViewModelState *_state;
 };

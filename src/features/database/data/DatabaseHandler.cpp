@@ -10,7 +10,7 @@ DatabaseHandler::DatabaseHandler(QObject *parent)
       _networkManager(new QNetworkAccessManager(this))
 { }
 
-RecipesReply *DatabaseHandler::getRecipe(const int recipeId) {
+RecipesReply *DatabaseHandler::getRecipe(int recipeId) {
     auto url = "https://feedandeat-2024-default-rtdb.firebaseio.com/recipe.json?orderBy=\"id\"&equalTo=" + QString::number(recipeId);
     return new RecipeReply(QUrl(url), _networkManager, recipeId);
 }
@@ -20,12 +20,12 @@ RecipesReply *DatabaseHandler::getDailyRecipe() {
     return new DailyRecipeReply(QUrl(url), _networkManager);
 }
 
-RecipesReply *DatabaseHandler::getHomepageCollection(QString collectionName) {
+RecipesReply *DatabaseHandler::getHomepageCollection(const QString &collectionName) {
     auto url = "https://feedandeat-2024-default-rtdb.firebaseio.com/homepageCollections/" + collectionName + ".json";
     return new HomepageCollectionReply(QUrl(url), _networkManager);
 }
 
-RecipesReply *DatabaseHandler::getSearchRecipes(QString searchQuery, QString category, const int continuation) {
+RecipesReply *DatabaseHandler::getSearchRecipes(const QString &searchQuery, const QString &category, int continuation) {
     QString url = "https://feedandeat-2024-default-rtdb.firebaseio.com/recipeIdAndName";
     if (category != "")
         url += "ByCategories/" + category.toLower();

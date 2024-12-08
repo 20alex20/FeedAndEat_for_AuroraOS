@@ -11,7 +11,7 @@ class InstructionsViewModelState : public QObject
 public:
     explicit InstructionsViewModelState(QObject *parent = nullptr);
     explicit InstructionsViewModelState(int instructionsNumber, QObject *parent = nullptr);
-    explicit InstructionsViewModelState(InstructionsViewModelState *_oldState, int index, QObject *parent = nullptr);
+    explicit InstructionsViewModelState(const InstructionsViewModelState *_oldState, int index, QObject *parent = nullptr);
 
     QVariantList getChecks() const;
 

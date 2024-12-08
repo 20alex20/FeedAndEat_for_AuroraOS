@@ -9,7 +9,7 @@ RecipesReply::RecipesReply(QObject *parent)
       _loudsNumber(0)
 { }
 
-RecipesReply::RecipesReply(const QUrl &url, QNetworkAccessManager * const networkManager, const int loudsNumber, QObject *parent)
+RecipesReply::RecipesReply(const QUrl &url, QNetworkAccessManager * const networkManager, int loudsNumber, QObject *parent)
     : QObject(parent),
       _url(url),
       _networkManager(networkManager),
@@ -29,7 +29,7 @@ QString RecipesReply::getUrl() {
     return _url.toString();
 }
 
-void RecipesReply::sendResponse(QList<QJsonObject> &recipes) {
+void RecipesReply::sendResponse(const QList<QJsonObject> &recipes) {
     QList<Recipe*> processedRecipes;
     processedRecipes.reserve(recipes.size());
     for (auto &recipe: recipes) {

@@ -4,7 +4,7 @@
 #include <QJsonArray>
 #include "RecipeReply.h"
 
-SearchRecipesReply::SearchRecipesReply(const QUrl &url, QNetworkAccessManager * const networkManager, const int loudsNumber, QObject *parent)
+SearchRecipesReply::SearchRecipesReply(const QUrl &url, QNetworkAccessManager * const networkManager, int loudsNumber, QObject *parent)
     : RecipesReply(url, networkManager, loudsNumber, parent),
       _withSearchQuery(url.toString().right(4) == "~%22"),
       _recipes(),

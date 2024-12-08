@@ -13,7 +13,7 @@ InstructionsViewModelState::InstructionsViewModelState(int instructionsNumber, Q
         _checks.append(false);
 }
 
-InstructionsViewModelState::InstructionsViewModelState(InstructionsViewModelState *_oldState, int index, QObject *parent)
+InstructionsViewModelState::InstructionsViewModelState(const InstructionsViewModelState *_oldState, int index, QObject *parent)
     : QObject(parent),
       _checks(_oldState->getChecksList())
 {

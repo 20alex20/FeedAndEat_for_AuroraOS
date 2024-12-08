@@ -9,10 +9,10 @@ class DatabaseHandler : public QObject
 public:
     explicit DatabaseHandler(QObject *parent = nullptr);
 
-    RecipesReply *getRecipe(const int recipeId);
+    RecipesReply *getRecipe(int recipeId);
     RecipesReply *getDailyRecipe();
-    RecipesReply *getHomepageCollection(QString collectionName);
-    RecipesReply *getSearchRecipes(QString searchQuery, QString category, const int continuation = -1);
+    RecipesReply *getHomepageCollection(const QString &collectionName);
+    RecipesReply *getSearchRecipes(const QString &searchQuery, const QString &category, int continuation = -1);
 
 private:
     QNetworkAccessManager * const _networkManager;

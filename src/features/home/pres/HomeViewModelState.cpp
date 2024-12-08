@@ -19,7 +19,7 @@ HomeViewModelState::HomeViewModelState(QObject *parent)
         _collectionsRecipesStatuses[i] = Loading;
 }
 
-HomeViewModelState::HomeViewModelState(HomeViewModelState *oldState, QObject *parent)
+HomeViewModelState::HomeViewModelState(const HomeViewModelState *oldState, QObject *parent)
     : QObject(parent),
       _dailyRecipe(nullptr)
 {
@@ -30,7 +30,7 @@ HomeViewModelState::HomeViewModelState(HomeViewModelState *oldState, QObject *pa
     setRecipesParent(_collectionsRecipes, this);
 }
 
-HomeViewModelState::HomeViewModelState(HomeViewModelState *oldState, Recipe *dailyRecipe, QObject *parent)
+HomeViewModelState::HomeViewModelState(const HomeViewModelState *oldState, Recipe *dailyRecipe, QObject *parent)
     : QObject(parent),
       _dailyRecipe(dailyRecipe)
 {
@@ -42,7 +42,7 @@ HomeViewModelState::HomeViewModelState(HomeViewModelState *oldState, Recipe *dai
     setRecipesParent(_collectionsRecipes, this);
 }
 
-HomeViewModelState::HomeViewModelState(HomeViewModelState *oldState, Collection collection, QObject *parent)
+HomeViewModelState::HomeViewModelState(const HomeViewModelState *oldState, Collection collection, QObject *parent)
     : QObject(parent),
       _dailyRecipe(oldState->getDailyRecipe())
 {
@@ -59,7 +59,7 @@ HomeViewModelState::HomeViewModelState(HomeViewModelState *oldState, Collection 
     setRecipesParent(_collectionsRecipes, this);
 }
 
-HomeViewModelState::HomeViewModelState(HomeViewModelState *oldState, Collection collection, QList<Recipe*> &recipes, QObject *parent)
+HomeViewModelState::HomeViewModelState(const HomeViewModelState *oldState, Collection collection, const QList<Recipe*> &recipes, QObject *parent)
     : QObject(parent),
       _dailyRecipe(oldState->getDailyRecipe())
 {
@@ -77,11 +77,7 @@ HomeViewModelState::HomeViewModelState(HomeViewModelState *oldState, Collection 
     setRecipesParent(_collectionsRecipes, this);
 }
 
-Recipe *HomeViewModelState::getDailyRecipe() const {
-    return _dailyRecipe;
-}
-
-QVariantList HomeViewModelState::getCollectionRecipes(HomeViewModelState::Collection collection) const {
+QVariantList HomeViewModelState::getCollectionRecipes(Collection collection) const {
     QVariantList recipes;
     recipes.reserve(_collectionsRecipes[collection - Qt::UserRole - 1].size());
     for (auto &recipe: _collectionsRecipes[collection - Qt::UserRole - 1])
@@ -89,14 +85,18 @@ QVariantList HomeViewModelState::getCollectionRecipes(HomeViewModelState::Collec
     return recipes;
 }
 
-HomeViewModelState::Status HomeViewModelState::getCollectionStatus(HomeViewModelState::Collection collection) const {
+HomeViewModelState::Status HomeViewModelState::getCollectionStatus(Collection collection) const {
     return _collectionsRecipesStatuses[collection - Qt::UserRole - 1];
 }
 
-Recipe *HomeViewModelState::getRecipe(HomeViewModelState::Collection collection, int index) {
+Recipe *HomeViewModelState::getRecipe(Collection collection, int index) {
     if (index < 0 || index >= _collectionsRecipes[collection - Qt::UserRole - 1].size())
         return new Recipe(this);
     return _collectionsRecipes[collection - Qt::UserRole - 1][index];
+}
+
+Recipe *HomeViewModelState::getDailyRecipe() const {
+    return _dailyRecipe;
 }
 
 QList<Recipe*> HomeViewModelState::getCollectionRecipesList(int index) const {

@@ -23,17 +23,17 @@ public:
 
     explicit SearchViewModelState(QObject *parent = nullptr);
     explicit SearchViewModelState(QString searchQuery, QString category = "", QList<Recipe*> recipes = { }, int continuation = -1, QObject *parent = nullptr);
-    explicit SearchViewModelState(SearchViewModelState *oldState, QList<Recipe*> recipes, int continuation = -1, QObject *parent = nullptr);
-    explicit SearchViewModelState(SearchViewModelState *oldState, QObject *parent = nullptr);
-    explicit SearchViewModelState(SearchViewModelState *oldState, int index, QObject *parent = nullptr);
-    explicit SearchViewModelState(SearchViewModelState *oldState, int index, Recipe *recipe, QObject *parent = nullptr);
+    explicit SearchViewModelState(const SearchViewModelState *oldState, const QList<Recipe*> &recipes, int continuation = -1, QObject *parent = nullptr);
+    explicit SearchViewModelState(const SearchViewModelState *oldState, QObject *parent = nullptr);
+    explicit SearchViewModelState(const SearchViewModelState *oldState, int index, QObject *parent = nullptr);
+    explicit SearchViewModelState(const SearchViewModelState *oldState, int index, Recipe *recipe, QObject *parent = nullptr);
 
+    Q_INVOKABLE Recipe *getRecipe(int index);
     QString getSearchQuery() const;
     QVariantList getRecipes() const;
     int getRecipesNumber() const;
     bool isEnd() const;
     Status getStatus() const;
-    Q_INVOKABLE Recipe *getRecipe(int index);
 
     QString getCategory() const;
     QList<Recipe*> getRecipesList() const;

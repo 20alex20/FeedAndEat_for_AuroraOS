@@ -2,7 +2,7 @@
 #include <QJsonDocument>
 #include <QJsonParseError>
 
-RecipeReply::RecipeReply(const QUrl &url, QNetworkAccessManager * const networkManager, int recipeId, const int loudsNumber, QObject* parent)
+RecipeReply::RecipeReply(const QUrl &url, QNetworkAccessManager * const networkManager, int recipeId, int loudsNumber, QObject* parent)
     : RecipesReply(url, networkManager, loudsNumber, parent),
       _recipeId(recipeId)
 { }

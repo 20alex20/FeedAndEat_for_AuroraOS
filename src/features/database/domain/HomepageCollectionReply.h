@@ -8,7 +8,7 @@ class HomepageCollectionReply : public RecipesReply
 {
     Q_OBJECT
 public:
-    explicit HomepageCollectionReply(const QUrl &url, QNetworkAccessManager * const networkManager, const int loudsNumber = Default::AttemptsNumber, QObject *parent = nullptr);
+    explicit HomepageCollectionReply(const QUrl &url, QNetworkAccessManager * const networkManager, int loudsNumber = Default::AttemptsNumber, QObject *parent = nullptr);
     virtual ~HomepageCollectionReply() override;
 
 private:

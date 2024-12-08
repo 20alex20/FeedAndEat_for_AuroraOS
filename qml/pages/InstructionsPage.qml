@@ -152,7 +152,7 @@ Page {
                 onBusyChanged: {
                     if (leaveInstructions.leavePage && !busy) {
                         leaveInstructions.leavePage = false
-                        pageStack.pop(pageStack.previousPage(pageStack.currentPage), PageStackAction.Immediate)
+                        pageStack.pop()
                     }
                 }
             }

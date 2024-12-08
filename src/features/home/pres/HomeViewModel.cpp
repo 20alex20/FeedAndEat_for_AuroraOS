@@ -57,6 +57,17 @@ void HomeViewModel::reloadLowCalorieRecipes() {
             this, &HomeViewModel::receiveLowCalorieRecipes);
 }
 
+HomeViewModelState *HomeViewModel::getState() const {
+    return _state;
+}
+
+void HomeViewModel::setState(HomeViewModelState *newState) {
+    auto oldState = _state;
+    _state = newState;
+    emit stateChanged();
+    oldState->deleteLater();
+}
+
 void HomeViewModel::receiveDailyRecipe(RecipesReply *recipeReply, QList<Recipe*> recipe) {
     setState(new HomeViewModelState(_state, recipe[0]));
     recipeReply->deleteLater();
@@ -80,15 +91,4 @@ void HomeViewModel::receiveRecipesForBigGroup(RecipesReply *recipesReply, QList<
 void HomeViewModel::receiveLowCalorieRecipes(RecipesReply *recipesReply, QList<Recipe*> recipes) {
     setState(new HomeViewModelState(_state, HomeViewModelState::LowCalorie, recipes));
     recipesReply->deleteLater();
-}
-
-void HomeViewModel::setState(HomeViewModelState *newState) {
-    auto oldState = _state;
-    _state = newState;
-    emit stateChanged();
-    oldState->deleteLater();
-}
-
-HomeViewModelState *HomeViewModel::getState() const {
-    return _state;
 }

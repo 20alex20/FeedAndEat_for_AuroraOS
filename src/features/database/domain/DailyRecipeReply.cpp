@@ -5,7 +5,7 @@
 #include <QDate>
 #include "RecipeReply.h"
 
-DailyRecipeReply::DailyRecipeReply(const QUrl &url, QNetworkAccessManager * const networkManager, const int loudsNumber, QObject *parent)
+DailyRecipeReply::DailyRecipeReply(const QUrl &url, QNetworkAccessManager * const networkManager, int loudsNumber, QObject *parent)
     : RecipesReply(url, networkManager, loudsNumber, parent)
 { }
 

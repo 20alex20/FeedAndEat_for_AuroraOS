@@ -11,7 +11,7 @@ class RecipesReply : public QObject
     Q_OBJECT
 public:
     explicit RecipesReply(QObject *parent = nullptr);
-    explicit RecipesReply(const QUrl &url, QNetworkAccessManager * const networkManager, const int loudsNumber, QObject *parent = nullptr);
+    explicit RecipesReply(const QUrl &url, QNetworkAccessManager * const networkManager, int loudsNumber, QObject *parent = nullptr);
     virtual ~RecipesReply();
 
     QString getUrl();
@@ -24,7 +24,7 @@ private:
     virtual void processError(QNetworkReply::NetworkError code) = 0;
 
 protected:
-    void sendResponse(QList<QJsonObject> &recipes);
+    void sendResponse(const QList<QJsonObject> &recipes);
     void reload();
 
     const QUrl _url;

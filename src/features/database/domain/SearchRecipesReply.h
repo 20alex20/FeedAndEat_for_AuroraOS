@@ -8,7 +8,7 @@ class SearchRecipesReply : public RecipesReply
 {
     Q_OBJECT
 public:
-    explicit SearchRecipesReply(const QUrl &url, QNetworkAccessManager * const networkManager, const int loudsNumber = Default::AttemptsNumber, QObject *parent = nullptr);
+    explicit SearchRecipesReply(const QUrl &url, QNetworkAccessManager * const networkManager, int loudsNumber = Default::AttemptsNumber, QObject *parent = nullptr);
     virtual ~SearchRecipesReply() override;
 
 private:

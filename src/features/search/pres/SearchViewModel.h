@@ -20,19 +20,18 @@ public:
     Q_INVOKABLE void loadFromAllCategories();
     Q_INVOKABLE void loadAdditionalRecipes();
     Q_INVOKABLE void loadRecipe(int index);
-
-    void receiveRecipes(RecipesReply *recipesReply, QList<Recipe*> recipes);
-    void receiveRecipe(RecipesReply *recipeReply, QList<Recipe*> recipes);
-
-    void setState(SearchViewModelState* newState);
     SearchViewModelState *getState() const;
+
 signals:
     void stateChanged();
 
 private:
+    void setState(SearchViewModelState *newState);
+    void receiveRecipes(RecipesReply *recipesReply, QList<Recipe*> recipes);
+    void receiveRecipe(RecipesReply *recipeReply, QList<Recipe*> recipes);
+
     DatabaseHandler * const _databaseHandler;
     SearchViewModelState *_state;
-
     RecipesReply *_currentRecipesReply;
     QList<QPair<RecipesReply*, int>> _recipesReplies;
 };

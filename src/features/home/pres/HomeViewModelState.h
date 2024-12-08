@@ -25,15 +25,15 @@ public:
     Q_ENUM(Collection)
 
     explicit HomeViewModelState(QObject *parent = nullptr);
-    explicit HomeViewModelState(HomeViewModelState *oldState, QObject *parent = nullptr);
-    explicit HomeViewModelState(HomeViewModelState *oldState, Recipe *dailyRecipe, QObject *parent = nullptr);
-    explicit HomeViewModelState(HomeViewModelState *oldState, Collection collection, QObject *parent = nullptr);
-    explicit HomeViewModelState(HomeViewModelState *oldState, Collection collection, QList<Recipe*> &recipes, QObject *parent = nullptr);
+    explicit HomeViewModelState(const HomeViewModelState *oldState, QObject *parent = nullptr);
+    explicit HomeViewModelState(const HomeViewModelState *oldState, Recipe *dailyRecipe, QObject *parent = nullptr);
+    explicit HomeViewModelState(const HomeViewModelState *oldState, Collection collection, QObject *parent = nullptr);
+    explicit HomeViewModelState(const HomeViewModelState *oldState, Collection collection, const QList<Recipe*> &recipes, QObject *parent = nullptr);
 
+    Q_INVOKABLE QVariantList getCollectionRecipes(Collection collection) const;
+    Q_INVOKABLE Status getCollectionStatus(Collection collection) const;
+    Q_INVOKABLE Recipe *getRecipe(Collection collection, int index);
     Recipe *getDailyRecipe() const;
-    Q_INVOKABLE QVariantList getCollectionRecipes(HomeViewModelState::Collection collection) const;
-    Q_INVOKABLE Status getCollectionStatus(HomeViewModelState::Collection collection) const;
-    Q_INVOKABLE Recipe *getRecipe(HomeViewModelState::Collection collection, int index);
 
     QList<Recipe*> getCollectionRecipesList(int index) const;
     Status getCollectionRecipesStatus(int index) const;

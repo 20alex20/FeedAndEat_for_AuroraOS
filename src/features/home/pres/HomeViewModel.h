@@ -19,19 +19,19 @@ public:
     Q_INVOKABLE void reloadDrinkRecipes();
     Q_INVOKABLE void reloadRecipesForBigGroup();
     Q_INVOKABLE void reloadLowCalorieRecipes();
+    HomeViewModelState *getState() const;
 
+signals:
+    void stateChanged();
+
+private:
+    void setState(HomeViewModelState *newState);
     void receiveDailyRecipe(RecipesReply *recipeReply, QList<Recipe*> recipe);
     void receiveBreakfastRecipes(RecipesReply *recipesReply, QList<Recipe*> recipes);
     void receiveDrinkRecipes(RecipesReply *recipesReply, QList<Recipe*> recipes);
     void receiveRecipesForBigGroup(RecipesReply *recipesReply, QList<Recipe*> recipes);
     void receiveLowCalorieRecipes(RecipesReply *recipesReply, QList<Recipe*> recipes);
 
-    void setState(HomeViewModelState* newState);
-    HomeViewModelState *getState() const;
-signals:
-    void stateChanged();
-
-private:
     DatabaseHandler * const _databaseHandler;
     HomeViewModelState *_state;
 };

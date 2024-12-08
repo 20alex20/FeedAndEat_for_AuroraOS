@@ -18,13 +18,13 @@ void InstructionsViewModel::changeCheck(int index) {
         setState(new InstructionsViewModelState(_state, index));
 }
 
-void InstructionsViewModel::setState(InstructionsViewModelState* newState) {
+InstructionsViewModelState *InstructionsViewModel::getState() const {
+    return _state;
+}
+
+void InstructionsViewModel::setState(InstructionsViewModelState *newState) {
     auto oldState = _state;
     _state = newState;
     emit stateChanged();
     oldState->deleteLater();
-}
-
-InstructionsViewModelState *InstructionsViewModel::getState() const {
-    return _state;
 }

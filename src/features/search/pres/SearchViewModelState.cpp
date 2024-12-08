@@ -30,7 +30,7 @@ SearchViewModelState::SearchViewModelState(QString searchQuery, QString category
     setRecipesParent(_recipes, this);
 }
 
-SearchViewModelState::SearchViewModelState(SearchViewModelState *oldState, QList<Recipe*> recipes, int continuation, QObject *parent)
+SearchViewModelState::SearchViewModelState(const SearchViewModelState *oldState, const QList<Recipe*> &recipes, int continuation, QObject *parent)
     : QObject(parent),
       _searchQuery(oldState->getSearchQuery()),
       _category(oldState->getCategory()),
@@ -41,7 +41,7 @@ SearchViewModelState::SearchViewModelState(SearchViewModelState *oldState, QList
     setRecipesParent(_recipes, this);
 }
 
-SearchViewModelState::SearchViewModelState(SearchViewModelState *oldState, QObject *parent)
+SearchViewModelState::SearchViewModelState(const SearchViewModelState *oldState, QObject *parent)
     : QObject(parent),
       _searchQuery(oldState->getSearchQuery()),
       _category(oldState->getCategory()),
@@ -52,7 +52,7 @@ SearchViewModelState::SearchViewModelState(SearchViewModelState *oldState, QObje
     setRecipesParent(_recipes, this);
 }
 
-SearchViewModelState::SearchViewModelState(SearchViewModelState *oldState, int index, QObject *parent)
+SearchViewModelState::SearchViewModelState(const SearchViewModelState *oldState, int index, QObject *parent)
     : QObject(parent),
       _searchQuery(oldState->getSearchQuery()),
       _category(oldState->getCategory()),
@@ -65,7 +65,7 @@ SearchViewModelState::SearchViewModelState(SearchViewModelState *oldState, int i
     setRecipesParent(_recipes, this);
 }
 
-SearchViewModelState::SearchViewModelState(SearchViewModelState *oldState, int index, Recipe *recipe, QObject *parent)
+SearchViewModelState::SearchViewModelState(const SearchViewModelState *oldState, int index, Recipe *recipe, QObject *parent)
     : QObject(parent),
       _searchQuery(oldState->getSearchQuery()),
       _category(oldState->getCategory()),
@@ -76,6 +76,12 @@ SearchViewModelState::SearchViewModelState(SearchViewModelState *oldState, int i
     if (index >= 0 && index < _recipes.size())
         _recipes[index] = recipe;
     setRecipesParent(_recipes, this);
+}
+
+Recipe *SearchViewModelState::getRecipe(int index) {
+    if (index < 0 || index >= _recipes.size())
+        return new Recipe(this);
+    return _recipes[index];
 }
 
 QString SearchViewModelState::getSearchQuery() const {
@@ -100,12 +106,6 @@ bool SearchViewModelState::isEnd() const {
 
 SearchViewModelState::Status SearchViewModelState::getStatus() const {
     return _status;
-}
-
-Recipe *SearchViewModelState::getRecipe(int index) {
-    if (index < 0 || index >= _recipes.size())
-        return new Recipe(this);
-    return _recipes[index];
 }
 
 QString SearchViewModelState::getCategory() const {

@@ -59,6 +59,17 @@ void SearchViewModel::loadRecipe(int index) {
     connect(_recipesReplies.last().first, &RecipesReply::receive, this, &SearchViewModel::receiveRecipe);
 }
 
+SearchViewModelState *SearchViewModel::getState() const {
+    return _state;
+}
+
+void SearchViewModel::setState(SearchViewModelState *newState) {
+    auto oldState = _state;
+    _state = newState;
+    emit stateChanged();
+    oldState->deleteLater();
+}
+
 void SearchViewModel::receiveRecipes(RecipesReply *recipesReply, QList<Recipe*> recipes) {
     if (_currentRecipesReply == recipesReply) {
         if (recipesReply->getUrl().right(4) != "~%22" && recipes.size() == Default::PageLength + 1) {
@@ -84,15 +95,3 @@ void SearchViewModel::receiveRecipe(RecipesReply *recipesReply, QList<Recipe*> r
         }
     recipesReply->deleteLater();
 }
-
-void SearchViewModel::setState(SearchViewModelState *newState) {
-    auto oldState = _state;
-    _state = newState;
-    emit stateChanged();
-    oldState->deleteLater();
-}
-
-SearchViewModelState *SearchViewModel::getState() const {
-    return _state;
-}
-
