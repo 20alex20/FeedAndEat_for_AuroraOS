@@ -163,6 +163,8 @@ Page {
                 Dialog {
                     DialogHeader {
                         id: header
+                        acceptText: "Accept"
+                        cancelText: "Cancel"
                         title: "Are you sure you want to leave the instructions?"
                     }
                     Label {

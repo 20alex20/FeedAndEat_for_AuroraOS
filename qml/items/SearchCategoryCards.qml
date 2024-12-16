@@ -30,7 +30,7 @@ Column {
             color: Theme.primaryColor
             placeholderText: "Search"
             backgroundStyle: TextEditor.NoBackground
-            validator: RegExpValidator { regExp: /^[A-Za-z0-9 ]*$/ }
+            validator: RegExpValidator { regExp: /^([A-Za-z0-9][A-Za-z0-9 ]{0,15})?$/ }
             strictValidation: true
             onTextChanged: {
                 searchQueryChanged(text)

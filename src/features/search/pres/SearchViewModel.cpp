@@ -82,6 +82,7 @@ void SearchViewModel::receiveRecipes(RecipesReply *recipesReply, QList<Recipe*> 
         else {
             setState(new SearchViewModelState(_state, recipes));
         }
+        _currentRecipesReply = nullptr;
     }
     recipesReply->deleteLater();
 }
