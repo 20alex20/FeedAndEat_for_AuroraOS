@@ -1,82 +1,136 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-import FeadAndEat.Feature.HomePage 1.0
+import FeadAndEat.Recipe 1.0
+import FeadAndEat.Feature.Home 1.0
+import "../items"
 
 Page {
-    objectName: "homePage"
-
-    property HomePageViewModel viewModel: HomePageFeature.getHomePageViewModel(this);
-    Component.onCompleted: viewModel.bind()
+    property HomeViewModel viewModel: HomeFeature.getHomeViewModel(this)
+    Component.onCompleted: {
+        viewModel.bind()
+    }
     Connections {
         target: viewModel
-        onRecipeOfDayOfYearChanged: {
-            result1.text = viewModel.recipeOfDayOfYear
-        }
-        onRecipesOfBreakfastChanged: {
-            result2.text = viewModel.recipesOfBreakfast
-        }
-        onRecipesOfDrinkChanged: {
-            result3.text = viewModel.recipesOfDrink
-        }
-        onRecipesOfForBigGroupChanged: {
-            result4.text = viewModel.recipesOfForBigGroup
-        }
-        onRecipesOfLowCalorieChanged: {
-            result5.text = viewModel.recipesOfLowCalorie
-        }
+        onStateChanged: {
+            if (viewModel.state.dailyRecipe === null)
+                dailyRecipe.setLoading()
+            else
+                dailyRecipe.setRecipe(viewModel.state.dailyRecipe)
 
+            if (viewModel.state.getCollectionStatus(HomeViewModelState.Breakfast) === HomeViewModelState.Loading)
+                row1.setLoading()
+            else if (viewModel.state.getCollectionStatus(HomeViewModelState.Breakfast) === HomeViewModelState.Error)
+                row1.setError()
+            else if (row1.isEmpty)
+                row1.setSuccess(viewModel.state.getCollectionRecipes(HomeViewModelState.Breakfast))
 
-        onRecipeIdsChanged: {
-            result6.text = viewModel.recipeIds
-        }
-        onRecipeChanged: {
-            result7.text = viewModel.recipe
+            if (viewModel.state.getCollectionStatus(HomeViewModelState.Drink) === HomeViewModelState.Loading)
+                row2.setLoading()
+            else if (viewModel.state.getCollectionStatus(HomeViewModelState.Drink) === HomeViewModelState.Error)
+                row2.setError()
+            else if (row2.isEmpty)
+                row2.setSuccess(viewModel.state.getCollectionRecipes(HomeViewModelState.Drink))
+
+            if (viewModel.state.getCollectionStatus(HomeViewModelState.ForBigGroup) === HomeViewModelState.Loading)
+                row3.setLoading()
+            else if (viewModel.state.getCollectionStatus(HomeViewModelState.ForBigGroup) === HomeViewModelState.Error)
+                row3.setError()
+            else if (row3.isEmpty)
+                row3.setSuccess(viewModel.state.getCollectionRecipes(HomeViewModelState.ForBigGroup))
+
+            if (viewModel.state.getCollectionStatus(HomeViewModelState.LowCalorie) === HomeViewModelState.Loading)
+                row4.setLoading()
+            else if (viewModel.state.getCollectionStatus(HomeViewModelState.LowCalorie) === HomeViewModelState.Error)
+                row4.setError()
+            else if (row4.isEmpty)
+                row4.setSuccess(viewModel.state.getCollectionRecipes(HomeViewModelState.LowCalorie))
         }
     }
 
+    clip: true
+
     Flickable {
+        id: flickable
         anchors.fill: parent
-        contentHeight: result1.height + result2.height + result3.height + result4.height + result5.height + result6.height + result7.height + 240
+        anchors.margins: Theme.horizontalPageMargin
+
+        flickableDirection: Flickable.VerticalFlick
+        contentWidth: column.width
+        contentHeight: column.height
 
         Column {
             id: column
-            width: parent.width
-            spacing: 40
+            width: flickable.width
+            spacing: 2*Theme.paddingLarge
 
-            Text {
-                id: result1
+            SearchButtonCard {
                 width: parent.width
-                wrapMode: Text.WrapAnywhere
+                onClicked: {
+                    pageStack.push(Qt.resolvedUrl("SearchPage.qml"), { }, PageStackAction.Immediate)
+                }
             }
-            Text {
-                id: result2
+
+            DailyRecipe {
+                id: dailyRecipe
                 width: parent.width
-                wrapMode: Text.WrapAnywhere
+                onReloadRecipe: {
+                    viewModel.reloadDailyRecipe()
+                }
+                onRecipeClicked: {
+                    pageStack.push(Qt.resolvedUrl("RecipePage.qml"), { "recipe": viewModel.state.dailyRecipe })
+                }
             }
-            Text {
-                id: result3
+
+            RecipesCollection {
+                id: row1
                 width: parent.width
-                wrapMode: Text.WrapAnywhere
+                title: "For your breakfast"
+                onReloadCollection: {
+                    viewModel.reloadBreakfastRecipes()
+                }
+                onRecipeClicked: {
+                    pageStack.push(Qt.resolvedUrl("RecipePage.qml"),
+                                   { "recipe": viewModel.state.getRecipe(HomeViewModelState.Breakfast, index) })
+                }
             }
-            Text {
-                id: result4
+
+            RecipesCollection {
+                id: row2
                 width: parent.width
-                wrapMode: Text.WrapAnywhere
+                title: "Let's have a drink"
+                onReloadCollection: {
+                    viewModel.reloadDrinkRecipes()
+                }
+                onRecipeClicked: {
+                    pageStack.push(Qt.resolvedUrl("RecipePage.qml"),
+                                   { "recipe": viewModel.state.getRecipe(HomeViewModelState.Drink, index) })
+                }
             }
-            Text {
-                id: result5
+
+            RecipesCollection {
+                id: row3
                 width: parent.width
-                wrapMode: Text.WrapAnywhere
+                title: "For you and your friends"
+                onReloadCollection: {
+                    viewModel.reloadRecipesForBigGroup()
+                }
+                onRecipeClicked: {
+                    pageStack.push(Qt.resolvedUrl("RecipePage.qml"),
+                                   { "recipe": viewModel.state.getRecipe(HomeViewModelState.ForBigGroup, index) })
+                }
             }
-            Text {
-                id: result6
+
+            RecipesCollection {
+                id: row4
                 width: parent.width
-                wrapMode: Text.WrapAnywhere
-            }
-            Text {
-                id: result7
-                width: parent.width
-                wrapMode: Text.WrapAnywhere
+                title: "Low calorie"
+                onReloadCollection: {
+                    viewModel.reloadLowCalorieRecipes()
+                }
+                onRecipeClicked: {
+                    pageStack.push(Qt.resolvedUrl("RecipePage.qml"),
+                                   { "recipe": viewModel.state.getRecipe(HomeViewModelState.LowCalorie, index) })
+                }
             }
         }
     }
