@@ -3,7 +3,7 @@ import Sailfish.Silica 1.0
 
 CoverBackground {
     CoverTemplate {
-        primaryText: "Fead\n& Eat"
+        primaryText: "Feed\n& Eat"
         secondaryText: "Recipes for everyone"
     }
 }

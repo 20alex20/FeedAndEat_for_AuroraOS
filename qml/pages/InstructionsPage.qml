@@ -1,6 +1,6 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-import FeadAndEat.Feature.Instructions 1.0
+import FeedAndEat.Feature.Instructions 1.0
 import "../items"
 
 Page {

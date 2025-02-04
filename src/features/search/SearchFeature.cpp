@@ -10,8 +10,8 @@ SearchFeature::SearchFeature(DatabaseHandler * const databaseHandler, QObject *p
     : QObject(parent),
       _databaseHandler(databaseHandler)
 {
-    qmlRegisterType<SearchViewModel>("FeadAndEat.Feature.Search", 1, 0, "SearchViewModel");
-    qmlRegisterType<SearchViewModelState>("FeadAndEat.Feature.Search", 1, 0, "SearchViewModelState");
+    qmlRegisterType<SearchViewModel>("FeedAndEat.Feature.Search", 1, 0, "SearchViewModel");
+    qmlRegisterType<SearchViewModelState>("FeedAndEat.Feature.Search", 1, 0, "SearchViewModelState");
     qRegisterMetaType<SearchViewModelState::Status>("SearchViewModelState::Status");
 }
 

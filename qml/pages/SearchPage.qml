@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-import FeadAndEat.Recipe 1.0
-import FeadAndEat.Feature.Search 1.0
+import FeedAndEat.Recipe 1.0
+import FeedAndEat.Feature.Search 1.0
 import "../items"
 import "../dataObjects"
 

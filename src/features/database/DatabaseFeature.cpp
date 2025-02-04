@@ -4,7 +4,7 @@
 DatabaseFeature::DatabaseFeature()
     : _databaseHandler(new DatabaseHandler())
 {
-    qmlRegisterType<Recipe>("FeadAndEat.Recipe", 1, 0, "Recipe");
+    qmlRegisterType<Recipe>("FeedAndEat.Recipe", 1, 0, "Recipe");
 }
 
 DatabaseFeature::~DatabaseFeature()
