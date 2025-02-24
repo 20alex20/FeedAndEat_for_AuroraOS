@@ -15,6 +15,7 @@ BuildRequires:  pkgconfig(Qt5Quick)
 %description
 Приложение с кулинарными рецептами для ОС Аврора
 
+
 %prep
 %autosetup
 
